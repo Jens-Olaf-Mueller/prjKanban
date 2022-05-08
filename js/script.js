@@ -14,7 +14,7 @@ let editMode = false,
 
 // for demo only
 // ##########################################################################
-createTasks(4); // nur zu Demozwecken!
+createTasks(5); // nur zu Demozwecken!
 renderTasks();
 
 function createTasks (count) {
@@ -42,6 +42,7 @@ function addTask() {
         foto = objSettings.staff.images[getStaffIndex(name)];
     if (editMode) {
         arrTasks[currID].title = document.getElementById('inpTaskTitle').value;
+        // rrTasks[currID].title = $('inpTaskTitle').value;
         arrTasks[currID].description = document.getElementById('txtDescription').value;
         arrTasks[currID].category = document.getElementById('optCategory').value;
         arrTasks[currID].deadline = format$(document.getElementById('inpDeadline').value);
@@ -176,7 +177,6 @@ function showHelp (visible) {
 // if id = 'false'          --> close the form!
 // if id contains a task    --> edit the provided task
 function showInputForm(id) {
-    debugger
     // make sure that no nonsense happens when we are in edit mode!
     if (editMode && id !==false) return;  
     // if (editMode && id === undefined) {
