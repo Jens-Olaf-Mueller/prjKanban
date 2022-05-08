@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,27 +17,28 @@
 
     <script defer src="./js/kanban_library.js"></script>
     <script defer src="./js/script.js"></script>
+    Hallo test
 </head>
 
 <body>
     <header class="header">
         <div class="hamburger-menu">
-            <img id="menuHH" class="icon" src="./img/menu-wht.png" >
+            <img id="menuHH" class="icon" src="./img/menu-wht.png">
         </div>
         <div class="searchbar">
-            <img class="icon" src="./img/search.png" >
+            <img class="icon" src="./img/search.png">
             <input type="text" placeholder="search">
         </div>
-        
+
         <h1>CAN YOU KANBAN?</h1>
 
         <div class="iconbar">
             <!-- <img class="icon" src="./img/pen-wht.png" onclick="openInputForm()" >
             <img class="icon" src="./img/people-wht.png" >
             <img class="icon" src="./img/save-wht.png" >-->
-            <img class="icon" src="./img/print-wht.png" title="print task"> 
+            <img class="icon" src="./img/print-wht.png" title="print task">
             <img class="icon" src="./img/trash-delete-bin.png" onclick="toggleTrash()" title="show / hide trash bin">
-            <img class="icon" src="./img/settings-wht.png" title="show settings">            
+            <img class="icon" src="./img/settings-wht.png" title="show settings">
             <!-- <img class="icon" src="./img/calendar-wht.png" > -->
         </div>
     </header>
@@ -48,7 +50,7 @@
                 <ul class="menu-items">
                     <li onclick="activateMenuItem(0)">Board</li>
                     <li onclick="activateMenuItem(1)">Backlog</li>
-                    <li onclick="activateMenuItem(2)">Add Task</li>                
+                    <li onclick="activateMenuItem(2)">Add Task</li>
                     <li onclick="activateMenuItem(3)">Help</li>
                 </ul>
             </div>
@@ -80,7 +82,7 @@
                     <label for="optCategory">CATEGORY</label>
                     <div class="select">
                         <select id="optCategory"></select>
-                    </div>                    
+                    </div>
                 </div>
 
                 <div class="input-field">
@@ -89,7 +91,7 @@
                 </div>
             </div>
 
-            <div class="form-column"> 
+            <div class="form-column">
                 <div class="input-field">
                     <label for="inpDeadline">DUE DATE</label>
                     <input id="inpDeadline" type="date">
@@ -99,14 +101,14 @@
                     <label for="optPriority">PRIORITY</label>
                     <div class="select">
                         <select id="optPriority"></select>
-                    </div>                    
-                </div>           
+                    </div>
+                </div>
 
                 <div class="input-field">
-                    <label for="divClerks">ASSIGNED TO</label>                    
+                    <label for="divClerks">ASSIGNED TO</label>
                     <div id="divClerks" class="clerk">
                         <img id="imgClerk" src="./img/profile-dummy.png" alt="">
-                        <div id="btnPlus" class="plus" type="button" onclick="changeStaff()"></div>                        
+                        <div id="btnPlus" class="plus" type="button" onclick="changeStaff()"></div>
                     </div>
 
                     <div class="form-buttons">
@@ -114,8 +116,8 @@
                         <button id="btnSubmit" type="button" onclick="addTask()">CREATE TASK</button>
                         <!-- ACHTUNG ! Button muss zu type"submit" geändert werden -->
                         <!-- <button id="btnSubmit" type="submit" onclick="addTask()">CREATE TASK</button> -->
-                    </div>   
-                </div>          
+                    </div>
+                </div>
             </div>
         </form>
     </div>
@@ -124,4 +126,5 @@
         <img src="./img/trash-blk-large.png" alt="bin" title="open trash">
     </div>
 </body>
+
 </html>
