@@ -121,8 +121,8 @@
         </form>
     </div>
 
-    <div id="divTrash" class="trash">
-        <img src="./img/trash-blk-large.png" alt="bin" title="open trash">
+    <div id="divTrash" class="trash" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <img class="deleted" src="./img/trash-blk-large.png" alt="bin" title="double click to open trash" ondblclick="showTrash()">
     </div>
 </body>
 

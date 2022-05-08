@@ -1,14 +1,15 @@
 // ##########################################################################
 //                          D E C L A R A T I O N S
 // ##########################################################################
-let editMode = false,
-    currID = 0,
-    arrTasks = [],
+let editMode = false,           // flag for edit-mode
+    currID = 0,                 // current id in edit mode (to apply changes)
+    arrTasks = [],              // array, holding the tasks
+    arrTrash = [],              // array, holding the deleted tasks
     objSettings = {
     category: ["Marketing","Product","Sale","Management"],
     priority: ["low","medium","important","high"],
-    staff:    {names : ["Sebastian Zimmermann","John Fieweger","Olaf Müller"],
-               images: ["sebastian.jpg","john.jpg","olaf.jpg"]}
+    staff:    {names : ["Sebastian Zimmermann","John Fieweger","Olaf Müller","Max Mustermann"],
+               images: ["sebastian.jpg","john.jpg","olaf.jpg","max.jpg"]}
 };
 
 
@@ -215,7 +216,7 @@ function  loadTaskData(id) {
     let frmImage =  document.getElementById('imgClerk');
     frmImage.src = './img/' + arrTasks[id].staff.image;
     frmImage.alt = arrTasks[id].staff.name;
-    frmImage.title = frmImage.alt;
+    frmImage.title = arrTasks[id].staff.name; // frmImage.alt;
 }
 
 // changes the picture and the name of the staff in the input-form
@@ -247,8 +248,14 @@ function getIDNumber (task) {
     return tmp[1];
 }
 
+// displays or hides the trash bin in the lower right corner
 function toggleTrash() {
     document.getElementById('divTrash').classList.toggle('hidden');
+}
+
+// displays all task in trash array
+function showTrash() {
+    //
 }
 
 //  #####################################################################################
@@ -272,7 +279,7 @@ function drop(event) {
         id = getIDNumber(child);
     let status = event.target.classList[0];
     event.target.appendChild(child);
+    arrTasks[id].status = status; 
 
-    arrTasks[id].status = status;    
 //   event.dataTransfer.dropEffect = "copy";
 }
