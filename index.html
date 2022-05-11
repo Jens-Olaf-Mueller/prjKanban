@@ -16,15 +16,20 @@
 
     <link rel="stylesheet" href="./style/kanban.css">
     <link rel="stylesheet" href="./style/form.css">
+    <link rel="stylesheet" href="./style/msgstyle.css">
 
     <script defer src="./js/kanban_library.js"></script>
     <script defer src="./js/script.js"></script>
-    <script src="./mini_backend.js"></script>
+    <script defer src="./js/msgbox.js"></script>
+    <script src="./js/mini_backend.js"></script>
     <script>
         setURL('http://gruppe-220.developerakademie.net/smallest_backend_ever');
         async function init() {
+            msgBox (`Ich habe die Backend-Datei mit in den .js-Ordner verschoben. <br><br>Die Messagebox- sowie die $-Funktion sind integriert, alle Aufrufe geändert.<br>Die Messagebox hat eine eigene .js- und CSS-Datei.<br><br> Diese Meldung (Zeile 28 index.html) nehmen wir später wieder raus! ;-)`, 'Hallo Sebastian & John!','Ok', false, true);
+
             await downloadFromServer();
             users = JSON.parse(backend.getItem('users')) || [];
+           
         }
 
     </script>

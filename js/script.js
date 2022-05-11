@@ -34,30 +34,31 @@ function createTasks (count) {
         })      
     }
 }
+
 // ##########################################################################
 
 // adds a new task or applies changes to an existing task,
 // if flag 'editMode' is set to 'true'
 function addTask() {
-    let name = document.getElementById('imgClerk').alt,
+    let name = $('imgClerk').alt,
         foto = objSettings.staff.images[getStaffIndex(name)];
     if (editMode) {
-        arrTasks[currID].title = document.getElementById('inpTaskTitle').value;
+        arrTasks[currID].title = $('inpTaskTitle').value;
         // rrTasks[currID].title = $('inpTaskTitle').value;
-        arrTasks[currID].description = document.getElementById('txtDescription').value;
-        arrTasks[currID].category = document.getElementById('optCategory').value;
-        arrTasks[currID].deadline = format$(document.getElementById('inpDeadline').value);
-        arrTasks[currID].priority = document.getElementById('optPriority').value;        
+        arrTasks[currID].description = $('txtDescription').value;
+        arrTasks[currID].category = $('optCategory').value;
+        arrTasks[currID].deadline = format$($('inpDeadline').value);
+        arrTasks[currID].priority = $('optPriority').value;        
         arrTasks[currID].staff.name = name;
         arrTasks[currID].staff.image = foto;
         renderTasks ();
     } else {
         arrTasks.push({id: arrTasks.length,
-            title: document.getElementById('inpTaskTitle').value, 
-            description: document.getElementById('txtDescription').value,
-            category: document.getElementById('optCategory').value,
-            deadline: format$(document.getElementById('inpDeadline').value),      
-            priority: document.getElementById('optPriority').value, 
+            title: $('inpTaskTitle').value, 
+            description: $('txtDescription').value,
+            category: $('optCategory').value,
+            deadline: format$($('inpDeadline').value),      
+            priority: $('optPriority').value, 
             staff: {name: name, 
                     image: foto},
             status: 'todo'
@@ -69,7 +70,7 @@ function addTask() {
 
 // renders all existing tasks into the correct sections (todo, scheduled etc.)
 function renderTasks () {
-    let boardSections = Array.from(document.querySelectorAll('#divMainBoard >div'));
+    let boardSections = Array.from($('#divMainBoard >div'));
     // first clear all Sections!
     for (let i = 0; i < boardSections.length; i++) {boardSections[i].innerHTML = '';}
 
@@ -95,7 +96,7 @@ function renderTasks () {
 // selects the given menu-item
 function activateMenuItem(index) {
     if(editMode) return;
-    let items = document.querySelectorAll('.menu-items >li');
+    let items = $('.menu-items >li');
     items.forEach(item => {item.classList.remove('active')}); // first remove all other selections!
 
     switch (index) {
@@ -131,8 +132,8 @@ function closeSections (section) {
 
 // resets the input-form and the flag for edit-mode
 function resetForm () {
-    let form = document.getElementById('frmInput'),
-        image = document.getElementById('imgClerk');
+    let form = $('frmInput'),
+        image = $('imgClerk');
     image.src ='./img/profile-dummy.png';
     image.alt ='';
     image.title ='';        
@@ -146,7 +147,7 @@ function resetForm () {
 function initSelectionFields (selection) {
     let key = selection.substr(3).toLowerCase();
         srcArray = objSettings[key],
-        select = document.getElementById(selection);
+        select = $(selection);
     select.innerHTML = '<option value="">- bitte wählen -</option>';
     for (let i = 0; i < srcArray.length; i++) {
         const cat = srcArray[i];
@@ -156,7 +157,7 @@ function initSelectionFields (selection) {
 
 // display the board with all states
 function showBoard (visible) {
-    let board = document.getElementById('divMainBoard');
+    let board = $('divMainBoard');
     if (visible) {
         board.classList.remove('hidden');
         renderTasks();
@@ -184,7 +185,7 @@ function showInputForm(id) {
     //     activateMenuItem(0);
     //     return; 
     // }  
-    let form = document.getElementById('divInput'); 
+    let form = $('divInput'); 
     resetForm(); 
     // form is supposed to be closed! 
     if (id === false) { 
@@ -202,18 +203,18 @@ function showInputForm(id) {
         loadTaskData(id);
     }
     form.classList.remove('hidden');
-    document.getElementById('frmTitle').innerHTML = editMode ? 'Edit task' : 'Add task';
-    document.getElementById('btnSubmit').innerHTML = editMode ? 'APPLY CHANGES' : 'CREATE TASK';
+    $('frmTitle').innerHTML = editMode ? 'Edit task' : 'Add task';
+    $('btnSubmit').innerHTML = editMode ? 'APPLY CHANGES' : 'CREATE TASK';
 }
 
 // loads all datas from the given task(id) into the form for edit mode
 function  loadTaskData(id) { 
-    document.getElementById('inpTaskTitle').value = arrTasks[id].title;
-    document.getElementById('optCategory').value = arrTasks[id].category;
-    document.getElementById('txtDescription').value = arrTasks[id].description;
-    document.getElementById('inpDeadline').value = format$(arrTasks[id].deadline,'yyyy-mm-dd');
-    document.getElementById('optPriority').value = arrTasks[id].priority;
-    let frmImage =  document.getElementById('imgClerk');
+    $('inpTaskTitle').value = arrTasks[id].title;
+    $('optCategory').value = arrTasks[id].category;
+    $('txtDescription').value = arrTasks[id].description;
+    $('inpDeadline').value = format$(arrTasks[id].deadline,'yyyy-mm-dd');
+    $('optPriority').value = arrTasks[id].priority;
+    let frmImage =  $('imgClerk');
     frmImage.src = './img/' + arrTasks[id].staff.image;
     frmImage.alt = arrTasks[id].staff.name;
     frmImage.title = arrTasks[id].staff.name; // frmImage.alt;
@@ -221,7 +222,7 @@ function  loadTaskData(id) {
 
 // changes the picture and the name of the staff in the input-form
 function changeStaff() {
-    let image = document.getElementById('imgClerk'),
+    let image = $('imgClerk'),
         firstname = image.alt.split(' ')[0].toLowerCase(),   // images contain only firstname: 'sebastian.jpg'
         index = getStaffIndex(firstname);                    // search index of the staff-image in settings
     index ++;
@@ -250,7 +251,7 @@ function getIDNumber (task) {
 
 // displays or hides the trash bin in the lower right corner
 function toggleTrash() {
-    document.getElementById('divTrash').classList.toggle('hidden');
+    $('divTrash').classList.toggle('hidden');
 }
 
 // displays all task in trash array
@@ -275,7 +276,7 @@ function drag(event) {
 function drop(event) {
     event.preventDefault();
     let data = event.dataTransfer.getData('text'),
-        child = document.getElementById(data),
+        child = $(data),
         id = getIDNumber(child);
     let status = event.target.classList[0];
     event.target.appendChild(child);
