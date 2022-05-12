@@ -15,6 +15,7 @@
         rel="stylesheet">
 
     <link rel="stylesheet" href="./style/kanban.css">
+    <link rel="stylesheet" href="./style/tasks.css">
     <link rel="stylesheet" href="./style/form.css">
     <link rel="stylesheet" href="./style/msgstyle.css">
 
@@ -25,7 +26,7 @@
     <script>
         setURL('http://gruppe-220.developerakademie.net/smallest_backend_ever');
         async function init() {
-            msgBox (`Ich habe die Backend-Datei mit in den .js-Ordner verschoben. <br><br>Die Messagebox- sowie die $-Funktion sind integriert, alle Aufrufe geändert.<br>Die Messagebox hat eine eigene .js- und CSS-Datei.<br><br> Diese Meldung (Zeile 28 index.html) nehmen wir später wieder raus! ;-)`, 'Hallo Sebastian & John!','Ok', false, true);
+            // msgBox (`Ich habe die Backend-Datei mit in den .js-Ordner verschoben. <br><br>Die Messagebox- sowie die $-Funktion sind integriert, alle Aufrufe geändert.<br>Die Messagebox hat eine eigene .js- und CSS-Datei.<br><br> Diese Meldung (Zeile 28 index.html) nehmen wir später wieder raus! ;-)`, 'Hallo Sebastian & John!','Ok', false, true);
 
             await downloadFromServer();
             users = JSON.parse(backend.getItem('users')) || [];
@@ -51,6 +52,7 @@
             <!-- <img class="icon" src="./img/pen-wht.png" onclick="openInputForm()" >
             <img class="icon" src="./img/people-wht.png" >
             <img class="icon" src="./img/save-wht.png" >-->
+            <img class="icon" src="./img/plus-wht100.png" onclick="activateMenuItem(2)" title="add new task">
             <img class="icon" src="./img/print-wht.png" title="print task">
             <img class="icon" src="./img/trash-delete-bin.png" onclick="toggleTrash()" title="show / hide trash bin">
             <img class="icon" src="./img/settings-wht.png" title="show settings">
@@ -75,13 +77,19 @@
             <h3 class="headline">TO DO</h3>
             <h3 class="headline">SCHEDULED</h3>
             <h3 class="headline">IN PROGRESS</h3>
-            <h3 class="headline">DONE</h3>
+            <h3 class="headline">DONE</h3>            
 
-            <div id="divTodo" class="todo flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="todo flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
             <div class="schedule flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)"> </div>
             <div class="progress flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="done paperclip flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="done flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
         </div>
+
+        <div id="divTrash" class="trash hidden">
+            <h3 class="headline">DELETED</h3>
+            <div class="deleted flx-ctr"></div>
+        </div>
+
     </div>
 
     <div id="divInput" class="input-form hidden">
@@ -137,9 +145,9 @@
         </form>
     </div>
 
-    <div id="divTrash" class="trash" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <div id="divTrashBin" class="trash-bin" ondrop="drop(event)" ondragover="allowDrop(event)">
         <img class="deleted" src="./img/trash-blk-large.png" alt="bin" title="double click to open trash"
-            ondblclick="showTrash()">
+            ondblclick="showTrash(true)">
     </div>
 </body>
 

@@ -51,10 +51,6 @@
     font-weight: bold;
 }
 
-/* .side-menu .active {
-    opacity: 1;
-} */
-
 .side-menu .active::before {
     content: '';
     position: absolute;
@@ -117,7 +113,6 @@
 
 .main-board>div {
     background-color: whitesmoke;
-    /* border: 1px solid #666; */
 }
 
 .todo, .schedule, .progress, .done {
@@ -127,140 +122,17 @@
     background-color: #eee;
 }
 
-.trash {
+.trash-bin {
     position: absolute;
     right: 2rem;
     bottom: 1rem;
     cursor: pointer;
 }
-.trash img {
+.trash-bin img {
     width: 6rem;
     height: auto;
 }
 
-/* .todo:hover {
-    background-color: #fefabc;
-} */
-
-.task {
-    width:12rem;
-    min-height: 9rem;
-    /* style of the note */
-    /* light-yellow with a slight gradient */
-    /* background: #fefabc linear-gradient(150deg, #efec88 0%, #fefabc 100%); */
-    /* border, shadow and turning by 4 degrees */
-    border: 1px solid #cccccc;
-    box-shadow: 0px 2px 4px rgba(0,0,0,0.3);
-    transform:rotate(-4deg);
-    border-bottom-right-radius:60px 8px;
-    transition: 0.250s ease-in-out;
-}
-.task:hover, 
-.schedule .task:hover, 
-.progress .task:hover,
-.done .task:hover {
-    transform:scale(1.05);
-}
-
-.task h3{
-    /* font-family: 'DPDorkDiary', cursive; */
-
-    font-size: 1.1rem; 
-    padding: 0.33rem;
-    /* background-color: #fefabc; */
-    filter: brightness(0.9);
-}
-.task p {
-    /* font-family: 'DPDorkDiary', cursive; */
-    font-family: 'PT Sans', sans-serif;
-    font-size:1rem;
-    line-height:1rem;
-    padding: 0.33rem;
-}
-
-.task img {
-    width: 3rem;
-    height: 3rem;
-    padding: 0.25rem;
-    background-color: whitesmoke;
-    border-radius: 100%;
-    position: absolute;
-    bottom: 0.5rem;
-    right: 0.5rem;
-}
-
-.task::before {
-    content: "";
-    background: #ff8c00 radial-gradient(at 8px 8px, rgba(255,255,255,0), rgba(0,0,0,0.5));
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    position: absolute;
-    top: 5px;
-    left: calc(50% + 8px);  /* left:  50%; */      
-    box-shadow: 4px 4px 3px rgba(0,0,0,0.5);
-    z-index: 5;
-}
-
-.task::after {
-    content:"";
-    position: absolute;
-    bottom: 0;
-    right: -4px;
-    width: 100%;
-    height: 140px;
-    background-image: linear-gradient(173deg, rgba(0,0,0,0) 92%,
-    rgba(0,0,0,0.4) 100%);
-    transform: rotate(6deg);
-    z-index: -1;
-    filter: blur(2px);
-}
-
-/* when 'todo' = red color & pin needle */
-/* ************************************ */
-.todo .task, .todo .task h3 {
-    background: #ffa6a6 linear-gradient(150deg, #ffa688 0%, #ffa6a6 100%);
-}
-
-/* ************************************ */
-.schedule .task {
-    transform: rotate(0deg);
-}
-.schedule .task, .schedule h3 {
-    background: #fefabc linear-gradient(150deg, #efec88 0%, #fefabc 100%);
-}
-.schedule .task::before, .progress .task::before {content: none;}
-
-/* ************************************ */
-.progress .task {
-    transform: rotate(4deg);
-    border-bottom-left-radius:60px 12px;
-}
-.progress .task, .progress h3 {
-    background: #90ee90 linear-gradient(150deg, #90ee60 0%, #90ee90 100%);
-}
-
-/* ************************************ */
-.done .task {
-    transform: rotate(-3deg);
-    border-bottom-left-radius:70px 12px;
-}
-.done .task, .done h3 {
-    background: #b0c4de linear-gradient(150deg, #b0c4c0 0%, #b0c4de 100%);
-}
-
-/* creating a paperclip */
-/* ************************************ */
-.done .task:before { 
-    content: url(/img/paperclip_2.png);
-    transform: scale(0.25);
-    background: initial !important;
-    border-radius: initial !important;
-    box-shadow: none !important;
-    top: -30px;
-    right: 48px;        
-    z-index: 10;
-}
 
 .grab {
     cursor: pointer;

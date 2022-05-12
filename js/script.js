@@ -44,7 +44,6 @@ function addTask() {
         foto = objSettings.staff.images[getStaffIndex(name)];
     if (editMode) {
         arrTasks[currID].title = $('inpTaskTitle').value;
-        // rrTasks[currID].title = $('inpTaskTitle').value;
         arrTasks[currID].description = $('txtDescription').value;
         arrTasks[currID].category = $('optCategory').value;
         arrTasks[currID].deadline = format$($('inpDeadline').value);
@@ -101,19 +100,19 @@ function activateMenuItem(index) {
 
     switch (index) {
         case 0:
-            closeSections('backlog form help');
+            closeSections('backlog form help trash');
             showBoard(true);
             break;
         case 1:
-            closeSections('board form help');
+            closeSections('board form help trash');
             // showBackLog();
             break;
         case 2:
-            closeSections('board backlog help');
+            closeSections('board backlog help trash');
             showInputForm();
             break;
         case 3:
-            closeSections('board backlog form');
+            closeSections('board backlog form trash');
             // showHelp();
             break;
         default: 
@@ -128,6 +127,7 @@ function closeSections (section) {
     if (section.includes('backlog')) showBackLog(false);
     if (section.includes('form')) showInputForm(false);
     if (section.includes('help')) showHelp(false);
+    if (section.includes('trash')) showTrash(false);
 }
 
 // resets the input-form and the flag for edit-mode
@@ -180,11 +180,7 @@ function showHelp (visible) {
 // if id contains a task    --> edit the provided task
 function showInputForm(id) {
     // make sure that no nonsense happens when we are in edit mode!
-    if (editMode && id !==false) return;  
-    // if (editMode && id === undefined) {
-    //     activateMenuItem(0);
-    //     return; 
-    // }  
+    if (editMode && id !==false) return;   
     let form = $('divInput'); 
     resetForm(); 
     // form is supposed to be closed! 
@@ -203,6 +199,7 @@ function showInputForm(id) {
         loadTaskData(id);
     }
     form.classList.remove('hidden');
+    toggleTrash(true);
     $('frmTitle').innerHTML = editMode ? 'Edit task' : 'Add task';
     $('btnSubmit').innerHTML = editMode ? 'APPLY CHANGES' : 'CREATE TASK';
 }
@@ -212,7 +209,7 @@ function  loadTaskData(id) {
     $('inpTaskTitle').value = arrTasks[id].title;
     $('optCategory').value = arrTasks[id].category;
     $('txtDescription').value = arrTasks[id].description;
-    $('inpDeadline').value = format$(arrTasks[id].deadline,'yyyy-mm-dd');
+    $('inpDeadline').value = format$(arrTasks[id].deadline,'yyyy-dd-mm');
     $('optPriority').value = arrTasks[id].priority;
     let frmImage =  $('imgClerk');
     frmImage.src = './img/' + arrTasks[id].staff.image;
@@ -250,13 +247,22 @@ function getIDNumber (task) {
 }
 
 // displays or hides the trash bin in the lower right corner
-function toggleTrash() {
-    $('divTrash').classList.toggle('hidden');
+// if we are in input- or edit mode, trash bin is ALWAYS off! (force = true)
+function toggleTrash(force) {
+    let formIsVisible = !$('divInput').classList.contains('hidden');
+    force = formIsVisible ? true : force;
+    $('divTrashBin').classList.toggle('hidden',force);    
 }
 
-// displays all task in trash array
-function showTrash() {
-    //
+// displays all task in trash array ANCHOR
+function showTrash(visible) {
+    if (visible) {
+        closeSections('board backlog form help');
+        $('divTrash').classList.remove('hidden');
+        toggleTrash(true);
+    } else {
+        $('divTrash').classList.add('hidden');
+    }   
 }
 
 //  #####################################################################################
