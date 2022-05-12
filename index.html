@@ -10,9 +10,7 @@
     <link rel="icon" type="image/png" href="./img/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,500;1,700;1,900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,500;1,700;1,900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="./style/kanban.css">
     <link rel="stylesheet" href="./style/tasks.css">
@@ -32,7 +30,6 @@
             users = JSON.parse(backend.getItem('users')) || [];
            
         }
-
     </script>
 </head>
 
@@ -145,10 +142,33 @@
         </form>
     </div>
 
+<<<<<<< HEAD
     <div id="divTrashBin" class="trash-bin" ondrop="drop(event)" ondragover="allowDrop(event)">
         <img class="deleted" src="./img/trash-blk-large.png" alt="bin" title="double click to open trash"
             ondblclick="showTrash(true)">
+=======
+    <div id="divTrash" class="trash" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <img class="deleted" src="./img/trash-blk-large.png" alt="bin" title="double click to open trash" ondblclick="showTrash()">
+>>>>>>> a490577bad94fe3a3d87f094bdaae45f2ac43eb0
     </div>
 </body>
 
 </html>
+
+
+<!-- 
+    sinn vom Drucker?
+    andere Schriftart 
+    Lupensymbol weiter weg und kleiner
+    Mülleimersymbol bearbeiten
+    ticket steriler (kein drehen oder bunte Farben) (eher ein grauton)
+    Farben für priority nutzen (low - grün, medium - gelb, important - orange, high - red) (priority mit einem Kreis/Balken markieren)
+    Ticket immer gleichgroß (Schrift darf nicht überstehen... maximal Anzahl der Zeichen, die angezeigt werden... wenn man drauf klickt wird alles gezeigt)
+    links vom Ticket nur discription Rechts Datum und Bild (Bild evtl ersetzen mit @John, @ Olaf, @Sebastian)
+    anderen Farbton für Außendesign
+    Linke Leiste wegnehmen
+    Leiste mit Titel kombinieren
+    Druckersymbol mit Helpsymbol (i) ersetzen
+    Logo oben links
+    einheitliche Schriftform (max 2 Formen)
+ -->
