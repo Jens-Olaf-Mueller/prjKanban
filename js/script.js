@@ -20,8 +20,11 @@ let editMode = false, // flag for edit-mode
 createTasks(5); // nur zu Demozwecken!
 renderTasks();
 
-function createTasks(count) {
-    let arrState = ['todo', 'schedule', 'progress', 'done'];
+
+
+function createTasks (count) {
+    let arrState = ['todo','schedule','progress','done','deleted'];
+
     for (let i = 0; i < count; i++) {
         const rnd = getRandom(0, objSettings.staff.names.length - 1);
         arrTasks.push({
@@ -42,6 +45,7 @@ function createTasks(count) {
 
 // ##########################################################################
 
+// ANCHOR addTask
 // adds a new task or applies changes to an existing task,
 // if flag 'editMode' is set to 'true'
 function addTask() {
@@ -88,13 +92,16 @@ function renderTasks() {
             let container = boardSections[j];
             if (container.classList.contains(task.status)) {
                 container.innerHTML += `
+
                 <div id="task-${task.id}" class="task grab ${task.priority}" draggable="true" ondragstart="drag(event)" 
                     ondblclick ="showInputForm(${task.id})" title="double-click for edit!">
+                    <img class="printer" src ="./img/printer48.png" onclick="printTask(${task.id})" title ="print task">
                     <div><h3>${task.title.substring(0, 20)}</h3>
                     <p>${task.description.substring(0, 80)}</p></div>
                     <div class="taskEnd"><p>${task.deadline} </p> 
-                    <img src ="./img/${task.staff.image}" title="${task.staff.name}"></div>
+                    <img class="portrait" src ="./img/${task.staff.image}" title="${task.staff.name}"></div>
                 </div>`; //&#9754
+
             }
         }
     }
@@ -142,9 +149,11 @@ function closeSections(section) {
 function resetForm() {
     let form = $('frmInput'),
         image = $('imgClerk');
-    image.src = './img/profile-dummy.png';
-    image.alt = '';
-    image.title = '';
+
+    image.src ='./img/profile-dummy.png';
+    image.alt ='';
+    $('divClerks').dataset.tooltip = 'select clerk';
+
     form.reset();
     initSelectionFields('optCategory');
     initSelectionFields('optPriority');
@@ -212,17 +221,18 @@ function showInputForm(id) {
     $('btnSubmit').innerHTML = editMode ? 'APPLY CHANGES' : 'CREATE TASK';
 }
 
-// loads all datas from the given task(id) into the form for edit mode
-function loadTaskData(id) {
+
+// loads all datas from the given task(id) into the form for edit mode ANCHOR loadTaskData
+function  loadTaskData(id) { 
     $('inpTaskTitle').value = arrTasks[id].title;
     $('optCategory').value = arrTasks[id].category;
     $('txtDescription').value = arrTasks[id].description;
-    $('inpDeadline').value = format$(arrTasks[id].deadline, "yyyy-MM-dd");
+    $('inpDeadline').value = format$(arrTasks[id].deadline,'yyyy-mm-dd');  
     $('optPriority').value = arrTasks[id].priority;
     let frmImage = $('imgClerk');
     frmImage.src = './img/' + arrTasks[id].staff.image;
     frmImage.alt = arrTasks[id].staff.name;
-    frmImage.title = arrTasks[id].staff.name; // frmImage.alt;
+    $('divClerks').dataset.tooltip = frmImage.alt; // this adds the css-based tooltip!
 }
 
 // changes the picture and the name of the staff in the input-form
@@ -234,7 +244,7 @@ function changeStaff() {
     if (index >= objSettings.staff.images.length) index = 0; // make sure we stay in correct range of the array!
     image.src = './img/' + objSettings.staff.images[index];
     image.alt = objSettings.staff.names[index];
-    image.title = image.alt;
+    $('divClerks').dataset.tooltip = image.alt; // this adds the css-based tooltip!
 }
 
 // returns the index of a staff member according to the given name
@@ -262,7 +272,7 @@ function toggleTrash(force) {
     $('divTrashBin').classList.toggle('hidden', force);
 }
 
-// displays all task in trash array ANCHOR
+// displays all task in trash array ANCHOR showTrash
 function showTrash(visible) {
     if (visible) {
         closeSections('board backlog form help');
@@ -271,6 +281,28 @@ function showTrash(visible) {
     } else {
         $('divTrash').classList.add('hidden');
     }
+}
+
+function printTask(index){
+    let divContent = $('task-' + index).innerHTML,
+        printWindow = window.open('', '', 'height=720,width=1000');
+
+    printWindow.document.write('<html><head><title>Task drucken</title>');
+    printWindow.document.write(`<style> 
+        .print-window {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        } </style>`);
+    printWindow.document.write('</head><body class="print-window">');
+    printWindow.document.write(divContent);
+    printWindow.document.getElementsByClassName('printer')[0].remove();
+    let foto = printWindow.document.getElementsByClassName('portrait')[0];
+    foto.style.height = '200px';
+    foto.style.width = '150px';
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
 }
 
 //  #####################################################################################

@@ -31,6 +31,17 @@
     font-size: larger;
 }
 
+#imgCloseX {
+    position: absolute;
+    top: -1rem;
+    right: -1rem;
+    width: 2rem;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+#imgCloseX:hover {opacity: 1;}
+
 #frmTitle {
     position: absolute;
     top: 0;
@@ -88,7 +99,7 @@ select {
 .form-buttons {
     display: flex;
     justify-content: flex-end;
-    margin-top: 2rem;
+    margin-top: 2.85rem;
 }
 
 .form-buttons button {
