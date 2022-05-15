@@ -170,3 +170,18 @@ function getRandom(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+// functions for sound and music output
+function playSound (file, forced = true) {
+    // if (soundEnabled || musicEnabled || forced) { // when available in settings
+    if (forced) {
+        file = './sound/' + file;
+        let audio = new Audio(file);
+        audio.play();
+    }
+}
+
+function todo (message) {
+    playSound ('notify.mp3');
+    msgBox(message, 'Info @ authors','Ok', false, true);
+}

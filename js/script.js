@@ -14,13 +14,10 @@ let editMode = false, // flag for edit-mode
         }
     };
 
-
 // for demo only
 // ##########################################################################
-createTasks(5); // nur zu Demozwecken!
+createTasks(4); // nur zu Demozwecken!
 renderTasks();
-
-
 
 function createTasks (count) {
     let arrState = ['todo','schedule','progress','done','deleted'];
@@ -81,7 +78,7 @@ function addTask() {
 
 // renders all existing tasks into the correct sections (todo, scheduled etc.)
 function renderTasks() {
-    let boardSections = Array.from($('#divMainBoard >div >div'));
+    let boardSections = Array.from($('#divMainBoard .columns >div'));
     // first clear all Sections!
     for (let i = 0; i < boardSections.length; i++) { boardSections[i].innerHTML = ''; }
 
@@ -92,16 +89,18 @@ function renderTasks() {
             let container = boardSections[j];
             if (container.classList.contains(task.status)) {
                 container.innerHTML += `
-
                 <div id="task-${task.id}" class="task grab ${task.priority}" draggable="true" ondragstart="drag(event)" 
                     ondblclick ="showInputForm(${task.id})" title="double-click for edit!">
-                    <img class="printer" src ="./img/printer48.png" onclick="printTask(${task.id})" title ="print task">
-                    <div><h3>${task.title.substring(0, 20)}</h3>
-                    <p>${task.description.substring(0, 80)}</p></div>
-                    <div class="taskEnd"><p>${task.deadline} </p> 
-                    <img class="portrait" src ="./img/${task.staff.image}" title="${task.staff.name}"></div>
+                    <img class="printer" src="./img/printer48.png" onclick="printTask(${task.id})" title ="print task">
+                    <div>
+                        <h3>${task.title.substring(0, 20)}</h3>
+                        <p>${task.description.substring(0, 80)}</p>
+                    </div>
+                    <div class="taskEnd">
+                        <p>${task.deadline}</p> 
+                        <img class="portrait" src ="./img/${task.staff.image}" title="${task.staff.name}">
+                    </div>
                 </div>`; //&#9754
-
             }
         }
     }
@@ -120,7 +119,7 @@ function activateMenuItem(index) {
             break;
         case 1:
             closeSections('board form help trash');
-            // showBackLog();
+            showBackLog(true);
             break;
         case 2:
             closeSections('board backlog help trash');
@@ -128,7 +127,7 @@ function activateMenuItem(index) {
             break;
         case 3:
             closeSections('board backlog form trash');
-            // showHelp();
+            showHelp(true);
             break;
         default:
             return; // if no index is provided, we only unselect the links and exit
@@ -184,11 +183,11 @@ function showBoard(visible) {
 }
 
 function showBackLog(visible) {
-    // not yet implemented
+    if(visible) todo('Backlog ist noch nicht implementiert!');
 }
 
 function showHelp(visible) {
-    // not yet implemented
+    if(visible) todo('Help-Sektion ist noch nicht implementiert!');
 }
 
 // display OR close the input-form:
@@ -266,7 +265,12 @@ function getIDNumber(task) {
 
 // displays or hides the trash bin in the lower right corner
 // if we are in input- or edit mode, trash bin is ALWAYS off! (force = true)
-function toggleTrash(force) {
+function toggleTrash(force) {    
+    let trashIsVisible = !$('divTrash').classList.contains('hidden');
+    if (trashIsVisible) {
+        $('divTrash').classList.add('hidden');
+        return;
+    }
     let formIsVisible = !$('divInput').classList.contains('hidden');
     force = formIsVisible ? true : force;
     $('divTrashBin').classList.toggle('hidden', force);
@@ -275,14 +279,15 @@ function toggleTrash(force) {
 // displays all task in trash array ANCHOR showTrash
 function showTrash(visible) {
     if (visible) {
-        closeSections('board backlog form help');
+        // closeSections('board backlog form help');
         $('divTrash').classList.remove('hidden');
-        toggleTrash(true);
+        $('divTrashBin').classList.add('hidden');
     } else {
         $('divTrash').classList.add('hidden');
     }
 }
 
+// short print-function
 function printTask(index){
     let divContent = $('task-' + index).innerHTML,
         printWindow = window.open('', '', 'height=720,width=1000');
@@ -305,6 +310,12 @@ function printTask(index){
     printWindow.print();
 }
 
+// executes the search either from click on the magnifier icon
+// or by pressing the enter key!
+function executeSearch() {
+    todo('Suche ist noch nicht implementiert!');
+}
+
 //  #####################################################################################
 //  PURPOSE 	: several drag- and drop functions
 //  			  
@@ -318,7 +329,6 @@ function allowDrop(event) {
 
 function drag(event) {
     event.dataTransfer.setData('text', event.target.id);
-    //   event.dataTransfer.effectAllowed = "move";
 }
 
 function drop(event) {
@@ -327,8 +337,13 @@ function drop(event) {
         child = $(data),
         id = getIDNumber(child);
     let status = event.target.classList[0];
+    
+    // deleting per drag'n drop is an exception:
+    // we can drag from another column or drop into the bin!
+    if (status == 'deleted') {
+        $('#divTrash .deleted').appendChild(child);
+        return;
+    }
     event.target.appendChild(child);
     arrTasks[id].status = status;
-
-    //   event.dataTransfer.dropEffect = "copy";
 }

@@ -1,4 +1,5 @@
 .task {
+    position: relative;
     width: 12rem;
     height: 10rem;
     /* word-break: break-all; */
@@ -13,7 +14,7 @@
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
     /* transform: rotate(-4deg); */
     /* border-bottom-right-radius: 60px 8px; */
-    /* transition: 0.250s ease-in-out; */
+    transition: 200ms ease-in-out;
 }
 
 .taskEnd {
@@ -27,7 +28,7 @@
 .schedule .task:hover,
 .progress .task:hover,
 .done .task:hover {
-    transform: scale(1.05);
+    transform: scale(1.08);
 }
 
 .task h3 {
@@ -60,7 +61,7 @@
 }
 
 
-.task .printer {
+.task img.printer {
     position: absolute;
     top: 6px;
     right: 6px;

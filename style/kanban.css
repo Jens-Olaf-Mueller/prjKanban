@@ -26,6 +26,7 @@
 .searchbar img {
     height: 1.5rem;
     margin-right: 1rem;
+    cursor: pointer;
 }
 
 .searchbar input {
@@ -94,20 +95,22 @@
     padding: 0.5rem;
     cursor: pointer;
     font-size: large;
-    opacity: 0.7;
+    /* opacity: 0.7; */
     display: flex;
     gap: 2rem;
 }
 
 .menu-items li {
     font-size: 1.5rem;
+    border-bottom: 4px solid transparent;
+    opacity: 0.7;
 }
 
 .menu-items li:hover,
 .menu-items .active {
     opacity: 1;
-    font-weight: bold;
-    border-bottom: 5px solid white;
+    /* font-weight: bold; */
+    border-bottom: 4px solid white;
     color: white;
 }
 
