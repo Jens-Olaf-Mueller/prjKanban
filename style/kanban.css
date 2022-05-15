@@ -64,7 +64,7 @@
 
 .columns {
     width: calc(100% / 4);
-    background: rgb(205 205 205);
+    background: rgb(238, 238, 238);
     height: 50rem;
     margin: 0 8px;
 }

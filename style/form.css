@@ -1,9 +1,15 @@
 /* ************************************************************** */
+
+
 /* FORMULAR */
+
+
 /* ************************************************************** */
+
 .edit-mode {
-    background-color: #ffa688  !important;
+    background: #ffffff linear-gradient(193deg, #ffffff 0%, #767676 100%);
 }
+
 .input-form {
     /* centger div on screen */
     position: absolute;
@@ -16,6 +22,7 @@
     background-color: whitesmoke;
     border-radius: 8px;
 }
+
 .input-form form {
     position: relative;
     display: flex;
@@ -38,28 +45,33 @@
 }
 
 .input-form label,
-.input-form button
- {
+.input-form button {
     color: navy;
     font-size: medium;
     font-weight: bold;
 }
 
-.input-form input, textarea, select {
+.input-form input,
+textarea,
+select {
     outline: none;
     border: 1px solid silver;
     border-radius: 4px;
     font-size: large;
     padding: 0.5rem;
-    margin-top: 0.3rem;    
+    margin-top: 0.3rem;
 }
+
 .input-form textarea {
     min-height: 14rem;
     max-height: 26.5rem;
     resize: vertical;
 }
 
+
 /* deactivates the calendar symbol in chrome-input-field */
+
+
 /* .input-form input[type="date"]::-webkit-inner-spin-button,
 .input-form input[type="date"]::-webkit-calendar-picker-indicator {
     display: none;
@@ -100,12 +112,16 @@
     margin-top: 1.5rem;
 }
 
+
 /* just get some space! */
+
 .input-field label[for="divClerks"] {
     margin-bottom: 2rem;
 }
 
+
 /* <select>-element itself !! */
+
 .input-field select {
     appearance: none;
     box-shadow: none;
@@ -113,16 +129,22 @@
     cursor: pointer;
 }
 
+
 /* class for the wrapping div! */
+
 .input-field .select {
     position: relative;
     display: flex;
     cursor: pointer;
     overflow: hidden;
 }
+
+
 /* styling the down-arrow */
+
 .input-field .select::after {
-    content: '\25bc'; /* \25bc oder \2228 */
+    content: '\25bc';
+    /* \25bc oder \2228 */
     position: absolute;
     top: 6px;
     right: 1px;
@@ -151,27 +173,29 @@
     cursor: pointer;
 }
 
-.plus:hover {transform: scale(1.1);}
-  
+.plus:hover {
+    transform: scale(1.1);
+}
+
 .plus:before,
 .plus:after {
     content: "";
-    position:absolute;
+    position: absolute;
     background: navy;
 }
-  
+
 .plus:before {
-    left:50%;
-    top:6px;
-    bottom:6px;
-    width:2px;
-    transform:translateX(-50%);
+    left: 50%;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    transform: translateX(-50%);
 }
-  
+
 .plus:after {
-    top:50%;
-    left:6px;
-    right:6px;
-    height:2px;
-    transform:translateY(-50%);
+    top: 50%;
+    left: 6px;
+    right: 6px;
+    height: 2px;
+    transform: translateY(-50%);
 }

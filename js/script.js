@@ -77,7 +77,7 @@ function addTask() {
 
 // renders all existing tasks into the correct sections (todo, scheduled etc.)
 function renderTasks() {
-    let boardSections = Array.from($('#divMainBoard >div'));
+    let boardSections = Array.from($('#divMainBoard >div >div'));
     // first clear all Sections!
     for (let i = 0; i < boardSections.length; i++) { boardSections[i].innerHTML = ''; }
 
@@ -88,13 +88,13 @@ function renderTasks() {
             let container = boardSections[j];
             if (container.classList.contains(task.status)) {
                 container.innerHTML += `
-                <div id="task-${task.id}" class="task grab" draggable="true" ondragstart="drag(event)" 
+                <div id="task-${task.id}" class="task grab ${task.priority}" draggable="true" ondragstart="drag(event)" 
                     ondblclick ="showInputForm(${task.id})" title="double-click for edit!">
-                    <h3>${task.title}</h3>
-                    <p>${task.description}</p>
-                    <img src ="./img/${task.staff.image}" title="${task.staff.name}">
-                    <p>${task.deadline} &#9754</p>
-                </div>`;
+                    <div><h3>${task.title.substring(0, 20)}</h3>
+                    <p>${task.description.substring(0, 80)}</p></div>
+                    <div class="taskEnd"><p>${task.deadline} </p> 
+                    <img src ="./img/${task.staff.image}" title="${task.staff.name}"></div>
+                </div>`; //&#9754
             }
         }
     }
@@ -166,7 +166,6 @@ function initSelectionFields(selection) {
 // display the board with all states
 function showBoard(visible) {
     let board = $('divMainBoard');
-    debugger
     if (visible) {
         board.classList.remove('hidden');
         renderTasks();
