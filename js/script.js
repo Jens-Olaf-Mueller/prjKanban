@@ -217,7 +217,7 @@ function loadTaskData(id) {
     $('inpTaskTitle').value = arrTasks[id].title;
     $('optCategory').value = arrTasks[id].category;
     $('txtDescription').value = arrTasks[id].description;
-    $('inpDeadline').value = format$(arrTasks[id].deadline, 'yyyy-dd-mm');
+    $('inpDeadline').value = format$(arrTasks[id].deadline, "yyyy-MM-dd");
     $('optPriority').value = arrTasks[id].priority;
     let frmImage = $('imgClerk');
     frmImage.src = './img/' + arrTasks[id].staff.image;
