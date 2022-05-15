@@ -101,6 +101,7 @@
 
 .menu-items li {
     font-size: 1.5rem;
+    border-bottom: 5px solid transparent;
 }
 
 .menu-items li:hover,
@@ -201,6 +202,7 @@
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;
 }
+
 
 /* ############################################################################################# */
 
