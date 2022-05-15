@@ -28,22 +28,30 @@
 
             await downloadFromServer();
             users = JSON.parse(backend.getItem('users')) || [];
-           
+
         }
     </script>
 </head>
 
 <body onload="init()">
     <header class="header">
-        <div class="hamburger-menu">
+        <img class="logo" src="./img/logo.png">
+        <!-- <div class="hamburger-menu">
             <img id="menuHH" class="icon" src="./img/menu-wht.png">
-        </div>
+        </div> -->
+        <h1>KANBAN</h1>
+        <ul class="menu-items">
+            <li onclick="activateMenuItem(0)">Board</li>
+            <li onclick="activateMenuItem(1)">Backlog</li>
+            <li onclick="activateMenuItem(2)">Add Task</li>
+            <li onclick="activateMenuItem(3)">Help</li>
+        </ul>
         <div class="searchbar">
-            <img class="icon" src="./img/search.png">
+            <img src="./img/magnifying-glass.png">
             <input type="text" placeholder="search">
         </div>
 
-        <h1>CAN YOU KANBAN?</h1>
+
 
         <div class="iconbar">
             <!-- <img class="icon" src="./img/pen-wht.png" onclick="openInputForm()" >
@@ -52,34 +60,47 @@
             <img class="icon" src="./img/plus-wht100.png" onclick="activateMenuItem(2)" title="add new task">
             <img class="icon" src="./img/print-wht.png" title="print task">
             <img class="icon" src="./img/trash-delete-bin.png" onclick="toggleTrash()" title="show / hide trash bin">
-            <img class="icon" src="./img/settings-wht.png" title="show settings">
+            <img style="margin-right: 1rem;" class="icon" src="./img/settings-wht.png" title="show settings">
             <!-- <img class="icon" src="./img/calendar-wht.png" > -->
         </div>
     </header>
 
-    <div id="mainContent" class="main-content">
+    <div>
+        <!--id="mainContent" -->
         <aside>
-            <div id="aside" class="side-menu">
-                <img src="./img/logo.png">
-                <ul class="menu-items">
-                    <li onclick="activateMenuItem(0)">Board</li>
-                    <li onclick="activateMenuItem(1)">Backlog</li>
-                    <li onclick="activateMenuItem(2)">Add Task</li>
-                    <li onclick="activateMenuItem(3)">Help</li>
-                </ul>
+            <div id="aside" class="side-menu hidden">
+
+
             </div>
         </aside>
 
-        <div id="divMainBoard" class="main-board hidden">
-            <h3 class="headline">TO DO</h3>
-            <h3 class="headline">SCHEDULED</h3>
-            <h3 class="headline">IN PROGRESS</h3>
-            <h3 class="headline">DONE</h3>            
+        <div id="divMainBoard" class="main-content main-board ">
+            <!--class=""-->
 
-            <div class="todo flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="schedule flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)"> </div>
-            <div class="progress flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="done flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="columns ">
+                <h3>TO DO</h3>
+                <!--class="headline" -->
+                <div class="todo flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <!-- -->
+            </div>
+            <div class="columns">
+                <h3>SCHEDULED</h3>
+                <!--class="headline" -->
+                <div class="schedule flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)"> </div>
+                <!-- -->
+            </div>
+            <div class="columns">
+                <h3>IN PROGRESS</h3>
+                <!--class="headline" -->
+                <div class="progress flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <!---->
+            </div>
+            <div class="columns">
+                <h3>DONE</h3>
+                <!--class="headline" -->
+                <div class="done flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <!---->
+            </div>
         </div>
 
         <div id="divTrash" class="trash hidden">
@@ -142,9 +163,8 @@
         </form>
     </div>
 
-    <div id="divTrashBin" class="trash-bin" ondrop="drop(event)" ondragover="allowDrop(event)">
-        <img class="deleted" src="./img/trash-blk-large.png" alt="bin" title="double click to open trash"
-            ondblclick="showTrash(true)">
+    <div id="divTrashBin" class="trash-bin hidden" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <img class="deleted" src="./img/trash-blk-large.png" alt="bin" title="double click to open trash" ondblclick="showTrash(true)">
     </div>
 </body>
 

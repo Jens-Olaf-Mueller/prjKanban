@@ -1,16 +1,18 @@
 // ##########################################################################
 //                          D E C L A R A T I O N S
 // ##########################################################################
-let editMode = false,           // flag for edit-mode
-    currID = 0,                 // current id in edit mode (to apply changes)
-    arrTasks = [],              // array, holding the tasks
-    arrTrash = [],              // array, holding the deleted tasks
+let editMode = false, // flag for edit-mode
+    currID = 0, // current id in edit mode (to apply changes)
+    arrTasks = [], // array, holding the tasks
+    arrTrash = [], // array, holding the deleted tasks
     objSettings = {
-    category: ["Marketing","Product","Sale","Management"],
-    priority: ["low","medium","important","high"],
-    staff:    {names : ["Sebastian Zimmermann","John Fieweger","Olaf Müller","Max Mustermann"],
-               images: ["sebastian.jpg","john.jpg","olaf.jpg","max.jpg"]}
-};
+        category: ["Marketing", "Product", "Sale", "Management"],
+        priority: ["low", "medium", "important", "high"],
+        staff: {
+            names: ["Sebastian Zimmermann", "John Fieweger", "Olaf Müller", "Max Mustermann"],
+            images: ["sebastian.jpg", "john.jpg", "olaf.jpg", "max.jpg"]
+        }
+    };
 
 
 // for demo only
@@ -18,20 +20,23 @@ let editMode = false,           // flag for edit-mode
 createTasks(5); // nur zu Demozwecken!
 renderTasks();
 
-function createTasks (count) {
-    let arrState = ['todo','schedule','progress','done'];
+function createTasks(count) {
+    let arrState = ['todo', 'schedule', 'progress', 'done'];
     for (let i = 0; i < count; i++) {
         const rnd = getRandom(0, objSettings.staff.names.length - 1);
-        arrTasks.push({ id: i,
-            title: `Task ${i+1}`, 
+        arrTasks.push({
+            id: i,
+            title: `Task ${i+1}`,
             description: `Das ist die Task-Beschreibung #${2+i*i-1}`,
             category: objSettings.category[rnd],
-            deadline: `${today()}`,  
-            priority: objSettings.priority[rnd],          
-            staff: {name: objSettings.staff.names[rnd], 
-                    image: objSettings.staff.images[rnd]},
+            deadline: `${today()}`,
+            priority: objSettings.priority[rnd],
+            staff: {
+                name: objSettings.staff.names[rnd],
+                image: objSettings.staff.images[rnd]
+            },
             status: arrState[i]
-        })      
+        })
     }
 }
 
@@ -47,19 +52,22 @@ function addTask() {
         arrTasks[currID].description = $('txtDescription').value;
         arrTasks[currID].category = $('optCategory').value;
         arrTasks[currID].deadline = format$($('inpDeadline').value);
-        arrTasks[currID].priority = $('optPriority').value;        
+        arrTasks[currID].priority = $('optPriority').value;
         arrTasks[currID].staff.name = name;
         arrTasks[currID].staff.image = foto;
-        renderTasks ();
+        renderTasks();
     } else {
-        arrTasks.push({id: arrTasks.length,
-            title: $('inpTaskTitle').value, 
+        arrTasks.push({
+            id: arrTasks.length,
+            title: $('inpTaskTitle').value,
             description: $('txtDescription').value,
             category: $('optCategory').value,
-            deadline: format$($('inpDeadline').value),      
-            priority: $('optPriority').value, 
-            staff: {name: name, 
-                    image: foto},
+            deadline: format$($('inpDeadline').value),
+            priority: $('optPriority').value,
+            staff: {
+                name: name,
+                image: foto
+            },
             status: 'todo'
         });
         activateMenuItem(0); // display the board after adding new task!
@@ -68,10 +76,10 @@ function addTask() {
 }
 
 // renders all existing tasks into the correct sections (todo, scheduled etc.)
-function renderTasks () {
+function renderTasks() {
     let boardSections = Array.from($('#divMainBoard >div'));
     // first clear all Sections!
-    for (let i = 0; i < boardSections.length; i++) {boardSections[i].innerHTML = '';}
+    for (let i = 0; i < boardSections.length; i++) { boardSections[i].innerHTML = ''; }
 
     // now render all tasks into the correct section with a double loop
     for (let i = 0; i < arrTasks.length; i++) {
@@ -94,9 +102,9 @@ function renderTasks () {
 
 // selects the given menu-item
 function activateMenuItem(index) {
-    if(editMode) return;
+    if (editMode) return;
     let items = $('.menu-items >li');
-    items.forEach(item => {item.classList.remove('active')}); // first remove all other selections!
+    items.forEach(item => { item.classList.remove('active') }); // first remove all other selections!
 
     switch (index) {
         case 0:
@@ -115,14 +123,14 @@ function activateMenuItem(index) {
             closeSections('board backlog form trash');
             // showHelp();
             break;
-        default: 
+        default:
             return; // if no index is provided, we only unselect the links and exit
     }
     items[index].classList.add('active');
 }
 
 // helper-function for fnc 'activateMenuItem': closes all open forms & div's
-function closeSections (section) {
+function closeSections(section) {
     if (section.includes('board')) showBoard(false);
     if (section.includes('backlog')) showBackLog(false);
     if (section.includes('form')) showInputForm(false);
@@ -131,12 +139,12 @@ function closeSections (section) {
 }
 
 // resets the input-form and the flag for edit-mode
-function resetForm () {
+function resetForm() {
     let form = $('frmInput'),
         image = $('imgClerk');
-    image.src ='./img/profile-dummy.png';
-    image.alt ='';
-    image.title ='';        
+    image.src = './img/profile-dummy.png';
+    image.alt = '';
+    image.title = '';
     form.reset();
     initSelectionFields('optCategory');
     initSelectionFields('optPriority');
@@ -144,9 +152,9 @@ function resetForm () {
 }
 
 // initializes the form's <SELECTION>-Elements 
-function initSelectionFields (selection) {
+function initSelectionFields(selection) {
     let key = selection.substr(3).toLowerCase();
-        srcArray = objSettings[key],
+    srcArray = objSettings[key],
         select = $(selection);
     select.innerHTML = '<option value="">- bitte wählen -</option>';
     for (let i = 0; i < srcArray.length; i++) {
@@ -156,8 +164,9 @@ function initSelectionFields (selection) {
 }
 
 // display the board with all states
-function showBoard (visible) {
+function showBoard(visible) {
     let board = $('divMainBoard');
+    debugger
     if (visible) {
         board.classList.remove('hidden');
         renderTasks();
@@ -166,11 +175,11 @@ function showBoard (visible) {
     }
 }
 
-function showBackLog (visible) {
+function showBackLog(visible) {
     // not yet implemented
 }
 
-function showHelp (visible) {
+function showHelp(visible) {
     // not yet implemented
 }
 
@@ -180,11 +189,11 @@ function showHelp (visible) {
 // if id contains a task    --> edit the provided task
 function showInputForm(id) {
     // make sure that no nonsense happens when we are in edit mode!
-    if (editMode && id !==false) return;   
-    let form = $('divInput'); 
-    resetForm(); 
+    if (editMode && id !== false) return;
+    let form = $('divInput');
+    resetForm();
     // form is supposed to be closed! 
-    if (id === false) { 
+    if (id === false) {
         form.classList.add('hidden');
         form.classList.remove('edit-mode');
         activateMenuItem();
@@ -205,13 +214,13 @@ function showInputForm(id) {
 }
 
 // loads all datas from the given task(id) into the form for edit mode
-function  loadTaskData(id) { 
+function loadTaskData(id) {
     $('inpTaskTitle').value = arrTasks[id].title;
     $('optCategory').value = arrTasks[id].category;
     $('txtDescription').value = arrTasks[id].description;
-    $('inpDeadline').value = format$(arrTasks[id].deadline,'yyyy-dd-mm');
+    $('inpDeadline').value = format$(arrTasks[id].deadline, 'yyyy-dd-mm');
     $('optPriority').value = arrTasks[id].priority;
-    let frmImage =  $('imgClerk');
+    let frmImage = $('imgClerk');
     frmImage.src = './img/' + arrTasks[id].staff.image;
     frmImage.alt = arrTasks[id].staff.name;
     frmImage.title = arrTasks[id].staff.name; // frmImage.alt;
@@ -220,9 +229,9 @@ function  loadTaskData(id) {
 // changes the picture and the name of the staff in the input-form
 function changeStaff() {
     let image = $('imgClerk'),
-        firstname = image.alt.split(' ')[0].toLowerCase(),   // images contain only firstname: 'sebastian.jpg'
-        index = getStaffIndex(firstname);                    // search index of the staff-image in settings
-    index ++;
+        firstname = image.alt.split(' ')[0].toLowerCase(), // images contain only firstname: 'sebastian.jpg'
+        index = getStaffIndex(firstname); // search index of the staff-image in settings
+    index++;
     if (index >= objSettings.staff.images.length) index = 0; // make sure we stay in correct range of the array!
     image.src = './img/' + objSettings.staff.images[index];
     image.alt = objSettings.staff.names[index];
@@ -230,7 +239,7 @@ function changeStaff() {
 }
 
 // returns the index of a staff member according to the given name
-function getStaffIndex (name) {
+function getStaffIndex(name) {
     // we can eiter search in names OR pictures (contains a dot => .jpg)!!!
     let arrSearch = name.includes('.') ? objSettings.staff.images : objSettings.staff.names;
     let index = arrSearch.findIndex(i => {
@@ -241,7 +250,7 @@ function getStaffIndex (name) {
 }
 
 // returns the id as number, provided by the HTML-id
-function getIDNumber (task) {
+function getIDNumber(task) {
     let tmp = (task.id).split('-');
     return tmp[1];
 }
@@ -251,7 +260,7 @@ function getIDNumber (task) {
 function toggleTrash(force) {
     let formIsVisible = !$('divInput').classList.contains('hidden');
     force = formIsVisible ? true : force;
-    $('divTrashBin').classList.toggle('hidden',force);    
+    $('divTrashBin').classList.toggle('hidden', force);
 }
 
 // displays all task in trash array ANCHOR
@@ -262,7 +271,7 @@ function showTrash(visible) {
         toggleTrash(true);
     } else {
         $('divTrash').classList.add('hidden');
-    }   
+    }
 }
 
 //  #####################################################################################
@@ -275,10 +284,12 @@ function showTrash(visible) {
 function allowDrop(event) {
     event.preventDefault();
 }
+
 function drag(event) {
     event.dataTransfer.setData('text', event.target.id);
-//   event.dataTransfer.effectAllowed = "move";
+    //   event.dataTransfer.effectAllowed = "move";
 }
+
 function drop(event) {
     event.preventDefault();
     let data = event.dataTransfer.getData('text'),
@@ -286,7 +297,7 @@ function drop(event) {
         id = getIDNumber(child);
     let status = event.target.classList[0];
     event.target.appendChild(child);
-    arrTasks[id].status = status; 
+    arrTasks[id].status = status;
 
-//   event.dataTransfer.dropEffect = "copy";
+    //   event.dataTransfer.dropEffect = "copy";
 }
