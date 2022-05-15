@@ -53,7 +53,7 @@
 .flx-ctr {
     display: flex;
     align-items: center;
-    justify-content: center;
+    height: 100%;
     flex-direction: column;
 }
 
@@ -66,12 +66,13 @@
 .columns {
     width: calc(100% / 4);
     background: rgb(238, 238, 238);
-    height: 50rem;
+    min-height: 48rem;
     margin: 0 8px;
 }
 
 .columns h3 {
     text-align: center;
+    margin-bottom: 1rem;
 }
 
 .side-menu {
