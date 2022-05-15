@@ -99,30 +99,70 @@ function isNumeric(expression, strAllowed) {
 
 // returns the current date
 function today (format = 'dd.mm.yyyy') {
-    const timeElapsed = Date.now(),
-          dtDate = new Date(timeElapsed);
-    return format$(dtDate,format);
+    return format$(new Date(Date.now()),format);
 }
+
 // format$ (datum, "hh:nn:ss") yyyy-mm-dd
-function format$ (expression, format = 'dd.mm.yyyy') {
-    let d = new Date(expression),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
+function format$ (expression, format = 'dd.mm.yyyy') {    
+    let d = (expression instanceof Date) ? expression : expression.isDate();
+    if (!d) return 'Invalid Date';
+
+    // get all parts of the date with leading zero
+    let month = ('0' + (d.getMonth() + 1)).slice(-2),
+        day = ('0' + d.getDate()).slice(-2),
         year = d.getFullYear(),
-        hours = d.getHours(),
-        min = d.getMinutes(),
-        sec = d.getSeconds();
+        hours = ('0' + d.getHours()).slice(-2),
+        min = ('0' + d.getMinutes()).slice(-2),
+        sec = ('0' + d.getSeconds()).slice(-2); 
 
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;  
-    if (hours.length < 2) hours = '0' + hours;  
-    if (min.length < 2) min = '0' + min;  
-    if (sec.length < 2) sec = '0' + sec;  
-
+    // is time wanted?
     if (format.includes(':')) {
         return format.replace('hh',hours).replace('nn', min).replace('ss', sec);
     }
     return format.replace('mm',month).replace('yyyy', year).replace('dd', day);
+}
+
+// extends String-object by this function:
+// checks if a given date-string can be interpreted as date!
+// valid separators are: '.' | '-' | '/'
+// call: '17-01-2000'.isDate()              = true, returns the date as object!
+//       let date = '2000/01/17'.isDate()   = true, assigns the date to the variable!
+String.prototype.isDate = function (expression) {  
+    // assign this to the expression, if function is attended on a string!
+    if (!expression) expression = this; 
+
+    const dateReg = /^\d{1,2}|\d{4}([-\/\.])\d{1,2}\1\d{2,4}$/
+    if (!expression.match(dateReg)) return false;
+    
+    let dtParts = expression.split(/[\.\-\/]/),
+        yyyy = parseInt(dtParts[2]),
+        mm   = parseInt(dtParts[1]),
+        dd   = parseInt(dtParts[0]),
+        separator = getDateSeparator(expression);
+    
+    // swap the year and day if format is like: yyyy-mm-dd
+    if (expression.indexOf(separator) == 4) {
+        [dd,yyyy] = [yyyy,dd];
+    }
+
+    let tmpDate = new Date(yyyy, mm - 1, dd, 0, 0, 0, 0);
+    
+    // if we found a valid date, return it, otherwise return 'false'!
+    if(mm === (tmpDate.getMonth() + 1) && dd === tmpDate.getDate() && yyyy === tmpDate.getFullYear()) return tmpDate;
+    // this would return just 'true':
+    // return mm === (tmpDate.getMonth() + 1) && dd === tmpDate.getDate() && yyyy === tmpDate.getFullYear();
+    return false;
+}
+
+// helper function for fnc 'String.prototype.isDate'
+// determines which seperator is used for the given date: '/' or '-' or '.' ?
+function getDateSeparator (date) {
+    const separators = ['/','-','.']; // define all possible date separators
+    for (let i = 0; i < separators.length; i++) {
+        const sep = separators[i];
+        if (date.split(sep).length > 1) return sep;
+    }
+    return undefined;
 }
 
 function getRandom(min, max) {
