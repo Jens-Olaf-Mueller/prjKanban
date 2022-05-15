@@ -90,7 +90,7 @@
 
 .menu-items {
     list-style: none;
-    color: whitesmoke;
+    color: white;
     padding: 0.5rem;
     cursor: pointer;
     font-size: large;
@@ -107,6 +107,8 @@
 .menu-items .active {
     opacity: 1;
     font-weight: bold;
+    border-bottom: 5px solid white;
+    color: white;
 }
 
 
