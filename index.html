@@ -57,9 +57,9 @@
             <!-- <img class="icon" src="./img/pen-wht.png" onclick="openInputForm()" >
             <img class="icon" src="./img/people-wht.png" >
             <img class="icon" src="./img/save-wht.png" >-->
-            <img class="icon" src="./img/plus-wht100.png" onclick="activateMenuItem(2)" title="add new task">
-            <img class="icon" src="./img/trash-delete-bin.png" onclick="toggleTrash()" title="show / hide trash bin">
-            <img style="margin-right: 1rem;" class="icon" src="./img/settings-wht.png" title="show settings">
+            <img id="imgPlus" class="icon" src="./img/plus-wht100.png" onclick="activateMenuItem(2)" title="add new task">
+            <img id="imgBin" class="icon" src="./img/trash-delete-bin.png" onclick="toggleTrash()" title="show / hide trash bin">
+            <img style="margin-right: 1rem;" class="icon" src="./img/settings-wht.png" onclick="showSettings(true)" title="show settings">
         </div>
     </header>
 
@@ -103,7 +103,7 @@
         <form id="frmInput" action="" autocomplete="off">
             <img id="imgCloseX" src="./img/close-48.png" onclick="showInputForm(false)" title="close">
             <div class="form-column">
-                <h2 id="frmTitle">Add task...</h2>
+                <h2 id="frmTitle" class="form-title">Add task...</h2>
                 <div class="input-field">
                     <label for="inpTaskTitle">TITLE</label>
                     <input id="inpTaskTitle" type="text">
@@ -153,6 +153,48 @@
         </form>
     </div>
 
+    <!-- ------------------------------- -->
+    <!-- N E W  F O R M  S E T T I N G S -->
+    <!-- ------------------------------- -->
+    <div id="divSettings" class="input-form hidden">
+        <form id="frmSettings" action="" autocomplete="off">
+            <img id="imgCloseX" src="./img/close-48.png" onclick="showSettings(false)" title="close">
+
+            <div class="form-column">
+                <h2 class="form-title">Settings</h2>
+                
+
+                <div class="input-field">
+                    <label for="selPriority">PRIORITY</label>
+                    <div class="select">
+                        <select id="selPriority"></select>
+                    </div>
+                </div>
+
+
+                <div class="input-field">
+                    <label for="inpNewUser">ADD NEW USER</label>
+                    <input id="inpNewUser" type="text">
+
+                    <div id="divUsers" class="clerk" data-tooltip="upload foto">
+                        <img id="imgClerk" src="./img/profile-dummy.png" alt="">
+                        <div class="plus" type="button" onclick=""></div>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="reset" onclick="showSettings(false)">CANCEL</button>
+                        <button id="btnSubmitUser" type="button" onclick="showSettings(false)">SAVE SETTINGS</button> 
+                        <!-- <button id="btnSubmit" type="button" onclick="saveSettings()">SAVE SETTINGS</button>  -->
+
+                        <!-- ACHTUNG ! Button muss zu type"submit" geändert werden -->
+                        <!-- <button id="btnSubmit" type="submit" onclick="addTask()">CREATE TASK</button> -->
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
     <div id="divTrashBin" class="trash-bin hidden" ondrop="drop(event)" ondragover="allowDrop(event)">
         <img class="deleted" src="./img/trash-blk-large.png" alt="bin" title="double click to open trash" ondblclick="showTrash(true)">
     </div>
@@ -163,8 +205,5 @@
 <!--
     andere Schriftart 
     Mülleimersymbol bearbeiten
-
-    Leiste mit Titel kombinieren
-    Druckersymbol mit Helpsymbol (i) ersetzen
     einheitliche Schriftform (max 2 Formen)
  -->

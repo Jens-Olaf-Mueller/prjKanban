@@ -6,7 +6,10 @@
     width: 100%;
     background: navy;
     color: whitesmoke;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 111;
 }
 
 .logo {
@@ -73,6 +76,7 @@
 
 .columns h3 {
     text-align: center;
+    margin-top: 0.5rem;
     margin-bottom: 1rem;
 }
 
@@ -131,6 +135,12 @@
     border-left: 4px solid whitesmoke;
     transform: translateX(-1.6rem);
     opacity: 1;
+}
+
+.iconbar {
+    display: flex;
+    justify-content: flex-end;
+    min-width: 9rem;
 }
 
 .icon {
