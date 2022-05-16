@@ -162,7 +162,6 @@
 
             <div class="form-column">
                 <h2 class="form-title">Settings</h2>
-                
 
                 <div class="input-field">
                     <label for="selPriority">PRIORITY</label>
@@ -171,14 +170,30 @@
                     </div>
                 </div>
 
+                <div class="input-field">
+                    <label for="selCategory">CATEGORY</label>
+                    <div class="select">
+                        <select id="selCategory"></select>
+                    </div>
+                </div>
 
+                <div class="input-field">
+                    <label for="optColumns">COLUMNS</label>
+                    <div class="select">
+                        <select id="optColumns"></select>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-column">             
                 <div class="input-field">
                     <label for="inpNewUser">ADD NEW USER</label>
                     <input id="inpNewUser" type="text">
 
-                    <div id="divUsers" class="clerk" data-tooltip="upload foto">
+                    <div id="divUsers" class="clerk grab" data-tooltip="click to upload foto">
                         <img id="imgClerk" src="./img/profile-dummy.png" alt="">
-                        <div class="plus" type="button" onclick=""></div>
+                        <!-- <div class="plus" type="button" onclick=""></div> -->
                     </div>
 
                     <div class="form-buttons">

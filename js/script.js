@@ -11,8 +11,8 @@ let editMode = false,   // flag for edit-mode
         priority: ["low", "medium", "important", "high"],
         staff: {
             names: ["Sebastian Zimmermann", "John Fieweger", "Olaf Müller", "Max Mustermann"],
-            images: ["sebastian.jpg", "john.jpg", "olaf.jpg", "max.jpg"]
-        }
+            images: ["sebastian.jpg", "john.jpg", "olaf.jpg", "max.jpg"]},
+        columns: ["to do", "scheduled","in progress","done"]
     };
 
 // for demo only
@@ -306,6 +306,9 @@ function showTrash(visible) {
 function showSettings (visible) {
     if (visible) {
         initSelectionFields('selPriority');
+        initSelectionFields('selCategory');
+        initSelectionFields('optColumns');
+
         $('divSettings').classList.remove('hidden');
         closeSections('board backlog form trash');
     } else {

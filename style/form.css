@@ -124,15 +124,6 @@ select {
     margin-top: 1.5rem;
 }
 
-
-/* just get some space! */
-
-.input-field label[for="divClerks"], 
-.input-field label[for="divUsers"] {
-    margin-bottom: 2rem;
-}
-
-
 /* <select>-element itself !! */
 
 .input-field select {
@@ -179,6 +170,7 @@ select {
 .clerk {
     display: flex;
     align-items: center;
+    margin-top: 2rem;
 }
 
 .plus {
