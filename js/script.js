@@ -137,6 +137,8 @@ function generateFilterTask(task, container, search) {
         container.innerHTML += generateTaskHTML(task);
     } else if (task.deadline.toLowerCase().includes(search) && container.classList.contains(task.status)) {
         container.innerHTML += generateTaskHTML(task);
+    } else if (task.staff.name.toLowerCase().includes(search) && container.classList.contains(task.status)) {
+        container.innerHTML += generateTaskHTML(task);
     }
 }
 
