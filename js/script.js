@@ -428,3 +428,14 @@ function drop(event) {
     event.target.appendChild(child);
     arrTasks[id].status = status;
 }
+
+function openMenu() {
+    smallMenu = $('small-menu-list');
+    if (smallMenu.style.display == 'none') {
+        smallMenu.style = 'display: unset;';
+    } else {
+        smallMenu.style = 'display: none;';
+    }
+
+
+}

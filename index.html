@@ -37,7 +37,17 @@
 
 <body onload="init()">
     <header class="header">
-        <img class="logo" src="./img/logo.png">
+        <div class="logo-div">
+            <img class="logo" src="./img/logo.png">
+            <img class="icon small-menu" onclick="openMenu()" src="./img/menu-wht.png">
+            <ul class="small-menu-list">
+                <li onclick="activateMenuItem(0)">Board</li>
+                <li onclick="activateMenuItem(1)">Backlog</li>
+                <li onclick="activateMenuItem(2)">Add Task</li>
+                <li onclick="activateMenuItem(3)">Help</li>
+            </ul>
+        </div>
+
         <!-- <div class="hamburger-menu">
             <img id="menuHH" class="icon" src="./img/menu-wht.png">
         </div> -->
@@ -48,6 +58,7 @@
             <li onclick="activateMenuItem(2)">Add Task</li>
             <li onclick="activateMenuItem(3)">Help</li>
         </ul>
+
         <div class="searchbar">
             <img src="./img/magnifying-glass.png" onclick="executeSearch()">
             <input id="search" onkeyup="filterTasks()" type="text" placeholder="search">
