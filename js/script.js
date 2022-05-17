@@ -126,8 +126,8 @@ function generateTaskHTML(task) {
         ondblclick ="showInputForm(${task.id})" title="double-click for edit!">
         <img class="printer" src="./img/printer48.png" onclick="printTask(${task.id})" title ="print task">
         <div>
-            <h3>${task.title.substring(0, 20)}</h3>
-            <p>${task.description.substring(0, 80)}</p>
+            <h3>${task.title}</h3>
+            <p class="description">${task.description}</p>
         </div>
         <div class="taskEnd">
             <p>${task.deadline}</p> 

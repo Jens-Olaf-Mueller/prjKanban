@@ -72,12 +72,17 @@
     background: rgb(238, 238, 238);
     min-height: 48rem;
     margin: 0 8px;
+    padding-bottom: 1rem;
 }
 
 .columns h3 {
     text-align: center;
     margin-top: 0.5rem;
     margin-bottom: 1rem;
+}
+
+.columns div {
+    overflow-y: auto;
 }
 
 .side-menu {
@@ -191,7 +196,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    background-color: #eee;
+    /* background-color: #eee; */
 }
 
 .trash-bin {
