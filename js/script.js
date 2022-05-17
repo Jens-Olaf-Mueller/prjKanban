@@ -27,19 +27,24 @@ function createTasks(count) {
 
     for (let i = 0; i < count; i++) {
         const rnd = getRandom(0, objSettings.staff.names.length - 1);
-        arrTasks.push({
-            id: i,
-            title: `Task ${i+1}`,
-            description: `Das ist die Task-Beschreibung #${2+i*i-1}`,
-            category: objSettings.category[rnd],
-            deadline: `${today()}`,
-            priority: objSettings.priority[rnd],
-            staff: {
-                name: objSettings.staff.names[rnd],
-                image: objSettings.staff.images[rnd]
-            },
-            status: arrState[i]
-        })
+        arrTasks.push(generateDemoTasks(rnd, i, arrState))
+
+    }
+}
+
+function generateDemoTasks(rnd, i, arrState) {
+    return {
+        id: i,
+        title: `Task ${i+1}`,
+        description: `Das ist die Task-Beschreibung #${2+i*i-1}`,
+        category: objSettings.category[rnd],
+        deadline: `${today()}`,
+        priority: objSettings.priority[rnd],
+        staff: {
+            name: objSettings.staff.names[rnd],
+            image: objSettings.staff.images[rnd]
+        },
+        status: arrState[i]
     }
 }
 
@@ -52,44 +57,54 @@ function addTask() {
     let name = $('imgClerk').alt,
         foto = objSettings.staff.images[getStaffIndex(name)];
     if (editMode) {
-        arrTasks[currID].title = $('inpTaskTitle').value;
-        arrTasks[currID].description = $('txtDescription').value;
-        arrTasks[currID].category = $('optCategory').value;
-        arrTasks[currID].deadline = format$($('inpDeadline').value);
-        arrTasks[currID].priority = $('optPriority').value;
-        arrTasks[currID].staff.name = name;
-        arrTasks[currID].staff.image = foto;
+        editTask(name, foto);
         renderTasks();
     } else {
-        let deadlineDate = $('inpDeadline').value;
-        if (deadlineDate == "") {
-            deadlineDate = today();
-        };
-        arrTasks.push({
-            id: arrTasks.length,
-            title: $('inpTaskTitle').value,
-            description: $('txtDescription').value,
-            category: $('optCategory').value,
-            deadline: format$(deadlineDate),
-            priority: $('optPriority').value,
-            staff: {
-                name: name,
-                image: foto
-            },
-            status: 'todo'
-        });
+        deadlineDate = isItADate();
+        arrTasks.push(generatedTask(name, foto, deadlineDate));
         activateMenuItem(0); // display the board after adding new task!
     }
     showInputForm(false);
 }
 
+function editTask(name, foto) {
+    arrTasks[currID].title = $('inpTaskTitle').value;
+    arrTasks[currID].description = $('txtDescription').value;
+    arrTasks[currID].category = $('optCategory').value;
+    arrTasks[currID].deadline = format$($('inpDeadline').value);
+    arrTasks[currID].priority = $('optPriority').value;
+    arrTasks[currID].staff.name = name;
+    arrTasks[currID].staff.image = foto;
+}
+
+function isItADate() {
+    let deadlineDate = $('inpDeadline').value;
+    if (deadlineDate == "") {
+        deadlineDate = today();
+    };
+    return deadlineDate;
+}
+
+function generatedTask(name, foto, deadlineDate) {
+    return {
+        id: arrTasks.length,
+        title: $('inpTaskTitle').value,
+        description: $('txtDescription').value,
+        category: $('optCategory').value,
+        deadline: format$(deadlineDate),
+        priority: $('optPriority').value,
+        staff: {
+            name: name,
+            image: foto
+        },
+        status: 'todo'
+    }
+}
+
 // renders all existing tasks into the correct sections (todo, scheduled etc.)
 function renderTasks() {
-    let boardSections = Array.from($('#divMainBoard .columns >div'));
-    // first clear all Sections!
-    for (let i = 0; i < boardSections.length; i++) { boardSections[i].innerHTML = ''; }
-
-    // now render all tasks into the correct section with a double loop
+    let boardSections = Array.from($('#divMainBoard .columns >div')); // first clear all Sections!
+    for (let i = 0; i < boardSections.length; i++) { boardSections[i].innerHTML = ''; } // now render all tasks into the correct section with a double loop
     for (let i = 0; i < arrTasks.length; i++) {
         const task = arrTasks[i];
         for (let j = 0; j < boardSections.length; j++) {
@@ -104,23 +119,24 @@ function renderTasks() {
 function filterTasks() {
     let search = $('search').value;
     search = search.toLowerCase();
-    console.log(search);
-
     let boardSections = Array.from($('#divMainBoard .columns >div'));
     for (let i = 0; i < boardSections.length; i++) { boardSections[i].innerHTML = ''; }
-
     for (let i = 0; i < arrTasks.length; i++) {
         const task = arrTasks[i];
         for (let j = 0; j < boardSections.length; j++) {
             let container = boardSections[j];
-            if (task.title.toLowerCase().includes(search) && container.classList.contains(task.status)) {
-                container.innerHTML += generateTaskHTML(task);
-            } else if (task.description.toLowerCase().includes(search) && container.classList.contains(task.status)) {
-                container.innerHTML += generateTaskHTML(task);
-            } else if (task.deadline.toLowerCase().includes(search) && container.classList.contains(task.status)) {
-                container.innerHTML += generateTaskHTML(task);
-            }
+            generateFilterTask(task, container, search);
         }
+    }
+}
+
+function generateFilterTask(task, container, search) {
+    if (task.title.toLowerCase().includes(search) && container.classList.contains(task.status)) {
+        container.innerHTML += generateTaskHTML(task);
+    } else if (task.description.toLowerCase().includes(search) && container.classList.contains(task.status)) {
+        container.innerHTML += generateTaskHTML(task);
+    } else if (task.deadline.toLowerCase().includes(search) && container.classList.contains(task.status)) {
+        container.innerHTML += generateTaskHTML(task);
     }
 }
 
