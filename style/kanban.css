@@ -81,10 +81,6 @@
     margin-bottom: 1rem;
 }
 
-.columns div {
-    overflow-y: auto;
-}
-
 .side-menu {
     display: flex;
     flex-direction: column;

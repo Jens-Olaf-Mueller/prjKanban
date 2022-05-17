@@ -61,12 +61,16 @@ function addTask() {
         arrTasks[currID].staff.image = foto;
         renderTasks();
     } else {
+        let deadlineDate = $('inpDeadline').value;
+        if (deadlineDate == "") {
+            deadlineDate = today();
+        };
         arrTasks.push({
             id: arrTasks.length,
             title: $('inpTaskTitle').value,
             description: $('txtDescription').value,
             category: $('optCategory').value,
-            deadline: format$($('inpDeadline').value),
+            deadline: format$(deadlineDate),
             priority: $('optPriority').value,
             staff: {
                 name: name,
