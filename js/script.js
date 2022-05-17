@@ -1,18 +1,19 @@
 // ##########################################################################
 //                          D E C L A R A T I O N S
 // ##########################################################################
-let editMode = false,   // flag for edit-mode
-    boardIsVisible,     // flad for board to be displayed or not
-    currID = 0,         // current id in edit mode (to apply changes)
-    arrTasks = [],      // array, holding the tasks
-    arrTrash = [],      // array, holding the deleted tasks (maybe not required...!)
+let editMode = false, // flag for edit-mode
+    boardIsVisible, // flad for board to be displayed or not
+    currID = 0, // current id in edit mode (to apply changes)
+    arrTasks = [], // array, holding the tasks
+    arrTrash = [], // array, holding the deleted tasks (maybe not required...!)
     objSettings = {
         category: ["Marketing", "Product", "Sale", "Management"],
         priority: ["low", "medium", "important", "high"],
         staff: {
             names: ["Sebastian Zimmermann", "John Fieweger", "Olaf Müller", "Max Mustermann"],
-            images: ["sebastian.jpg", "john.jpg", "olaf.jpg", "max.jpg"]},
-        columns: ["to do", "scheduled","in progress","done"]
+            images: ["sebastian.jpg", "john.jpg", "olaf.jpg", "max.jpg"]
+        },
+        columns: ["to do", "scheduled", "in progress", "done"]
     };
 
 // for demo only
@@ -21,8 +22,8 @@ createTasks(4); // nur zu Demozwecken!
 renderTasks();
 activateMenuItem(0);
 
-function createTasks (count) {
-    let arrState = ['todo','schedule','progress','done','deleted'];
+function createTasks(count) {
+    let arrState = ['todo', 'schedule', 'progress', 'done', 'deleted'];
 
     for (let i = 0; i < count; i++) {
         const rnd = getRandom(0, objSettings.staff.names.length - 1);
@@ -90,22 +91,49 @@ function renderTasks() {
         for (let j = 0; j < boardSections.length; j++) {
             let container = boardSections[j];
             if (container.classList.contains(task.status)) {
-                container.innerHTML += `
-                <div id="task-${task.id}" class="task grab ${task.priority}" draggable="true" ondragstart="drag(event)" 
-                    ondblclick ="showInputForm(${task.id})" title="double-click for edit!">
-                    <img class="printer" src="./img/printer48.png" onclick="printTask(${task.id})" title ="print task">
-                    <div>
-                        <h3>${task.title.substring(0, 20)}</h3>
-                        <p>${task.description.substring(0, 80)}</p>
-                    </div>
-                    <div class="taskEnd">
-                        <p>${task.deadline}</p> 
-                        <img class="portrait" src ="./img/${task.staff.image}" title="${task.staff.name}">
-                    </div>
-                </div>`; //&#9754
+                container.innerHTML += generateTaskHTML(task);
             }
         }
     }
+}
+
+function filterTasks() {
+    let search = $('search').value;
+    search = search.toLowerCase();
+    console.log(search);
+
+    let boardSections = Array.from($('#divMainBoard .columns >div'));
+    for (let i = 0; i < boardSections.length; i++) { boardSections[i].innerHTML = ''; }
+
+    for (let i = 0; i < arrTasks.length; i++) {
+        const task = arrTasks[i];
+        for (let j = 0; j < boardSections.length; j++) {
+            let container = boardSections[j];
+            if (task.title.toLowerCase().includes(search) && container.classList.contains(task.status)) {
+                container.innerHTML += generateTaskHTML(task);
+            } else if (task.description.toLowerCase().includes(search) && container.classList.contains(task.status)) {
+                container.innerHTML += generateTaskHTML(task);
+            } else if (task.deadline.toLowerCase().includes(search) && container.classList.contains(task.status)) {
+                container.innerHTML += generateTaskHTML(task);
+            }
+        }
+    }
+}
+
+function generateTaskHTML(task) {
+    return `
+    <div id="task-${task.id}" class="task grab ${task.priority}" draggable="true" ondragstart="drag(event)" 
+        ondblclick ="showInputForm(${task.id})" title="double-click for edit!">
+        <img class="printer" src="./img/printer48.png" onclick="printTask(${task.id})" title ="print task">
+        <div>
+            <h3>${task.title.substring(0, 20)}</h3>
+            <p>${task.description.substring(0, 80)}</p>
+        </div>
+        <div class="taskEnd">
+            <p>${task.deadline}</p> 
+            <img class="portrait" src ="./img/${task.staff.image}" title="${task.staff.name}">
+        </div>
+    </div>`; //&#9754
 }
 
 // selects the given menu-item
@@ -137,12 +165,12 @@ function activateMenuItem(index) {
     items[index].classList.add('active');
 
     // hide icons except from settings, when board is invisible!
-    hideIcons (!boardIsVisible);
+    hideIcons(!boardIsVisible);
 }
 
 // enables or disables the icons 'plus' and 'trash' in statusbar
-function hideIcons (status) {
-    $('imgBin').classList.toggle('hidden', status );
+function hideIcons(status) {
+    $('imgBin').classList.toggle('hidden', status);
     $('imgPlus').classList.toggle('hidden', status);
     $('divTrashBin').classList.toggle('hidden', status);
 }
@@ -163,8 +191,8 @@ function resetForm() {
     let form = $('frmInput'),
         image = $('imgClerk');
 
-    image.src ='./img/profile-dummy.png';
-    image.alt ='';
+    image.src = './img/profile-dummy.png';
+    image.alt = '';
     $('divClerks').dataset.tooltip = 'select clerk';
 
     form.reset();
@@ -198,11 +226,11 @@ function showBoard(visible) {
 }
 
 function showBackLog(visible) {
-    if(visible) todo('Backlog ist noch nicht implementiert!');
+    if (visible) todo('Backlog ist noch nicht implementiert!');
 }
 
 function showHelp(visible) {
-    if(visible) todo('Help-Sektion ist noch nicht implementiert!');
+    if (visible) todo('Help-Sektion ist noch nicht implementiert!');
 }
 
 // display OR close the input-form:
@@ -237,11 +265,11 @@ function showInputForm(id) {
 
 
 // loads all datas from the given task(id) into the form for edit mode ANCHOR loadTaskData
-function  loadTaskData(id) { 
+function loadTaskData(id) {
     $('inpTaskTitle').value = arrTasks[id].title;
     $('optCategory').value = arrTasks[id].category;
     $('txtDescription').value = arrTasks[id].description;
-    $('inpDeadline').value = format$(arrTasks[id].deadline,'yyyy-mm-dd');  
+    $('inpDeadline').value = format$(arrTasks[id].deadline, 'yyyy-mm-dd');
     $('optPriority').value = arrTasks[id].priority;
     let frmImage = $('imgClerk');
     frmImage.src = './img/' + arrTasks[id].staff.image;
@@ -280,7 +308,7 @@ function getIDNumber(task) {
 
 // displays or hides the trash bin in the lower right corner
 // if we are in input- or edit mode, trash bin is ALWAYS off! (force = true)
-function toggleTrash(force) {    
+function toggleTrash(force) {
     let trashIsVisible = !$('divTrash').classList.contains('hidden');
     if (trashIsVisible) {
         $('divTrash').classList.add('hidden');
@@ -303,7 +331,7 @@ function showTrash(visible) {
 }
 
 // displays or hides the settings
-function showSettings (visible) {
+function showSettings(visible) {
     if (visible) {
         initSelectionFields('selPriority');
         initSelectionFields('selCategory');
@@ -314,12 +342,12 @@ function showSettings (visible) {
     } else {
         $('divSettings').classList.add('hidden');
     }
-    
+
     hideIcons(true);
 }
 
 // short print-function
-function printTask(index){
+function printTask(index) {
     let divContent = $('task-' + index).innerHTML,
         printWindow = window.open('', '', 'height=720,width=1000');
 
@@ -368,7 +396,7 @@ function drop(event) {
         child = $(data),
         id = getIDNumber(child);
     let status = event.target.classList[0];
-    
+
     // deleting per drag'n drop is an exception:
     // we can drag from another column or drop into the bin!
     if (status == 'deleted') {

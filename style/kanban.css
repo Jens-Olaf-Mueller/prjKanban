@@ -186,7 +186,8 @@
 .todo,
 .schedule,
 .progress,
-.done {
+.done,
+.deleted {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;

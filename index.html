@@ -50,7 +50,7 @@
         </ul>
         <div class="searchbar">
             <img src="./img/magnifying-glass.png" onclick="executeSearch()">
-            <input type="text" placeholder="search">
+            <input id="search" onkeyup="filterTasks()" type="text" placeholder="search">
         </div>
 
         <div class="iconbar">
@@ -186,7 +186,7 @@
 
             </div>
 
-            <div class="form-column">             
+            <div class="form-column">
                 <div class="input-field">
                     <label for="inpNewUser">ADD NEW USER</label>
                     <input id="inpNewUser" type="text">
@@ -198,7 +198,7 @@
 
                     <div class="form-buttons">
                         <button type="reset" onclick="showSettings(false)">CANCEL</button>
-                        <button id="btnSubmitUser" type="button" onclick="showSettings(false)">SAVE SETTINGS</button> 
+                        <button id="btnSubmitUser" type="button" onclick="showSettings(false)">SAVE SETTINGS</button>
                         <!-- <button id="btnSubmit" type="button" onclick="saveSettings()">SAVE SETTINGS</button>  -->
 
                         <!-- ACHTUNG ! Button muss zu type"submit" geändert werden -->
@@ -210,7 +210,7 @@
     </div>
 
 
-    <div id="divTrashBin" class="trash-bin hidden" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <div id="divTrashBin" class="trash-bin" ondrop="drop(event)" ondragover="allowDrop(event)">
         <img class="deleted" src="./img/trash-blk-large.png" alt="bin" title="double click to open trash" ondblclick="showTrash(true)">
     </div>
 </body>
