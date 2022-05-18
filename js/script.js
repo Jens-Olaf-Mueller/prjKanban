@@ -160,6 +160,7 @@ function generateTaskHTML(task) {
 
 // selects the given menu-item
 function activateMenuItem(index) {
+    closeSmallMenu();
     if (editMode) return;
     let items = $('.menu-items >li');
     items.forEach(item => { item.classList.remove('active') }); // first remove all other selections!
@@ -435,7 +436,18 @@ function openMenu() {
         smallMenu.style = 'display: unset;';
     } else {
         smallMenu.style = 'display: none;';
-    }
+    };
+    closeSmallMenuWithClickOutside();
+}
 
+function closeSmallMenuWithClickOutside() {
+    document.addEventListener('mouseup', function(e) {
+        if (!smallMenu.contains(e.target)) {
+            smallMenu.style = 'display: none;';
+        }
+    });
+}
 
+function closeSmallMenu() {
+    $('small-menu-list').style = 'display: none;';
 }

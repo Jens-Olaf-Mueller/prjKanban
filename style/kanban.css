@@ -34,12 +34,10 @@
     background: navy;
     height: 200px;
     width: 150px;
-    display: flex;
     flex-direction: column;
     justify-content: center;
     padding-left: 8px;
     font-size: 24px;
-    gap: 15px;
     list-style: none;
     display: none;
 }
@@ -49,6 +47,7 @@
     border-left: 4px solid transparent;
     opacity: 0.7;
     cursor: pointer;
+    margin: 16px 0 16px 0;
 }
 
 .small-menu-list li:hover,
