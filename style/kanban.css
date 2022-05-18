@@ -65,6 +65,7 @@
     border-radius: 4px;
     padding: 8px;
     cursor: text;
+    max-width: 16rem;
 }
 
 .searchbar img {
@@ -78,6 +79,7 @@
     padding: 0.25rem;
     outline: none;
     border: none;
+    width: 100%;
 }
 
 * {
@@ -111,7 +113,7 @@
 .columns {
     width: calc(100% / 4);
     background: rgb(238, 238, 238);
-    min-height: 48rem;
+    min-height: 50rem;
     margin: 0 8px;
     padding-bottom: 1rem;
 }
@@ -277,5 +279,75 @@
     /* enable Hamburger menu*/
     header h1 {
         display: none;
+    }
+    .task {
+        height: 8rem !important;
+        width: 6rem !important;
+    }
+    .task h3 {
+        font-size: 16px !important;
+        padding: 0 2px 0 0 !important;
+        height: 24px !important;
+        margin: 0 !important;
+    }
+    .task p {
+        font-size: 16px !important;
+        padding: 4px !important;
+    }
+    .task img.printer {
+        width: 12px !important;
+        height: 12px !important;
+    }
+    .task img.portrait {
+        width: 1.5rem !important;
+        height: 1.5rem !important;
+    }
+    .taskEnd {
+        flex-direction: column-reverse;
+    }
+}
+
+@media (max-width: 600px) {
+    .icon {
+        padding: 0 4px;
+        height: 24px;
+    }
+    .iconbar {
+        min-width: 7rem;
+    }
+    .searchbar img {
+        margin-right: 0;
+    }
+    .logo {
+        margin-left: 8px;
+    }
+    .columns {
+        margin: 0 2px;
+    }
+    .columns h3 {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 410px) {
+    .task {
+        height: 9rem !important;
+        width: 4rem !important;
+    }
+    .task img.printer {
+        top: 4px;
+        right: 2px;
+    }
+    .task h3 {
+        width: 70% !important;
+    }
+    .searchbar input {
+        font-size: 14px;
+    }
+    .searchbar img {
+        height: 14px;
+    }
+    .logo {
+        height: 50px;
     }
 }
