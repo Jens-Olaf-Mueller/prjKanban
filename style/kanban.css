@@ -283,6 +283,7 @@
     .task {
         height: 8rem !important;
         width: 6rem !important;
+        word-break: break-all;
     }
     .task h3 {
         font-size: 16px !important;
