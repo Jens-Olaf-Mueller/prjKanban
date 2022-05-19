@@ -444,6 +444,7 @@ function drop(event) {
     }
     event.target.appendChild(child);
     arrTasks[id].status = status;
+    serverUpdate();
 }
 
 function openMenu() {
