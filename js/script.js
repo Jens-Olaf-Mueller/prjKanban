@@ -55,13 +55,17 @@ function serverUpdate() {
     backend.setItem('arrTrash', JSON.stringify(arrTrash));
 }
 
-// DEMOFUNKTION ZUM LÖSCHEN ALLER TASKS
+// DEMOFUNKTIONEN ZUM LÖSCHEN VON TASKS
 
 function deleteAll() {
     arrTasks = [];
     serverUpdate();
 }
 
+function deleteTask(i) {
+    arrTasks.splice(i);
+    serverUpdate();
+}
 // ##########################################################################
 
 // ANCHOR addTask
