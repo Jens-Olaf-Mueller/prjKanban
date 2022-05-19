@@ -18,8 +18,8 @@ let editMode = false, // flag for edit-mode
 
 // for demo only
 // ##########################################################################
-createTasks(4); // nur zu Demozwecken!
-renderTasks();
+//createTasks(4); // nur zu Demozwecken!
+//renderTasks();
 activateMenuItem(0);
 
 function createTasks(count) {
@@ -48,6 +48,20 @@ function generateDemoTasks(rnd, i, arrState) {
     }
 }
 
+// Pushes all relevant arrays to the server after changes where made on the board (at the moment create & edit tasks)
+
+function serverUpdate() {
+    backend.setItem('arrTasks', JSON.stringify(arrTasks));
+    backend.setItem('arrTrash', JSON.stringify(arrTrash));
+}
+
+// DEMOFUNKTION ZUM LÖSCHEN ALLER TASKS
+
+function deleteAll() {
+    arrTasks = [];
+    serverUpdate();
+}
+
 // ##########################################################################
 
 // ANCHOR addTask
@@ -65,6 +79,7 @@ function addTask() {
         activateMenuItem(0); // display the board after adding new task!
     }
     showInputForm(false);
+    serverUpdate();
 }
 
 function editTask(name, foto) {
@@ -75,6 +90,7 @@ function editTask(name, foto) {
     arrTasks[currID].priority = $('optPriority').value;
     arrTasks[currID].staff.name = name;
     arrTasks[currID].staff.image = foto;
+    serverUpdate();
 }
 
 function isItADate() {
@@ -160,6 +176,7 @@ function generateTaskHTML(task) {
 
 // selects the given menu-item
 function activateMenuItem(index) {
+    closeSmallMenu();
     if (editMode) return;
     let items = $('.menu-items >li');
     items.forEach(item => { item.classList.remove('active') }); // first remove all other selections!
@@ -435,4 +452,27 @@ function drop(event) {
     }
     event.target.appendChild(child);
     arrTasks[id].status = status;
+    serverUpdate();
+}
+
+function openMenu() {
+    smallMenu = $('small-menu-list');
+    if (smallMenu.style.display == 'none') {
+        smallMenu.style = 'display: unset;';
+    } else {
+        smallMenu.style = 'display: none;';
+    };
+    closeSmallMenuWithClickOutside();
+}
+
+function closeSmallMenuWithClickOutside() {
+    document.addEventListener('mouseup', function(e) {
+        if (!smallMenu.contains(e.target)) {
+            smallMenu.style = 'display: none;';
+        }
+    });
+}
+
+function closeSmallMenu() {
+    $('small-menu-list').style = 'display: none;';
 }

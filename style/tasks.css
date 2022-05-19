@@ -15,11 +15,21 @@
     /* transform: rotate(-4deg); */
     /* border-bottom-right-radius: 60px 8px; */
     transition: 200ms ease-in-out;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.task p::-webkit-scrollbar,
+h3::-webkit-scrollbar {
+    display: none;
 }
 
 .description {
     height: 2.8rem;
     overflow: auto;
+    border-top: 2px solid rgb(179 171 171);
 }
 
 .taskEnd {
@@ -42,10 +52,11 @@
     padding: 0.33rem;
     /* background-color: #fefabc; */
     filter: brightness(0.9);
-    border-bottom: 2px solid rgb(179 171 171);
     height: 2.5rem;
     overflow: auto;
     direction: rtl;
+    width: 80%;
+    margin: 0 2px 0 0;
 }
 
 .task p {
