@@ -12,7 +12,7 @@
 
 .input-form {
     /* centger div on screen */
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -41,7 +41,9 @@
     cursor: pointer;
 }
 
-#imgCloseX:hover {opacity: 1;}
+#imgCloseX:hover {
+    opacity: 1;
+}
 
 .form-title {
     position: absolute;
@@ -90,7 +92,8 @@ select {
     -webkit-appearance: none;
 } */
 
-#imgClerk, #imgUser {
+#imgClerk,
+#imgUser {
     width: 7rem;
     height: 7rem;
     border-radius: 100%;
@@ -131,7 +134,9 @@ select {
     gap: 1rem;
 }
 
-.input-field.settings .select {flex: 1;}
+.input-field.settings .select {
+    flex: 1;
+}
 
 .input-field [type=color] {
     height: 3rem;
@@ -140,7 +145,7 @@ select {
     -moz-appearance: none;
     appearance: none;
     background-color: transparent;
-    border: none;    
+    border: none;
     cursor: pointer;
 }
 
@@ -149,6 +154,7 @@ select {
     border: none;
     border-radius: 5px;
 }
+
 
 /* <select>-element itself !! */
 
@@ -189,7 +195,7 @@ select {
     /* filter: brightness(0.7); */
 }
 
-.input-field .select:hover::after {    
+.input-field .select:hover::after {
     opacity: 1;
 }
 
