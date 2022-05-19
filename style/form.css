@@ -32,7 +32,7 @@
     font-size: larger;
 }
 
-#imgCloseX {
+.imgCloseX {
     position: absolute;
     top: -1rem;
     right: -1rem;
@@ -41,7 +41,7 @@
     cursor: pointer;
 }
 
-#imgCloseX:hover {opacity: 1;}
+.imgCloseX:hover {opacity: 1;}
 
 .form-title {
     position: absolute;
