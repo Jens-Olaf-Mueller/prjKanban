@@ -27,7 +27,7 @@ h3::-webkit-scrollbar {
 }
 
 .description {
-    height: 2.8rem;
+    height: 4.5rem;
     overflow: auto;
     border-top: 2px solid rgb(179 171 171);
 }
