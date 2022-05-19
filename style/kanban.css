@@ -298,6 +298,9 @@
         width: 12px !important;
         height: 12px !important;
     }
+    .description {
+        height: 2.8rem;
+    }
     .task img.portrait {
         width: 1.5rem !important;
         height: 1.5rem !important;
