@@ -51,7 +51,7 @@
 .form-column {
     display: flex;
     flex-direction: column;
-    width: 40vmin;
+    width: 45vmin;
     padding: 1rem;
     margin-top: 2rem;
 }
@@ -90,7 +90,7 @@ select {
     -webkit-appearance: none;
 } */
 
-#imgClerk {
+#imgClerk, #imgUser {
     width: 7rem;
     height: 7rem;
     border-radius: 100%;
@@ -122,6 +122,32 @@ select {
     display: flex;
     flex-direction: column;
     margin-top: 1.5rem;
+}
+
+.input-field.settings {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.input-field.settings .select {flex: 1;}
+
+.input-field [type=color] {
+    height: 3rem;
+    width: 3rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    border: none;    
+    cursor: pointer;
+}
+
+.input-field [type=color]::-webkit-color-swatch,
+.input-field [type=color]::-moz-color-swatch {
+    border: none;
+    border-radius: 5px;
 }
 
 /* <select>-element itself !! */

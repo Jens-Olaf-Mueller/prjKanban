@@ -163,25 +163,23 @@
             <div class="form-column">
                 <h2 class="form-title">Settings</h2>
 
-                <div class="input-field">
-                    <label for="selPriority">PRIORITY</label>
+                <div class="input-field settings">
+                    <label for="selPriority">PRIORITY</label>                    
                     <div class="select">
                         <select id="selPriority"></select>
-                    </div>
+                    </div><input type="color">
                 </div>
 
                 <div class="input-field">
                     <label for="selCategory">CATEGORY</label>
-                    <div class="select">
-                        <select id="selCategory"></select>
-                    </div>
+                    <input list="lstCategory" id="selCategory">
+                    <datalist id="lstCategory"></datalist>
                 </div>
 
                 <div class="input-field">
                     <label for="optColumns">COLUMNS</label>
-                    <div class="select">
-                        <select id="optColumns"></select>
-                    </div>
+                    <input list="lstColumns" id="optColumns">
+                    <datalist id="lstColumns"></datalist>
                 </div>
 
             </div>
@@ -192,7 +190,10 @@
                     <input id="inpNewUser" type="text">
 
                     <div id="divUsers" class="clerk grab" data-tooltip="click to upload foto">
-                        <img id="imgClerk" src="./img/profile-dummy.png" alt="">
+                        <label for="inpUserImage">
+                            <input id="inpUserImage" type="file" style="display:none;" accept="image/jpg, image/jpeg, image/png" onchange="uploadFile(event)">
+                            <img id="imgUser" src="./img/profile-dummy.png" alt="">
+                        </label>
                         <!-- <div class="plus" type="button" onclick=""></div> -->
                     </div>
 

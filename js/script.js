@@ -356,8 +356,8 @@ function showTrash(visible) {
 function showSettings(visible) {
     if (visible) {
         initSelectionFields('selPriority');
-        initSelectionFields('selCategory');
-        initSelectionFields('optColumns');
+        initSelectionFields('lstCategory');
+        initSelectionFields('lstColumns');
 
         $('divSettings').classList.remove('hidden');
         closeSections('board backlog form trash');
@@ -395,6 +395,14 @@ function printTask(index) {
 // or by pressing the enter key!
 function executeSearch() {
     todo('Suche ist noch nicht implementiert!');
+}
+
+function uploadFile(event) {    
+    let userImage = $('imgUser');
+    userImage.src = URL.createObjectURL(event.target.files[0]);
+    userImage.onload = function() {
+        URL.revokeObjectURL(userImage.src); // free memory
+    }
 }
 
 //  #####################################################################################
