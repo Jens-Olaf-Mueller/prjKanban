@@ -29,8 +29,7 @@
             // msgBox (`Ich habe die Backend-Datei mit in den .js-Ordner verschoben. <br><br>Die Messagebox- sowie die $-Funktion sind integriert, alle Aufrufe geändert.<br>Die Messagebox hat eine eigene .js- und CSS-Datei.<br><br> Diese Meldung (Zeile 28 index.html) nehmen wir später wieder raus! ;-)`, 'Hallo Sebastian & John!','Ok', false, true);
 
             await downloadFromServer();
-            arrTasks = JSON.parse(backend.getItem('arrTasks')) || [];
-            arrTrash = JSON.parse(backend.getItem('arrTrash')) || [];
+            taskDownload();
             renderTasks();
         }
     </script>

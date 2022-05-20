@@ -55,6 +55,11 @@ function serverUpdate() {
     backend.setItem('arrTrash', JSON.stringify(arrTrash));
 }
 
+function taskDownload() {
+    arrTasks = JSON.parse(backend.getItem('arrTasks')) || [];
+    arrTrash = JSON.parse(backend.getItem('arrTrash')) || [];
+}
+
 // DEMOFUNKTIONEN ZUM LÖSCHEN VON TASKS
 
 function deleteAll() {
@@ -66,17 +71,20 @@ function deleteTask(i) {
     arrTasks.splice(i);
     serverUpdate();
 }
+
+
 // ##########################################################################
 
 // ANCHOR addTask
 // adds a new task or applies changes to an existing task,
 // if flag 'editMode' is set to 'true'
-function addTask() {
+async function addTask() {
+    await downloadFromServer();
+    taskDownload();
     let name = $('imgClerk').alt,
         foto = objSettings.staff.images[getStaffIndex(name)];
     if (editMode) {
         editTask(name, foto);
-        renderTasks();
     } else {
         deadlineDate = isItADate();
         arrTasks.push(generatedTask(name, foto, deadlineDate));
@@ -84,6 +92,7 @@ function addTask() {
     }
     showInputForm(false);
     serverUpdate();
+    renderTasks();
 }
 
 function editTask(name, foto) {
@@ -94,7 +103,6 @@ function editTask(name, foto) {
     arrTasks[currID].priority = $('optPriority').value;
     arrTasks[currID].staff.name = name;
     arrTasks[currID].staff.image = foto;
-    serverUpdate();
 }
 
 function isItADate() {
