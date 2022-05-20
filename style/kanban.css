@@ -283,6 +283,7 @@
     .task {
         height: 8rem !important;
         width: 6rem !important;
+        word-break: break-all;
     }
     .task h3 {
         font-size: 16px !important;
@@ -297,6 +298,9 @@
     .task img.printer {
         width: 12px !important;
         height: 12px !important;
+    }
+    .description {
+        height: 2.8rem !important;
     }
     .task img.portrait {
         width: 1.5rem !important;
