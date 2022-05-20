@@ -66,9 +66,6 @@
         </div>
 
         <div class="iconbar">
-            <!-- <img class="icon" src="./img/pen-wht.png" onclick="openInputForm()" >
-            <img class="icon" src="./img/people-wht.png" >
-            <img class="icon" src="./img/save-wht.png" >-->
             <img id="imgPlus" class="icon" src="./img/plus-wht100.png" onclick="activateMenuItem(2)" title="add new task">
             <img id="imgBin" class="icon" src="./img/trash-delete-bin.png" onclick="toggleTrash()" title="show / hide trash bin">
             <img style="margin-right: 1rem;" class="icon" src="./img/settings-wht.png" onclick="showSettings(true)" title="show settings">
@@ -223,7 +220,7 @@
     </div>
 
 
-    <div id="divTrashBin" class="trash-bin" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <div id="divTrashBin" class="trash-bin hidden" ondrop="drop(event)" ondragover="allowDrop(event)">
         <img class="deleted" src="./img/trash-blk-large.png" alt="bin" title="double click to open trash" ondblclick="showTrash(true)">
     </div>
 </body>

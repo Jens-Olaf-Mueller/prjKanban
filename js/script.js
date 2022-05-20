@@ -1,11 +1,12 @@
 // ##########################################################################
 //                          D E C L A R A T I O N S
 // ##########################################################################
-let editMode = false, // flag for edit-mode
-    boardIsVisible, // flad for board to be displayed or not
-    currID = 0, // current id in edit mode (to apply changes)
-    arrTasks = [], // array, holding the tasks
-    arrTrash = [], // array, holding the deleted tasks (maybe not required...!)
+let editMode = false,   // flag for edit-mode
+    boardIsVisible,     // flad for board to be displayed or not
+    currID = 0,         // current id in edit mode (to apply changes)
+    lastMenu = 0,       // saving the last menu we have been
+    arrTasks = [],      // array, holding the tasks
+    arrTrash = [],      // array, holding the deleted tasks (maybe not required...!)
     objSettings = {
         category: ["Marketing", "Product", "Sale", "Management"],
         priority: ["low", "medium", "important", "high"],
@@ -183,7 +184,13 @@ function activateMenuItem(index) {
     closeSmallMenu();
     if (editMode) return;
     let items = $('.menu-items >li');
-    items.forEach(item => { item.classList.remove('active') }); // first remove all other selections!
+    // first remove all other selections!
+    let i = 0;
+    items.forEach(item => { 
+        if (item.classList.contains('active')) lastMenu = i; // saving the last menu-index
+        item.classList.remove('active');
+        i++;
+    }); 
 
     switch (index) {
         case 0:
@@ -276,7 +283,7 @@ function showHelp(visible) {
     if (visible) todo('Help-Sektion ist noch nicht implementiert!');
 }
 
-// display OR close the input-form:
+// ANCHOR display OR close the input-form:
 // if id is omitted         --> add a NEW task
 // if id = 'false'          --> close the form!
 // if id contains a task    --> edit the provided task
