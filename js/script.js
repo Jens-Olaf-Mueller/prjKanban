@@ -160,13 +160,14 @@ function filterTasks() {
 }
 
 function generateFilterTask(task, container, search) {
-    if (task.title.toLowerCase().includes(search) && container.classList.contains(task.status)) {
+    let stateIsValid = container.classList.contains(task.status);
+    if (task.title.toLowerCase().includes(search) && stateIsValid) {
         container.innerHTML += generateTaskHTML(task);
-    } else if (task.description.toLowerCase().includes(search) && container.classList.contains(task.status)) {
+    } else if (task.description.toLowerCase().includes(search) && stateIsValid) {
         container.innerHTML += generateTaskHTML(task);
-    } else if (task.deadline.toLowerCase().includes(search) && container.classList.contains(task.status)) {
+    } else if (task.deadline.toLowerCase().includes(search) && stateIsValid) {
         container.innerHTML += generateTaskHTML(task);
-    } else if (task.staff.name.toLowerCase().includes(search) && container.classList.contains(task.status)) {
+    } else if (task.staff.name.toLowerCase().includes(search) && stateIsValid) {
         container.innerHTML += generateTaskHTML(task);
     }
 }
