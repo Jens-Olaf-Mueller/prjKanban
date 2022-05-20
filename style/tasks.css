@@ -78,7 +78,7 @@ h3::-webkit-scrollbar {
     /* right: 0.5rem; */
 }
 
-.task img.printer {
+.task img.task-icons {
     position: absolute;
     top: 6px;
     right: 6px;
@@ -89,7 +89,7 @@ h3::-webkit-scrollbar {
     opacity: 0.7;
 }
 
-.task .printer:hover {
+.task .task-icons:hover {
     opacity: 1;
 }
 

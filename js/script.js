@@ -3,6 +3,7 @@
 // ##########################################################################
 let editMode = false,   // flag for edit-mode
     boardIsVisible,     // flad for board to be displayed or not
+    trashState = 0,     // triple-flag for trash bin to  hide [0] | display [1] | show column [2]
     currID = 0,         // current id in edit mode (to apply changes)
     lastMenu = 0,       // saving the last menu we have been
     arrTasks = [],      // array, holding the tasks
@@ -16,6 +17,7 @@ let editMode = false,   // flag for edit-mode
         },
         columns: ["to do", "scheduled", "in progress", "done"]
     };
+const DELETED = 'deleted'; // global constant for easier access
 
 // for demo only
 // ##########################################################################
@@ -50,7 +52,6 @@ function generateDemoTasks(rnd, i, arrState) {
 }
 
 // Pushes all relevant arrays to the server after changes where made on the board (at the moment create & edit tasks)
-
 function serverUpdate() {
     backend.setItem('arrTasks', JSON.stringify(arrTasks));
     backend.setItem('arrTrash', JSON.stringify(arrTrash));
@@ -61,16 +62,15 @@ function taskDownload() {
     arrTrash = JSON.parse(backend.getItem('arrTrash')) || [];
 }
 
-// DEMOFUNKTIONEN ZUM LÖSCHEN VON TASKS
-
-function deleteAll() {
-    arrTasks = [];
-    serverUpdate();
-}
-
-function deleteTask(i) {
-    arrTasks.splice(i);
-    serverUpdate();
+// deletes a task completely from array and server
+async function killTask(id) {
+    playSound ('notify.mp3');
+    if (await msgBox(`Are you sure, you want to remove this task completely? <br>
+        This operation cannot be reversed!`, 'Please confirm!','Yes,No',true,true) == 'Yes') {
+        arrTasks.splice(id,1);
+        serverUpdate();
+        renderTasks();
+    }    
 }
 
 
@@ -175,7 +175,8 @@ function generateTaskHTML(task) {
     return `
     <div id="task-${task.id}" class="task grab ${task.priority}" draggable="true" ondragstart="drag(event)" 
         ondblclick ="showInputForm(${task.id})" title="double-click for edit!">
-        <img class="printer" src="./img/printer48.png" onclick="printTask(${task.id})" title ="print task">
+        <img class="task-icons" src="./img/printer48.png" onclick="printTask(${task.id})" title ="print task">
+        <img class="task-icons hidden" src="./img/trash48.png" onclick="killTask(${task.id})" title ="remove task">
         <div>
             <h3>${task.title}</h3>
             <p class="description">${task.description}</p>
@@ -184,7 +185,7 @@ function generateTaskHTML(task) {
             <p>${task.deadline}</p> 
             <img class="portrait" src ="./img/${task.staff.image}" title="${task.staff.name}">
         </div>
-    </div>`; //&#9754
+    </div>`; 
 }
 
 // selects the given menu-item
@@ -230,7 +231,7 @@ function activateMenuItem(index) {
 function hideIcons(status) {
     $('imgBin').classList.toggle('hidden', status);
     $('imgPlus').classList.toggle('hidden', status);
-    $('divTrashBin').classList.toggle('hidden', status);
+    // $('divTrashBin').classList.toggle('hidden', status);
 }
 
 // helper-function for fnc 'activateMenuItem': closes all open forms & div's
@@ -239,7 +240,7 @@ function closeSections(section) {
     if (section.includes('backlog')) showBackLog(false);
     if (section.includes('form')) showInputForm(false);
     if (section.includes('help')) showHelp(false);
-    if (section.includes('trash')) showTrash(false);
+    if (section.includes('trash')) toggleTrash(false);
     if (section.includes('settings')) showSettings(false);
     boardIsVisible = false; // reset flag!
 }
@@ -316,7 +317,7 @@ function showInputForm(id) {
         loadTaskData(id);
     }
     form.classList.remove('hidden');
-    toggleTrash(true);
+    toggleTrash(false);
     $('frmTitle').innerHTML = editMode ? 'Edit task' : 'Add task';
     $('btnSubmit').innerHTML = editMode ? 'APPLY CHANGES' : 'CREATE TASK';
 }
@@ -366,25 +367,40 @@ function getIDNumber(task) {
 
 // displays or hides the trash bin in the lower right corner
 // if we are in input- or edit mode, trash bin is ALWAYS off! (force = true)
-function toggleTrash(force) {
-    let trashIsVisible = !$('divTrash').classList.contains('hidden');
-    if (trashIsVisible) {
-        $('divTrash').classList.add('hidden');
-        return;
-    }
-    let formIsVisible = !$('divInput').classList.contains('hidden');
-    force = formIsVisible ? true : force;
-    $('divTrashBin').classList.toggle('hidden', force);
-}
+// function toggleTrash_old(force) {
+//     let trashIsVisible = !$('divTrash').classList.contains('hidden');
+//     if (trashIsVisible) {
+//         $('divTrash').classList.add('hidden');
+//         return;
+//     }
+//     let formIsVisible = !$('divInput').classList.contains('hidden');
+//     force = formIsVisible ? true : force;
+//     $('divTrashBin').classList.toggle('hidden', force);
+// }
 
-// displays all task in trash array ANCHOR showTrash
-function showTrash(visible) {
-    if (visible) {
-        // closeSections('board backlog form help');
-        $('divTrash').classList.remove('hidden');
-        $('divTrashBin').classList.add('hidden');
-    } else {
-        $('divTrash').classList.add('hidden');
+function toggleTrash (state) {
+    let trashBin =  $('divTrashBin'),
+        delColumn = $('divTrash');
+    if (state) {
+        trashState = state;
+    } else if (state != false) {
+        trashState++;
+        if (trashState > 2) trashState = 0;
+    }
+
+    switch (trashState) {
+        case 1:
+            trashBin.classList.remove('hidden');
+            delColumn.classList.add('hidden');
+            break;
+        case 2:
+            trashBin.classList.add('hidden');
+            delColumn.classList.remove('hidden');
+            break;
+        default: // 0 or false!!!
+            trashBin.classList.add('hidden');
+            delColumn.classList.add('hidden');
+            break;
     }
 }
 
@@ -418,19 +434,13 @@ function printTask(index) {
         } </style>`);
     printWindow.document.write('</head><body class="print-window">');
     printWindow.document.write(divContent);
-    printWindow.document.getElementsByClassName('printer')[0].remove();
+    printWindow.document.getElementsByClassName('task-icons')[0].remove();
     let foto = printWindow.document.getElementsByClassName('portrait')[0];
     foto.style.height = '200px';
     foto.style.width = '150px';
     printWindow.document.write('</body></html>');
     printWindow.document.close();
     printWindow.print();
-}
-
-// executes the search either from click on the magnifier icon
-// or by pressing the enter key!
-function executeSearch() {
-    todo('Suche ist noch nicht implementiert!');
 }
 
 function uploadFile(event) {    
@@ -460,15 +470,28 @@ function drop(event) {
     event.preventDefault();
     let data = event.dataTransfer.getData('text'),
         child = $(data),
-        id = getIDNumber(child);
-    let status = event.target.classList[0];
+        id = getIDNumber(child),
+        status = event.target.classList[0],
+        dropAllowed = event.target.dataset.candrop,
+        icons = $('#' + child.id + ' .task-icons');
+
+    // we leave if dropping is forbidden, in order to avoid dropping tasks in each other
+    if (!dropAllowed) {
+        playSound('wrong.mp3');
+        return;
+    }    
 
     // deleting per drag'n drop is an exception:
     // we can drag from another column or drop into the bin!
-    if (status == 'deleted') {
+    if (status == DELETED) {
+        icons[0].classList.add('hidden');
+        icons[1].classList.remove('hidden');
         $('#divTrash .deleted').appendChild(child);
+        arrTasks[id].status = status;
         return;
     }
+    icons[0].classList.remove('hidden');
+    icons[1].classList.add('hidden');
     event.target.appendChild(child);
     arrTasks[id].status = status;
     serverUpdate();

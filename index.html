@@ -60,7 +60,8 @@
         </ul>
 
         <div class="searchbar">
-            <img src="./img/magnifying-glass.png" onclick="executeSearch()">
+            <!-- <img src="./img/magnifying-glass.png" onclick="executeSearch()"> -->
+            <img src="./img/magnifying-glass.png">
             <input id="search" onkeyup="filterTasks()" type="text" placeholder="search">
         </div>
 
@@ -72,37 +73,30 @@
     </header>
 
     <div>
-        <!--id="mainContent" -->
-        <aside>
-            <div id="aside" class="side-menu hidden"></div>
-        </aside>
-
         <div id="divMainBoard" class="main-content main-board ">
-            <!--class=""-->
-            <!-- bei flx-ctr height  hinzufügen und leicht anpassen -->
             <div class="columns">
                 <h3>TO DO</h3>
-                <div class="todo flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="todo flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)" data-candrop="true"></div>
             </div>
 
             <div class="columns">
                 <h3>SCHEDULED</h3>
-                <div class="schedule flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)"> </div>
+                <div class="schedule flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)" data-candrop="true"></div>
             </div>
 
             <div class="columns">
                 <h3>IN PROGRESS</h3>
-                <div class="progress flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="progress flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)" data-candrop="true"></div>
             </div>
 
             <div class="columns">
                 <h3>DONE</h3>
-                <div class="done flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="done flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)" data-candrop="true"></div>
             </div>
 
             <div id="divTrash" class="trash columns hidden">
                 <h3 class="headline">DELETED</h3>
-                <div class="deleted flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="deleted flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)" data-candrop="true"></div>
             </div>
         </div>
     </div>
@@ -220,14 +214,7 @@
 
 
     <div id="divTrashBin" class="trash-bin hidden" ondrop="drop(event)" ondragover="allowDrop(event)">
-        <img class="deleted" src="./img/trash-blk-large.png" alt="bin" title="double click to open trash" ondblclick="showTrash(true)">
+        <img class="deleted" src="./img/trash-blk-large.png" alt="bin" title="double click to open trash" ondblclick="toggleTrash(2)" data-candrop="true"> 
     </div>
 </body>
-
 </html>
-
-<!--
-    andere Schriftart 
-    Mülleimersymbol bearbeiten
-    einheitliche Schriftform (max 2 Formen)
- -->
