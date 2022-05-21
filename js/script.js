@@ -18,47 +18,23 @@ let editMode = false,   // flag for edit-mode
     };
 const DELETED = 'deleted'; // global constant for easier access
 
-// for demo only
-// ##########################################################################
-//createTasks(4); // nur zu Demozwecken!
-//renderTasks();
-activateMenuItem(0);
+// setURL('https://gruppe-220.developerakademie.net/smallest_backend_ever');
 
-function createTasks(count) {
-    let arrState = ['todo', 'schedule', 'progress', 'done', 'deleted'];
-
-    for (let i = 0; i < count; i++) {
-        const rnd = getRandom(0, objSettings.staff.names.length - 1);
-        arrTasks.push(generateDemoTasks(rnd, i, arrState))
-
-    }
-}
-
-function generateDemoTasks(rnd, i, arrState) {
-    return {
-        id: i,
-        title: `Task ${i+1}`,
-        description: `Das ist die Task-Beschreibung #${2+i*i-1}`,
-        category: objSettings.category[rnd],
-        deadline: `${today()}`,
-        priority: objSettings.priority[rnd],
-        staff: {
-            name: objSettings.staff.names[rnd],
-            image: objSettings.staff.images[rnd]
-        },
-        status: arrState[i]
-    }
+async function init() {
+    // renderBoardColumns();
+    await downloadFromServer();
+    taskDownload();    
+    renderTasks();
+    activateMenuItem(0);
 }
 
 // Pushes all relevant arrays to the server after changes where made on the board (at the moment create & edit tasks)
 function serverUpdate() {
     backend.setItem('arrTasks', JSON.stringify(arrTasks));
-    backend.setItem('arrTrash', JSON.stringify(arrTrash));
 }
 
 function taskDownload() {
     arrTasks = JSON.parse(backend.getItem('arrTasks')) || [];
-    arrTrash = JSON.parse(backend.getItem('arrTrash')) || [];
 }
 
 // deletes a task completely from array and server
@@ -67,12 +43,10 @@ async function killTask(id) {
     if (await msgBox(`Are you sure, you want to remove this task completely? <br>
         This operation cannot be reversed!`, 'Please confirm!','Yes,No',true,true) == 'Yes') {
         arrTasks.splice(id,1);
-        serverUpdate();
         renderTasks();
+        serverUpdate();        
     }    
 }
-
-// ##########################################################################
 
 // ANCHOR addTask
 // adds a new task or applies changes to an existing task,
@@ -81,15 +55,15 @@ async function addTask() {
     await downloadFromServer();
     taskDownload();
     let name = $('imgClerk').alt,
-        foto = objSettings.staff.images[getStaffIndex(name)];
+        foto = objSettings.staff.images[getStaffIndex(name)],
+        deadline = $('inpDeadline').value.isDate();
     if (editMode) {
         editTask(name, foto);
-    } else {
-        deadlineDate = isItADate();
-        arrTasks.push(generatedTask(name, foto, deadlineDate));
+    } else {        
+        deadline = deadline ? deadline : today();
+        arrTasks.push(generatedTask(name, foto, deadline));
         activateMenuItem(0); // display the board after adding new task!
     }
-    showInputForm(false);
     serverUpdate();
     renderTasks();
 }
@@ -102,14 +76,6 @@ function editTask(name, foto) {
     arrTasks[currID].priority = $('optPriority').value;
     arrTasks[currID].staff.name = name;
     arrTasks[currID].staff.image = foto;
-}
-
-function isItADate() {
-    let deadlineDate = $('inpDeadline').value;
-    if (deadlineDate == "") {
-        deadlineDate = today();
-    };
-    return deadlineDate;
 }
 
 function generatedTask(name, foto, deadlineDate) {
@@ -140,6 +106,19 @@ function renderTasks() {
                 container.innerHTML += generateTaskHTML(task);
             }
         }
+        setTaskIconState (task);
+    }
+}
+
+// deteremines if we show a printer or bin in the task headline, depending on state
+function setTaskIconState (task) {      
+    const icons = $('#task-' + task.id + ' .task-icons');
+    if (task.status == DELETED) {
+        icons[0].classList.add('hidden');
+        icons[1].classList.remove('hidden');
+    } else {
+        icons[0].classList.remove('hidden');
+        icons[1].classList.add('hidden');
     }
 }
 
@@ -352,7 +331,7 @@ function getStaffIndex(name) {
 // returns the id as number, provided by the HTML-id
 function getIDNumber(task) {
     let tmp = (task.id).split('-');
-    return tmp[1];
+    return parseInt(tmp[1]);
 }
 
 function toggleTrash (state) {
@@ -444,31 +423,26 @@ function drag(event) {
 function drop(event) {
     event.preventDefault();
     let data = event.dataTransfer.getData('text'),
-        child = $(data),
-        id = getIDNumber(child),
+        task = $(data),
+        id = getIDNumber(task),
         status = event.target.classList[0],
-        dropAllowed = event.target.dataset.candrop,
-        icons = $('#' + child.id + ' .task-icons');
+        dropAllowed = event.target.dataset.candrop;
 
     // we leave if dropping is forbidden, in order to avoid dropping tasks in each other
     if (!dropAllowed) {
         playSound('wrong.mp3');
         return;
     }    
+    arrTasks[id].status = status;
+    setTaskIconState(arrTasks[id]);
 
     // deleting per drag'n drop is an exception:
     // we can drag from another column or drop into the bin!
     if (status == DELETED) {
-        icons[0].classList.add('hidden');
-        icons[1].classList.remove('hidden');
-        $('#divTrash .deleted').appendChild(child);
-        arrTasks[id].status = status;
-        return;
+        $('#divTrash .deleted').appendChild(task);     
+    } else {
+        event.target.appendChild(task);
     }
-    icons[0].classList.remove('hidden');
-    icons[1].classList.add('hidden');
-    event.target.appendChild(child);
-    arrTasks[id].status = status;
     serverUpdate();
 }
 
@@ -492,4 +466,17 @@ function closeSmallMenuWithClickOutside() {
 
 function closeSmallMenu() {
     $('small-menu-list').style = 'display: none;';
+}
+
+function renderBoardColumns() {
+    let board = $('divMainBoard');
+    board.innerHTML ='';
+    for (let i = 0; i < objSettings.columns.length; i++) {
+        const title = objSettings.columns[i].toUpperCase();
+        board.innerHTML += `
+            <div class="columns">
+                <h3>${title}</h3>
+                <div class="todo flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)" data-candrop="true"></div>
+            </div>`;
+    }
 }

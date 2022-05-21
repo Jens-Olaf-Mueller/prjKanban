@@ -18,19 +18,10 @@
     <link rel="stylesheet" href="./style/tooltip.css">
     <link rel="stylesheet" href="./style/msgstyle.css">
 
-    <script defer src="./js/kanban_library.js"></script>
-    <script defer src="./js/script.js"></script>
-    <script defer src="./js/msgbox.js"></script>
     <script src="./js/mini_backend.js"></script>
-
-    <script>
-        setURL('https://gruppe-220.developerakademie.net/smallest_backend_ever');
-        async function init() {
-            await downloadFromServer();
-            taskDownload();
-            renderTasks();
-        }
-    </script>
+    <script src="./js/kanban_library.js"></script>
+    <script defer src="./js/script.js"></script>
+    <script src="./js/msgbox.js"></script>
 </head>
 
 <body onload="init()">

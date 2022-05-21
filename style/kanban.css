@@ -1,8 +1,12 @@
+:root {
+    --header-height: 6rem;
+}
+
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /* height: var(--header-height); */
+    height: var(--header-height);
     width: 100%;
     background: navy;
     color: whitesmoke;
@@ -100,8 +104,8 @@
 .flx-ctr {
     display: flex;
     align-items: center;
-    height: 100%;
     flex-direction: column;
+    min-height: calc(100% - 2rem); /* 100% minus the h3-headline! */
 }
 
 .main-content {
@@ -113,7 +117,8 @@
 .columns {
     width: calc(100% / 4);
     background: rgb(238, 238, 238);
-    min-height: 50rem;
+    /* min-height: 50rem; */
+    min-height: calc(100vh - var(--header-height) - 1rem);
     margin: 0 8px;
     padding-bottom: 1rem;
 }
@@ -143,7 +148,6 @@
     padding: 0.5rem;
     cursor: pointer;
     font-size: large;
-    /* opacity: 0.7; */
     display: flex;
     gap: 2rem;
 }
@@ -157,19 +161,9 @@
 .menu-items li:hover,
 .menu-items .active {
     opacity: 1;
-    /* font-weight: bold; */
     border-bottom: 4px solid white;
     color: white;
 }
-
-
-/* .side-menu li {} */
-
-
-/* .side-menu li:hover,
-.side-menu .active {
-    
-} */
 
 .side-menu .active::before {
     content: '';
