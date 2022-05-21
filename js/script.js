@@ -2,12 +2,11 @@
 //                          D E C L A R A T I O N S
 // ##########################################################################
 let editMode = false,   // flag for edit-mode
-    boardIsVisible,     // flad for board to be displayed or not
+    boardIsVisible,     // flag for board to be displayed or not
     trashState = 0,     // triple-flag for trash bin to  hide [0] | display [1] | show column [2]
     currID = 0,         // current id in edit mode (to apply changes)
     lastMenu = 0,       // saving the last menu we have been
     arrTasks = [],      // array, holding the tasks
-    arrTrash = [],      // array, holding the deleted tasks (maybe not required...!)
     objSettings = {
         category: ["Marketing", "Product", "Sale", "Management"],
         priority: ["low", "medium", "important", "high"],
@@ -72,7 +71,6 @@ async function killTask(id) {
         renderTasks();
     }    
 }
-
 
 // ##########################################################################
 
@@ -190,59 +188,51 @@ function generateTaskHTML(task) {
 }
 
 // selects the given menu-item
-function activateMenuItem(index) {
+function activateMenuItem(index) {    
+    if (editMode) return; // in this cases we exit immediately
     closeSmallMenu();
-    if (editMode) return;
     let items = $('.menu-items >li');
-    // first remove all other selections!
-    let i = 0;
-    items.forEach(item => { 
-        if (item.classList.contains('active')) lastMenu = i; // saving the last menu-index
-        item.classList.remove('active');
-        i++;
-    }); 
+    // first remove all other selections and save the last menu-index!
+    for (let i = 0; i < items.length; i++) {
+        if (items[i].classList.contains('active') && index !== undefined) lastMenu = i; 
+        items[i].classList.remove('active');
+    }
 
+    closeSections();
     switch (index) {
-        case 0:
-            closeSections('backlog form help trash settings');
+        case 0:    
             showBoard(true);
             break;
         case 1:
-            closeSections('board form help trash settings');
             showBackLog(true);
             break;
-        case 2:
-            closeSections('board backlog help trash settings');
+        case 2:        
             showInputForm();
             break;
-        case 3:
-            closeSections('board backlog form trash settings');
+        case 3:        
             showHelp(true);
             break;
         default:
             return; // if no index is provided, we only unselect the links and exit
     }
-    items[index].classList.add('active');
-
-    // hide icons except from settings, when board is invisible!
-    hideIcons(!boardIsVisible);
+    items[index].classList.add('active');    
+    hideIcons(!boardIsVisible); // hide icons except from settings, when board is invisible!
 }
 
 // enables or disables the icons 'plus' and 'trash' in statusbar
 function hideIcons(status) {
     $('imgBin').classList.toggle('hidden', status);
     $('imgPlus').classList.toggle('hidden', status);
-    // $('divTrashBin').classList.toggle('hidden', status);
 }
 
 // helper-function for fnc 'activateMenuItem': closes all open forms & div's
-function closeSections(section) {
-    if (section.includes('board')) showBoard(false);
-    if (section.includes('backlog')) showBackLog(false);
-    if (section.includes('form')) showInputForm(false);
-    if (section.includes('help')) showHelp(false);
-    if (section.includes('trash')) toggleTrash(false);
-    if (section.includes('settings')) showSettings(false);
+function closeSections() {
+    $('divMainBoard').classList.add('hidden');
+    $('divInput').classList.add('hidden');
+    showBackLog(false);    
+    showHelp(false);
+    toggleTrash(false);
+    $('divSettings').classList.add('hidden');
     boardIsVisible = false; // reset flag!
 }
 
@@ -254,7 +244,6 @@ function resetForm() {
     image.src = './img/profile-dummy.png';
     image.alt = '';
     $('divClerks').dataset.tooltip = 'select clerk';
-
     form.reset();
     initSelectionFields('optCategory');
     initSelectionFields('optPriority');
@@ -263,8 +252,8 @@ function resetForm() {
 
 // initializes the form's <SELECTION>-Elements 
 function initSelectionFields(selection) {
-    let key = selection.substr(3).toLowerCase();
-    srcArray = objSettings[key],
+    let key = selection.substr(3).toLowerCase(),
+        srcArray = objSettings[key],
         select = $(selection);
     select.innerHTML = '<option value="">- please select -</option>';
     for (let i = 0; i < srcArray.length; i++) {
@@ -306,7 +295,7 @@ function showInputForm(id) {
     if (id === false) {
         form.classList.add('hidden');
         form.classList.remove('edit-mode');
-        activateMenuItem();
+        activateMenuItem(lastMenu);
         return;
     }
     // if we got a task as paramter, get in edit mode and load datas
@@ -366,25 +355,14 @@ function getIDNumber(task) {
     return tmp[1];
 }
 
-// displays or hides the trash bin in the lower right corner
-// if we are in input- or edit mode, trash bin is ALWAYS off! (force = true)
-// function toggleTrash_old(force) {
-//     let trashIsVisible = !$('divTrash').classList.contains('hidden');
-//     if (trashIsVisible) {
-//         $('divTrash').classList.add('hidden');
-//         return;
-//     }
-//     let formIsVisible = !$('divInput').classList.contains('hidden');
-//     force = formIsVisible ? true : force;
-//     $('divTrashBin').classList.toggle('hidden', force);
-// }
-
 function toggleTrash (state) {
     let trashBin =  $('divTrashBin'),
         delColumn = $('divTrash');
-    if (state) {
+    if (state === false) {
+        trashState = 0;
+    } else if (state) {
         trashState = state;
-    } else if (state != false) {
+    } else {
         trashState++;
         if (trashState > 2) trashState = 0;
     }
@@ -407,34 +385,30 @@ function toggleTrash (state) {
 
 // displays or hides the settings
 function showSettings(visible) {
-    if (visible) {
+    if (visible) {        
         initSelectionFields('selPriority');
         initSelectionFields('lstCategory');
         initSelectionFields('lstColumns');
-
-        $('divSettings').classList.remove('hidden');
-        closeSections('board backlog form trash');
+        closeSections();
+        $('divSettings').classList.remove('hidden');       
     } else {
         $('divSettings').classList.add('hidden');
+        activateMenuItem(lastMenu);
     }
-
     hideIcons(true);
 }
 
 // short print-function
 function printTask(index) {
-    let divContent = $('task-' + index).innerHTML,
-        printWindow = window.open('', '', 'height=720,width=1000');
-
+    let printWindow = window.open('', '', 'height=720,width=1000');
     printWindow.document.write('<html><head><title>Task drucken</title>');
-    printWindow.document.write(`<style> 
-        .print-window {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        } </style>`);
+    printWindow.document.write(`<style> .print-window {
+                                    display: flex;
+                                    flex-direction: column;
+                                    align-items: center;}
+                                </style>`);
     printWindow.document.write('</head><body class="print-window">');
-    printWindow.document.write(divContent);
+    printWindow.document.write($('task-' + index).innerHTML);
     printWindow.document.getElementsByClassName('task-icons')[0].remove();
     let foto = printWindow.document.getElementsByClassName('portrait')[0];
     foto.style.height = '200px';

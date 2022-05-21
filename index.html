@@ -26,8 +26,6 @@
     <script>
         setURL('https://gruppe-220.developerakademie.net/smallest_backend_ever');
         async function init() {
-            // msgBox (`Ich habe die Backend-Datei mit in den .js-Ordner verschoben. <br><br>Die Messagebox- sowie die $-Funktion sind integriert, alle Aufrufe geändert.<br>Die Messagebox hat eine eigene .js- und CSS-Datei.<br><br> Diese Meldung (Zeile 28 index.html) nehmen wir später wieder raus! ;-)`, 'Hallo Sebastian & John!','Ok', false, true);
-
             await downloadFromServer();
             taskDownload();
             renderTasks();
@@ -60,7 +58,6 @@
         </ul>
 
         <div class="searchbar">
-            <!-- <img src="./img/magnifying-glass.png" onclick="executeSearch()"> -->
             <img src="./img/magnifying-glass.png">
             <input id="search" onkeyup="filterTasks()" type="text" placeholder="search">
         </div>
@@ -95,7 +92,7 @@
             </div>
 
             <div id="divTrash" class="trash columns hidden">
-                <h3 class="headline">DELETED</h3>
+                <h3>DELETED</h3>
                 <div class="deleted flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)" data-candrop="true"></div>
             </div>
         </div>
@@ -113,9 +110,7 @@
 
                 <div class="input-field">
                     <label for="optCategory">CATEGORY</label>
-                    <div class="select">
-                        <select id="optCategory"></select>
-                    </div>
+                    <div class="select"> <select id="optCategory"></select> </div>
                 </div>
 
                 <div class="input-field">
@@ -132,9 +127,7 @@
 
                 <div class="input-field">
                     <label for="optPriority">PRIORITY</label>
-                    <div class="select">
-                        <select id="optPriority"></select>
-                    </div>
+                    <div class="select"> <select id="optPriority"></select> </div>
                 </div>
 
                 <div class="input-field">
@@ -196,7 +189,6 @@
                             <input id="inpUserImage" type="file" style="display:none;" accept="image/jpg, image/jpeg, image/png" onchange="uploadFile(event)">
                             <img id="imgUser" src="./img/profile-dummy.png" alt="">
                         </label>
-                        <!-- <div class="plus" type="button" onclick=""></div> -->
                     </div>
 
                     <div class="form-buttons">
@@ -211,7 +203,6 @@
             </div>
         </form>
     </div>
-
 
     <div id="divTrashBin" class="trash-bin hidden" ondrop="drop(event)" ondragover="allowDrop(event)">
         <img class="deleted" src="./img/trash-blk-large.png" alt="bin" title="double click to open trash" ondblclick="toggleTrash(2)" data-candrop="true"> 
