@@ -1,12 +1,12 @@
 // ##########################################################################
 //                          D E C L A R A T I O N S
 // ##########################################################################
-let editMode = false,   // flag for edit-mode
-    boardIsVisible,     // flag for board to be displayed or not
-    trashState = 0,     // triple-flag for trash bin to  hide [0] | display [1] | show column [2]
-    currID = 0,         // current id in edit mode (to apply changes)
-    lastMenu = 0,       // saving the last menu we have been
-    arrTasks = [],      // array, holding the tasks
+let editMode = false, // flag for edit-mode
+    boardIsVisible, // flag for board to be displayed or not
+    trashState = 0, // triple-flag for trash bin to  hide [0] | display [1] | show column [2]
+    currID = 0, // current id in edit mode (to apply changes)
+    lastMenu = 0, // saving the last menu we have been
+    arrTasks = [], // array, holding the tasks
     objSettings = {
         category: ["Marketing", "Product", "Sale", "Management"],
         priority: ["low", "medium", "important", "high"],
@@ -17,7 +17,7 @@ let editMode = false,   // flag for edit-mode
         columns: ["to do", "scheduled", "in progress", "done"]
     };
 // global constants for easier access
-const DELETED = 'deleted'; 
+const DELETED = 'deleted';
 const MENUITEMS = $('.menu-items >li');
 
 // setURL('https://gruppe-220.developerakademie.net/smallest_backend_ever');
@@ -25,7 +25,7 @@ const MENUITEMS = $('.menu-items >li');
 async function init() {
     // renderBoardColumns();
     await downloadFromServer();
-    taskDownload();    
+    taskDownload();
     renderTasks();
     activateMenuItem(0);
 }
@@ -41,13 +41,13 @@ function taskDownload() {
 
 // deletes a task completely from array and server
 async function killTask(id) {
-    playSound ('notify.mp3');
+    playSound('notify.mp3');
     if (await msgBox(`Are you sure, you want to remove this task completely? <br>
-        This operation cannot be reversed!`, 'Please confirm!','Yes,No',true,true) == 'Yes') {
-        arrTasks.splice(id,1);
+        This operation cannot be reversed!`, 'Please confirm!', 'Yes,No', true, true) == 'Yes') {
+        arrTasks.splice(id, 1);
         renderTasks();
-        serverUpdate();        
-    }    
+        serverUpdate();
+    }
 }
 
 // ANCHOR addTask
@@ -61,7 +61,7 @@ async function addTask() {
         deadline = $('inpDeadline').value.isDate();
     if (editMode) {
         editTask(name, foto);
-    } else {        
+    } else {
         deadline = deadline ? deadline : today();
         arrTasks.push(generatedTask(name, foto, deadline));
         activateMenuItem(0); // display the board after adding new task!
@@ -108,12 +108,12 @@ function renderTasks() {
                 container.innerHTML += generateTaskHTML(task);
             }
         }
-        setTaskIconState (task);
+        setTaskIconState(task);
     }
 }
 
 // deteremines if we show a printer or bin in the task headline, depending on state
-function setTaskIconState (task) {      
+function setTaskIconState(task) {
     const icons = $('#task-' + task.id + ' .task-icons');
     if (task.status == DELETED) {
         icons[0].classList.add('hidden');
@@ -165,11 +165,11 @@ function generateTaskHTML(task) {
             <p>${task.deadline}</p> 
             <img class="portrait" src ="./img/${task.staff.image}" title="${task.staff.name}">
         </div>
-    </div>`; 
+    </div>`;
 }
 
 // selects the given menu-item
-function activateMenuItem(index) {    
+function activateMenuItem(index) {
     if (editMode) return; // in this cases we exit immediately
     closeSmallMenu();
     getActiveMenuItem();
@@ -180,30 +180,30 @@ function activateMenuItem(index) {
 
     closeSections();
     switch (index) {
-        case 0:    
+        case 0:
             showBoard(true);
             break;
         case 1:
             showBackLog(true);
             break;
-        case 2:        
+        case 2:
             showInputForm();
             break;
-        case 3:        
+        case 3:
             showHelp(true);
             break;
         default:
             return; // if no index is provided, we only unselect the links and exit
     }
-    MENUITEMS[index].classList.add('active');    
+    MENUITEMS[index].classList.add('active');
     hideIcons(!boardIsVisible); // hide icons except from settings, when board is invisible!
 }
 
 // saves the active menu item in the global variable 'lastMenu'
 // in order to return to the previous menu when cancelled (used in add task and settings)
-function getActiveMenuItem () {
+function getActiveMenuItem() {
     for (let i = 0; i < MENUITEMS.length; i++) {
-        if (MENUITEMS[i].classList.contains('active')) lastMenu = i;        
+        if (MENUITEMS[i].classList.contains('active')) lastMenu = i;
     }
 }
 
@@ -217,7 +217,7 @@ function hideIcons(status) {
 function closeSections() {
     $('divMainBoard').classList.add('hidden');
     $('divInput').classList.add('hidden');
-    showBackLog(false);    
+    showBackLog(false);
     showHelp(false);
     toggleTrash(false);
     $('divSettings').classList.add('hidden');
@@ -348,8 +348,8 @@ function getIDNumber(task) {
     return parseInt(tmp[1]);
 }
 
-function toggleTrash (state) {
-    let trashBin =  $('divTrashBin'),
+function toggleTrash(state) {
+    let trashBin = $('divTrashBin'),
         delColumn = $('divTrash');
     if (state === false) {
         trashState = 0;
@@ -378,13 +378,13 @@ function toggleTrash (state) {
 
 // displays or hides the settings
 function showSettings(visible) {
-    if (visible) {        
+    if (visible) {
         initSelectionFields('selPriority');
         initSelectionFields('lstCategory');
         initSelectionFields('lstColumns');
         getActiveMenuItem();
         closeSections();
-        $('divSettings').classList.remove('hidden');       
+        $('divSettings').classList.remove('hidden');
     } else {
         $('divSettings').classList.add('hidden');
         activateMenuItem(lastMenu);
@@ -412,7 +412,7 @@ function printTask(index) {
     printWindow.print();
 }
 
-function uploadFile(event) {    
+function uploadFile(event) {
     let userImage = $('imgUser');
     userImage.src = URL.createObjectURL(event.target.files[0]);
     userImage.onload = function() {
@@ -447,14 +447,14 @@ function drop(event) {
     if (!dropAllowed) {
         playSound('wrong.mp3');
         return;
-    }    
+    }
     arrTasks[id].status = status;
     setTaskIconState(arrTasks[id]);
 
     // deleting per drag'n drop is an exception:
     // we can drag from another column or drop into the bin!
     if (status == DELETED) {
-        $('#divTrash .deleted').appendChild(task);     
+        $('#divTrash .deleted').appendChild(task);
     } else {
         event.target.appendChild(task);
     }
@@ -464,14 +464,14 @@ function drop(event) {
 //  ###########################################
 //  ###             M  E  N  U              ###
 //  ###########################################
-function toggleMenu () {
-    let menu= $('mainmenu');
+function toggleMenu() {
+    let menu = $('mainmenu');
     debugger
     if (menu.style.display == 'display: flex;flex-direction: column;') {
         console.log(menu.style);
     }
 }
- 
+
 
 
 function openMenu() {
@@ -498,7 +498,7 @@ function closeSmallMenu() {
 
 function renderBoardColumns() {
     let board = $('divMainBoard');
-    board.innerHTML ='';
+    board.innerHTML = '';
     for (let i = 0; i < objSettings.columns.length; i++) {
         const title = objSettings.columns[i].toUpperCase();
         board.innerHTML += `
