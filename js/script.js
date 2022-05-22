@@ -61,6 +61,8 @@ async function addTask() {
         deadline = $('inpDeadline').value.isDate();
     if (editMode) {
         editTask(name, foto);
+        editMode = false;
+        activateMenuItem(lastMenu);
     } else {
         deadline = deadline ? deadline : today();
         arrTasks.push(generatedTask(name, foto, deadline));
@@ -295,6 +297,7 @@ function showInputForm(id) {
     // if id is 'undefined' we are supposed to create a new task!
     if (id != undefined) {
         editMode = true;
+        getActiveMenuItem();
         currID = id; // save the id for apply changes!
         form.classList.add('edit-mode');
         loadTaskData(id);
