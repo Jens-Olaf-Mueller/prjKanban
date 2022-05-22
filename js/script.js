@@ -16,7 +16,9 @@ let editMode = false,   // flag for edit-mode
         },
         columns: ["to do", "scheduled", "in progress", "done"]
     };
-const DELETED = 'deleted'; // global constant for easier access
+// global constants for easier access
+const DELETED = 'deleted'; 
+const MENUITEMS = $('.menu-items >li');
 
 // setURL('https://gruppe-220.developerakademie.net/smallest_backend_ever');
 
@@ -170,11 +172,10 @@ function generateTaskHTML(task) {
 function activateMenuItem(index) {    
     if (editMode) return; // in this cases we exit immediately
     closeSmallMenu();
-    let items = $('.menu-items >li');
+    getActiveMenuItem();
     // first remove all other selections and save the last menu-index!
-    for (let i = 0; i < items.length; i++) {
-        if (items[i].classList.contains('active') && index !== undefined) lastMenu = i; 
-        items[i].classList.remove('active');
+    for (let i = 0; i < MENUITEMS.length; i++) {
+        MENUITEMS[i].classList.remove('active');
     }
 
     closeSections();
@@ -194,8 +195,16 @@ function activateMenuItem(index) {
         default:
             return; // if no index is provided, we only unselect the links and exit
     }
-    items[index].classList.add('active');    
+    MENUITEMS[index].classList.add('active');    
     hideIcons(!boardIsVisible); // hide icons except from settings, when board is invisible!
+}
+
+// saves the active menu item in the global variable 'lastMenu'
+// in order to return to the previous menu when cancelled (used in add task and settings)
+function getActiveMenuItem () {
+    for (let i = 0; i < MENUITEMS.length; i++) {
+        if (MENUITEMS[i].classList.contains('active')) lastMenu = i;        
+    }
 }
 
 // enables or disables the icons 'plus' and 'trash' in statusbar
@@ -373,6 +382,7 @@ function showSettings(visible) {
         initSelectionFields('selPriority');
         initSelectionFields('lstCategory');
         initSelectionFields('lstColumns');
+        getActiveMenuItem();
         closeSections();
         $('divSettings').classList.remove('hidden');       
     } else {
@@ -456,8 +466,8 @@ function drop(event) {
 //  ###########################################
 function toggleMenu () {
     let menu= $('mainmenu');
+    debugger
     if (menu.style.display == 'display: flex;flex-direction: column;') {
-    let menu= $('mainmenu');
         console.log(menu.style);
     }
 }
