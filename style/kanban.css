@@ -256,12 +256,69 @@
     cursor: -webkit-grabbing;
 }
 
+.help-section {
+    padding: 1rem;
+}
+.help-section summary {
+    /* padding: 0.5rem 1rem 0.5rem 0; */
+    padding: 0.5rem 1rem;
+    font-size: larger;
+    font-weight: bold;
+    cursor: pointer;
+    max-width: fit-content;
+}
+
+.help-section summary:hover {
+    color: whitesmoke;
+    background-color: navy;
+}
+
+.help-section summary::marker {color: navy;}
+.help-section summary:hover::marker {color: whitesmoke;}
+
+.help-section details p {padding: 1rem;}
+
+.help-section details[open] {color: navy;}
+
+.help-section details ol {
+    font-weight: bold;
+    padding-left: 2rem;
+}
+
+.help-section .code {
+    border: 1px solid silver;
+    border-radius: 3px;
+    padding: 0.15rem 0.5rem;
+    margin: 2px;
+    background-color: #eee;
+    font-size: smaller;
+}
+
+.red {color: red;}
 
 /* ############################################################################################# */
-
+/*                             R  E  S  P  O  N  S  I  V  E                                      */
+/* ############################################################################################# */
 @media (max-width: 1100px) {
     .menu-items {
         display: none;
+        /* display: flex; */
+        flex-direction: column;
+        position: absolute;
+        top: 6rem;
+        background-color: navy;
+        min-width: 10rem;
+        
+    }
+    .menu-items li {
+        border-bottom: none;
+        border-left: 4px solid transparent;
+        padding-left: 0.33rem;
+    }
+    .menu-items li:hover,
+    .menu-items .active {
+        border-bottom: none;
+        border-left: 4px solid white;
     }
     .small-menu {
         display: unset;

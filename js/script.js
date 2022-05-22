@@ -258,7 +258,12 @@ function showBackLog(visible) {
 }
 
 function showHelp(visible) {
-    if (visible) todo('Help-Sektion ist noch nicht implementiert!');
+    let help = $('divHelp');
+    if (visible) {
+        help.classList.remove('hidden');
+    } else {
+        help.classList.add('hidden');
+    }
 }
 
 // ANCHOR display OR close the input-form:
@@ -445,6 +450,19 @@ function drop(event) {
     }
     serverUpdate();
 }
+
+//  ###########################################
+//  ###             M  E  N  U              ###
+//  ###########################################
+function toggleMenu () {
+    let menu= $('mainmenu');
+    if (menu.style.display == 'display: flex;flex-direction: column;') {
+    let menu= $('mainmenu');
+        console.log(menu.style);
+    }
+}
+ 
+
 
 function openMenu() {
     smallMenu = $('small-menu-list');

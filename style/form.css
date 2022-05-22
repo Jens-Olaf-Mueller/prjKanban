@@ -56,6 +56,11 @@
     margin-top: 2rem;
 }
 
+.input-form label[required]::after {
+    content: ' *';
+    color: red;
+}
+
 .input-form label,
 .input-form button {
     color: navy;
