@@ -265,7 +265,14 @@ function showBoard(visible) {
 }
 
 function showBackLog(visible) {
-    if (visible) todo('Backlog ist noch nicht implementiert!');
+    // if (visible) todo('Backlog ist noch nicht implementiert!');
+    loadBacklog();
+    let backlog = $('divBacklog');
+    if (visible) {
+        backlog.classList.remove('hidden');
+    } else {
+        backlog.classList.add('hidden');
+    }
 }
 
 function showHelp(visible) {
