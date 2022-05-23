@@ -22,6 +22,7 @@
     <script src="./js/mini_backend.js"></script>
     <script src="./js/kanban_library.js"></script>
     <script defer src="./js/script.js"></script>
+    <script src="./js/settings_print.js"></script>
     <script src="./js/msgbox.js"></script>
     <script src="./js/backlog.js"></script>
 </head>
@@ -161,8 +162,8 @@
                 <div class="input-field settings">
                     <label for="selPriority">PRIORITY</label>
                     <div class="select">
-                        <select id="selPriority"></select>
-                    </div><input type="color">
+                        <select id="selPriority" onchange="showColorPicker()"></select>
+                    </div><input id="inpColorPicker" class="hidden" type="color">
                 </div>
 
                 <div class="input-field">
@@ -193,8 +194,7 @@
 
                     <div class="form-buttons">
                         <button type="reset" onclick="showSettings(false)">CANCEL</button>
-                        <button id="btnSubmitUser" type="button" onclick="showSettings(false)">SAVE SETTINGS</button>
-                        <!-- <button id="btnSubmit" type="button" onclick="saveSettings()">SAVE SETTINGS</button>  -->
+                        <button id="btnSubmitSettings" type="button" onclick="saveSettings()">SAVE SETTINGS</button> 
 
                         <!-- ACHTUNG ! Button muss zu type"submit" geändert werden -->
                         <!-- <button id="btnSubmit" type="submit" onclick="addTask()">CREATE TASK</button> -->

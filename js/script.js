@@ -94,7 +94,8 @@ function generatedTask(name, foto, deadlineDate) {
             name: name,
             image: foto
         },
-        status: 'todo'
+        status: 'backlog'
+        // status: 'todo'
     }
 }
 
@@ -199,7 +200,7 @@ function activateMenuItem(index) {
             return; // if no index is provided, we only unselect the links and exit
     }
     MENUITEMS[index].classList.add('active');
-    hideIcons(!boardIsVisible); // hide icons except from settings, when board is invisible!
+    setHeaderControls(!boardIsVisible, index); // hide icons except from settings, when board is invisible!
 }
 
 // saves the active menu item in the global variable 'lastMenu'
@@ -210,10 +211,11 @@ function getActiveMenuItem() {
     }
 }
 
-// enables or disables the icons 'plus' and 'trash' in statusbar
-function hideIcons(status) {
+// enables or disables the icon 'trash' and the searchbar in header
+function setHeaderControls(status, activeMenu) {
     $('imgBin').classList.toggle('hidden', status);
-    $('imgPlus').classList.toggle('hidden', status);
+    status = (activeMenu > 1) ? true : false;
+    $('.searchbar').classList.toggle('hidden', status);
 }
 
 // helper-function for fnc 'activateMenuItem': closes all open forms & div's
@@ -306,6 +308,7 @@ function showInputForm(id) {
     if (id != undefined) {
         editMode = true;
         getActiveMenuItem();
+        setHeaderControls(editMode,4);
         currID = id; // save the id for apply changes!
         form.classList.add('edit-mode');
         loadTaskData(id);
@@ -385,42 +388,6 @@ function toggleTrash(state) {
             delColumn.classList.add('hidden');
             break;
     }
-}
-
-// displays or hides the settings
-function showSettings(visible) {
-    if (visible) {
-        initSelectionFields('selPriority');
-        initSelectionFields('lstCategory');
-        initSelectionFields('lstColumns');
-        getActiveMenuItem();
-        closeSections();
-        $('divSettings').classList.remove('hidden');
-    } else {
-        $('divSettings').classList.add('hidden');
-        activateMenuItem(lastMenu);
-    }
-    hideIcons(true);
-}
-
-// short print-function
-function printTask(index) {
-    let printWindow = window.open('', '', 'height=720,width=1000');
-    printWindow.document.write('<html><head><title>Task drucken</title>');
-    printWindow.document.write(`<style> .print-window {
-                                    display: flex;
-                                    flex-direction: column;
-                                    align-items: center;}
-                                </style>`);
-    printWindow.document.write('</head><body class="print-window">');
-    printWindow.document.write($('task-' + index).innerHTML);
-    printWindow.document.getElementsByClassName('task-icons')[0].remove();
-    let foto = printWindow.document.getElementsByClassName('portrait')[0];
-    foto.style.height = '200px';
-    foto.style.width = '150px';
-    printWindow.document.write('</body></html>');
-    printWindow.document.close();
-    printWindow.print();
 }
 
 function uploadFile(event) {
