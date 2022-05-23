@@ -1,0 +1,94 @@
+.divBacklog {
+    margin: 1rem;
+}
+
+.backlogEntries {
+    display: flex;
+    flex-direction: column;
+}
+
+.backlogEntries table {
+    width: 100%;
+    height: 100%;
+}
+
+table {
+    display: flex;
+    justify-content: flex-start;
+}
+
+table img {
+    border-radius: 100%;
+    height: 4vh;
+    margin: 20px;
+    border-radius: 16px;
+}
+
+th {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+tr {
+    background-color: #F4F3FB;
+    display: flex;
+    justify-content: space-around;
+    margin: 10px;
+    border-radius: 8px;
+}
+
+#tableHeadlines {
+    background-color: white;
+    border: none;
+}
+
+td {
+    padding: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.categoryTD {
+    min-width: 10vw;
+}
+
+.detailsTD {
+    min-width: 50vw;
+}
+
+.assignedTo {
+    display: flex;
+    min-width: 15vw;
+}
+
+.name {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    color: #587DFC;
+    font-weight: bold;
+}
+
+
+/* ------- TR BORDER COLOURS -------*/
+
+.trbc-blue {
+    border-left: solid;
+    border-width: 10px;
+    border-color: #587DFC;
+}
+
+.trbc-green {
+    border-left: solid;
+    border-width: 10px;
+    border-color: #54B066;
+}
+
+.trbc-purple {
+    border-left: solid;
+    border-width: 10px;
+    border-color: #E468FF;
+}

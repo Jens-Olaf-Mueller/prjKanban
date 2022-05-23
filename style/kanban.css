@@ -118,7 +118,8 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    min-height: calc(100% - 2rem); /* 100% minus the h3-headline! */
+    min-height: calc(100% - 2rem);
+    /* 100% minus the h3-headline! */
 }
 
 .main-content {
@@ -197,6 +198,7 @@
 .help-section {
     padding: 1rem;
 }
+
 .help-section summary {
     /* padding: 0.5rem 1rem 0.5rem 0; */
     padding: 0.5rem 1rem;
@@ -211,12 +213,21 @@
     background-color: navy;
 }
 
-.help-section summary::marker {color: navy;}
-.help-section summary:hover::marker {color: whitesmoke;}
+.help-section summary::marker {
+    color: navy;
+}
 
-.help-section details p {padding: 1rem;}
+.help-section summary:hover::marker {
+    color: whitesmoke;
+}
 
-.help-section details[open] {color: navy;}
+.help-section details p {
+    padding: 1rem;
+}
+
+.help-section details[open] {
+    color: navy;
+}
 
 .help-section details ol {
     font-weight: bold;
@@ -232,11 +243,19 @@
     font-size: smaller;
 }
 
-.red {color: red;}
+.red {
+    color: red;
+}
+
 
 /* ############################################################################################# */
+
+
 /*                             R  E  S  P  O  N  S  I  V  E                                      */
+
+
 /* ############################################################################################# */
+
 @media (max-width: 1100px) {
     .menuHH {
         display: flex;
@@ -297,9 +316,11 @@
         font-size: 16px !important;
         padding: 4px !important;
     }
-    .task img.printer {
+    .task img.task-icons {
         width: 12px !important;
         height: 12px !important;
+        top: 4px !important;
+        right: 2px !important;
     }
     .description {
         height: 2.8rem !important;
@@ -357,9 +378,8 @@
         height: 9rem !important;
         width: 4rem !important;
     }
-    .task img.printer {
-        top: 4px;
-        right: 2px;
+    .task img.task-icons {
+        display: none;
     }
     .task h3 {
         width: 70% !important;
