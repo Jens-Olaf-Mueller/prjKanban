@@ -26,28 +26,27 @@
 
 <body onload="init()">
     <header class="header">
+
         <div class="logo-div">
             <img class="logo" src="./img/logo.png">
-            <img class="icon small-menu" onclick="openMenu()" src="./img/menu-wht.png">
-            <!-- <img class="icon small-menu" onclick="toggleMenu()" src="./img/menu-wht.png"> -->
-            <ul class="small-menu-list">
-                <li onclick="activateMenuItem(0)">Board</li>
-                <li onclick="activateMenuItem(1)">Backlog</li>
-                <li onclick="activateMenuItem(2)">Add Task</li>
-                <li onclick="activateMenuItem(3)">Help</li>
-            </ul>
         </div>
 
-        <!-- <div class="hamburger-menu">
-            <img id="menuHH" class="icon" src="./img/menu-wht.png">
-        </div> -->
+        <div class="menubar">
+            <!-- <div class="menuHH"> &#x2630</div> -->
+             <div class="menuHH">
+                <img class="icon" src="./img/menu-wht.png">
+            </div> 
+            <div class="menu-items">
+                <ul>
+                    <li onclick="activateMenuItem(0)">Board</li>
+                    <li onclick="activateMenuItem(1)">Backlog</li>
+                    <li onclick="activateMenuItem(2)">Add Task</li>
+                    <li onclick="activateMenuItem(3)">Help</li>
+                </ul>
+            </div>
+        </div>
+
         <h1>KANBAN</h1>
-        <ul id="mainmenu" class="menu-items">
-            <li onclick="activateMenuItem(0)">Board</li>
-            <li onclick="activateMenuItem(1)">Backlog</li>
-            <li onclick="activateMenuItem(2)">Add Task</li>
-            <li onclick="activateMenuItem(3)">Help</li>
-        </ul>
 
         <div class="searchbar">
             <img src="./img/magnifying-glass.png">
@@ -55,7 +54,7 @@
         </div>
 
         <div class="iconbar">
-            <img id="imgPlus" class="icon" src="./img/plus-wht100.png" onclick="activateMenuItem(2)" title="add new task">
+            <!-- <img id="imgPlus" class="icon" src="./img/plus-wht100.png" onclick="activateMenuItem(2)" title="add new task"> -->
             <img id="imgBin" class="icon" src="./img/trash-delete-bin.png" onclick="toggleTrash()" title="show / hide trash bin">
             <img style="margin-right: 1rem;" class="icon" src="./img/settings-wht.png" onclick="showSettings(true)" title="show settings">
         </div>
@@ -255,7 +254,19 @@
             </p>
         </details>
         <details>
-            <summary>6. Settings</summary><p>
+            <summary>6. Search function</summary><p>
+            By help of the search function you can search in all available tasks on the board for any information required. <br>
+            Any task that matches the search critereon, will be displayed immediately, while all non matching tasks will be hidden. <br><br>
+            The search will cover:<br>
+            - the title<br>
+            - the description<br>
+            - the due date<br>
+            - the task's priority<br>
+            - the assigned user<br>
+            </p>
+        </details>
+        <details>
+            <summary>7. Settings</summary><p>
             <strong class="red">CAUTIION! This feature is not completely implemented yet!</strong> <br><br>
             This opens a form to adjust the individual settings. <br>
             You can change the following options:</p>
@@ -266,10 +277,7 @@
                 <li>new users (with portrait if wanted)</li>
             </ol> 
         </details>
-        <details>
-            <summary>7. Help</summary><p>
-            This shows this help section.</p>
-        </details>
+
     </div>
 </body>
 </html>

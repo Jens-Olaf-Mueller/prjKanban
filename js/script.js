@@ -18,7 +18,7 @@ let editMode = false,   // flag for edit-mode
     };
 // global constants for easier access
 const DELETED = 'deleted'; 
-const MENUITEMS = $('.menu-items >li');
+const MENUITEMS = $('.menu-items li');
 
 // setURL('https://gruppe-220.developerakademie.net/smallest_backend_ever');
 
@@ -141,14 +141,16 @@ function filterTasks() {
 }
 
 function generateFilterTask(task, container, search) {
-    let stateIsValid = container.classList.contains(task.status);
-    if (task.title.toLowerCase().includes(search) && stateIsValid) {
+    let stateMatch = container.classList.contains(task.status);
+    if (task.title.toLowerCase().includes(search) && stateMatch) {
         container.innerHTML += generateTaskHTML(task);
-    } else if (task.description.toLowerCase().includes(search) && stateIsValid) {
+    } else if (task.description.toLowerCase().includes(search) && stateMatch) {
         container.innerHTML += generateTaskHTML(task);
-    } else if (task.deadline.toLowerCase().includes(search) && stateIsValid) {
+    } else if (task.deadline.toLowerCase().includes(search) && stateMatch) {
         container.innerHTML += generateTaskHTML(task);
-    } else if (task.staff.name.toLowerCase().includes(search) && stateIsValid) {
+    } else if (task.staff.name.toLowerCase().includes(search) && stateMatch) {
+        container.innerHTML += generateTaskHTML(task);
+    } else if (task.priority.toLowerCase().includes(search) && stateMatch) {
         container.innerHTML += generateTaskHTML(task);
     }
 }
@@ -172,8 +174,7 @@ function generateTaskHTML(task) {
 
 // selects the given menu-item
 function activateMenuItem(index) {    
-    if (editMode) return; // in this cases we exit immediately
-    closeSmallMenu();
+    if (editMode) return; // in edit mode we exit immediately
     getActiveMenuItem();
     // first remove all other selections and save the last menu-index!
     for (let i = 0; i < MENUITEMS.length; i++) {
@@ -427,8 +428,6 @@ function uploadFile(event) {
 //  PURPOSE 	: several drag- and drop functions
 //  			  
 //  PARAMETERS 	: event	    = the fired event
-//  			:  			
-//  RETURNS 	: -void-
 //  #####################################################################################
 function allowDrop(event) {
     event.preventDefault();
@@ -462,41 +461,6 @@ function drop(event) {
         event.target.appendChild(task);
     }
     serverUpdate();
-}
-
-//  ###########################################
-//  ###             M  E  N  U              ###
-//  ###########################################
-function toggleMenu () {
-    let menu= $('mainmenu');
-    debugger
-    if (menu.style.display == 'display: flex;flex-direction: column;') {
-        console.log(menu.style);
-    }
-}
- 
-
-
-function openMenu() {
-    smallMenu = $('small-menu-list');
-    if (smallMenu.style.display == 'none') {
-        smallMenu.style = 'display: unset;';
-    } else {
-        smallMenu.style = 'display: none;';
-    };
-    closeSmallMenuWithClickOutside();
-}
-
-function closeSmallMenuWithClickOutside() {
-    document.addEventListener('mouseup', function(e) {
-        if (!smallMenu.contains(e.target)) {
-            smallMenu.style = 'display: none;';
-        }
-    });
-}
-
-function closeSmallMenu() {
-    $('small-menu-list').style = 'display: none;';
 }
 
 function renderBoardColumns() {
