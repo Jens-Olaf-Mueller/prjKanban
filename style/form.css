@@ -41,7 +41,9 @@
     cursor: pointer;
 }
 
-.imgCloseX:hover {opacity: 1;}
+.imgCloseX:hover {
+    opacity: 1;
+}
 
 .form-title {
     position: absolute;
@@ -250,4 +252,49 @@ select {
     right: 6px;
     height: 2px;
     transform: translateY(-50%);
+}
+
+@media (max-width: 800px) {
+    .input-form {
+        position: absolute;
+        padding: 0;
+        height: 95vh;
+        width: 90vw;
+        top: 60%;
+    }
+    .input-form form {
+        padding: 0;
+        gap: 0;
+        flex-direction: column;
+        align-items: center;
+    }
+    .form-column {
+        padding: 0;
+        width: 75vmin;
+    }
+    #imgClerk {
+        height: 4rem;
+        width: 4rem;
+    }
+    .plus {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-left: 0.5rem;
+    }
+    .form-buttons {
+        margin-top: 2rem;
+        justify-content: space-between;
+    }
+    .form-buttons button {
+        padding: 0;
+        font-size: unset;
+        justify-content: center;
+    }
+    .imgCloseX {
+        top: 0;
+        right: 0;
+    }
+    .clerk {
+        justify-content: center;
+    }
 }
