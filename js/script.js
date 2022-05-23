@@ -17,13 +17,8 @@ let editMode = false, // flag for edit-mode
         columns: ["to do", "scheduled", "in progress", "done"]
     };
 // global constants for easier access
-<<<<<<< HEAD
 const DELETED = 'deleted'; 
 const MENUITEMS = $('.menu-items li');
-=======
-const DELETED = 'deleted';
-const MENUITEMS = $('.menu-items >li');
->>>>>>> 91f97c4def02b8b3836d3fcc8783dc06b9c71dfb
 
 // setURL('https://gruppe-220.developerakademie.net/smallest_backend_ever');
 
@@ -178,14 +173,8 @@ function generateTaskHTML(task) {
 }
 
 // selects the given menu-item
-<<<<<<< HEAD
 function activateMenuItem(index) {    
     if (editMode) return; // in edit mode we exit immediately
-=======
-function activateMenuItem(index) {
-    if (editMode) return; // in this cases we exit immediately
-    closeSmallMenu();
->>>>>>> 91f97c4def02b8b3836d3fcc8783dc06b9c71dfb
     getActiveMenuItem();
     // first remove all other selections and save the last menu-index!
     for (let i = 0; i < MENUITEMS.length; i++) {
@@ -481,44 +470,6 @@ function drop(event) {
     serverUpdate();
 }
 
-<<<<<<< HEAD
-=======
-//  ###########################################
-//  ###             M  E  N  U              ###
-//  ###########################################
-function toggleMenu() {
-    let menu = $('mainmenu');
-    debugger
-    if (menu.style.display == 'display: flex;flex-direction: column;') {
-        console.log(menu.style);
-    }
-}
-
-
-
-function openMenu() {
-    smallMenu = $('small-menu-list');
-    if (smallMenu.style.display == 'none') {
-        smallMenu.style = 'display: unset;';
-    } else {
-        smallMenu.style = 'display: none;';
-    };
-    closeSmallMenuWithClickOutside();
-}
-
-function closeSmallMenuWithClickOutside() {
-    document.addEventListener('mouseup', function(e) {
-        if (!smallMenu.contains(e.target)) {
-            smallMenu.style = 'display: none;';
-        }
-    });
-}
-
-function closeSmallMenu() {
-    $('small-menu-list').style = 'display: none;';
-}
-
->>>>>>> 91f97c4def02b8b3836d3fcc8783dc06b9c71dfb
 function renderBoardColumns() {
     let board = $('divMainBoard');
     board.innerHTML = '';
