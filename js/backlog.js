@@ -1,11 +1,7 @@
 function loadBacklog() {
-    $('divBacklog').innerHTML = '';
-    $('divBacklog').innerHTML = /*html*/ `
-    <div class="backlogContent">
-            <div class="headline">
-                <h2>Backlog</h2>
-                <span>The following tasks need to be planned into a sprint</span>
-            </div>
+
+    $('backlogEntries').innerHTML = '';
+    $('backlogEntries').innerHTML = /*html*/ `
 
             <div class="backlogEntries">
                 <table>
@@ -46,7 +42,5 @@ function loadBacklog() {
                     </tr>
                 </table>
             </div>
-
-        </div>
     `;
 }
