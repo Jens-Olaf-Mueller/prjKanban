@@ -32,7 +32,8 @@
     font-size: larger;
 }
 
-.imgCloseX {
+.imgCloseX, 
+.imgBacklog {
     position: absolute;
     top: -1rem;
     right: -1rem;
@@ -41,7 +42,9 @@
     cursor: pointer;
 }
 
-.imgCloseX:hover {
+.imgBacklog {right: 2rem;} /* overwrite previous definition! */
+
+.imgCloseX:hover, .imgBacklog:hover {
     opacity: 1;
 }
 
@@ -81,6 +84,12 @@ select {
     margin-top: 0.3rem;
 }
 
+.input-form input:focus,
+textarea:focus,
+select:focus {
+    background-color: #d3ffd3;
+}
+
 .input-form textarea {
     min-height: 14rem;
     max-height: 26.5rem;
@@ -114,16 +123,21 @@ select {
 .form-buttons button {
     padding: 0.5rem 1rem;
     font-size: large;
-    border: none;
+    border: 1px solid transparent;
     border-radius: 4px;
     background-color: transparent;
     color: navy;
     cursor: pointer;
 }
 
-.form-buttons button:hover {
+.form-buttons button:hover{    
     background-color: navy;
     color: whitesmoke;
+}
+
+.form-buttons button:focus {
+    outline: none;
+    border: 1px dotted navy;
 }
 
 .input-field {

@@ -44,9 +44,16 @@ async function killTask(id) {
     playSound('notify.mp3');
     if (await msgBox(`Are you sure, you want to remove this task completely? <br>
         This operation cannot be reversed!`, 'Please confirm!', 'Yes,No', true, true) == 'Yes') {
-        arrTasks.splice(id, 1);
-        renderTasks();
-        serverUpdate();
+        const findID = obj => obj.id === id; // define a search expression (on which index in the array is the id?)
+        let taskInd = arrTasks.findIndex(findID);
+        if (taskInd >= 0) {
+            arrTasks.splice(taskInd, 1);
+            serverUpdate();
+            renderTasks(); 
+        } else {
+            playSound('wrong.mp3');
+            msgBox(`Task with id# ${id} not found!`,'Error!','OK',true,true);
+        }               
     }
 }
 
@@ -99,14 +106,14 @@ function generatedTask(name, foto, deadlineDate) {
     }
 }
 
-function addToToDo(id) {
-    task = arrTasks[id];
+// pushes the task from backlog to the board into the 'todo'-section
+function pushToBoard(id) {
+    let task = arrTasks[id];
     if (task.status == 'backlog') {
         task.status = 'todo';
         serverUpdate();
+        renderBacklog();
     }
-
-
 }
 
 // renders all existing tasks into the correct sections (todo, scheduled etc.)
@@ -246,7 +253,7 @@ function resetForm() {
 
     image.src = './img/profile-dummy.png';
     image.alt = '';
-    $('divClerks').dataset.tooltip = 'select clerk';
+    $('divClerks').dataset.tooltip = 'select user';
     form.reset();
     initSelectionFields('optCategory');
     initSelectionFields('optPriority');
@@ -278,8 +285,7 @@ function showBoard(visible) {
 }
 
 function showBackLog(visible) {
-    // if (visible) todo('Backlog ist noch nicht implementiert!');
-    loadBacklog(arrTasks);
+    renderBacklog();
     let backlog = $('divBacklog');
     if (visible) {
         backlog.classList.remove('hidden');
@@ -325,6 +331,7 @@ function showInputForm(id) {
         loadTaskData(id);
     }
     form.classList.remove('hidden');
+    $('.imgBacklog').classList.toggle('hidden', !editMode || lastMenu == 1);
     toggleTrash(false);
     $('frmTitle').innerHTML = editMode ? 'Edit task' : 'Add task';
     $('btnSubmit').innerHTML = editMode ? 'APPLY CHANGES' : 'CREATE TASK';
@@ -342,6 +349,11 @@ function loadTaskData(id) {
     frmImage.src = './img/' + arrTasks[id].staff.image;
     frmImage.alt = arrTasks[id].staff.name;
     $('divClerks').dataset.tooltip = frmImage.alt; // this adds the css-based tooltip!
+}
+
+function moveTaskToBacklog() {
+    arrTasks[currID].status = 'backlog';
+    showInputForm(false);
 }
 
 // changes the picture and the name of the staff in the input-form
