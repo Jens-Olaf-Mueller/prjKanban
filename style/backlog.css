@@ -2,19 +2,43 @@
     margin: 1rem;
 }
 
-.backlogEntries {
-    display: flex;
-    flex-direction: column;
+.backlogContent {
+    margin: 24px 30px 8px 30px;
 }
 
-.backlogEntries table {
-    width: 100%;
-    height: 100%;
+.assignedTo {
+    width: 25%;
+}
+
+.category {
+    width: 25%;
 }
 
 table {
+    border-spacing: unset;
+}
+
+table td:first-child {
     display: flex;
-    justify-content: flex-start;
+    text-align: center;
+}
+
+table td:nth-child(2) {
+    text-align: center;
+}
+
+table td:nth-child(3) {
+    padding: 8px;
+}
+
+tr {
+    background: #F4F3FB;
+    border-radius: 10px;
+    margin: 8px;
+}
+
+#table-header {
+    background: white;
 }
 
 table img {
@@ -22,45 +46,6 @@ table img {
     height: 4vh;
     margin: 20px;
     border-radius: 16px;
-}
-
-th {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-tr {
-    background-color: #F4F3FB;
-    display: flex;
-    justify-content: space-around;
-    margin: 10px;
-    border-radius: 8px;
-}
-
-#tableHeadlines {
-    background-color: white;
-    border: none;
-}
-
-td {
-    padding: 20px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-.categoryTD {
-    min-width: 10vw;
-}
-
-.detailsTD {
-    min-width: 50vw;
-}
-
-.assignedTo {
-    display: flex;
-    min-width: 15vw;
 }
 
 .name {

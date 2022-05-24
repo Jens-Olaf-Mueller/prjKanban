@@ -1,44 +1,44 @@
 function loadBacklog() {
 
-    $('backlogEntries').innerHTML = '';
-    $('backlogEntries').innerHTML = /*html*/ `
+    $('backlogContent').innerHTML = '';
+    $('backlogContent').innerHTML = /*html*/ `
 
-            <div class="backlogEntries">
+            <div class="">
                 <table>
-                    <tr id="tableHeadlines">
+                    <tr id="table-header">
                         <th class="assignedTo">ASSIGNED TO</th>
-                        <th class="categoryTD">CATEGORY</th>
-                        <th class="detailsTD">DETAILS</th>
+                        <th class="category">CATEGORY</th>
+                        <th class="details">DETAILS</th>
                     </tr>
-                    <tr class="trbc-blue">
-                        <td class="assignedTo">
+                    <tr class="">
+                        <td class="">
                             <img src="img/sebastian.jpg">
                             <div class="name">
                                 <span>Sebastian Zimmermann</span>
                             </div>
                         </td>
-                        <td class="categoryTD">Marketing</td>
-                        <td class="detailsTD">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officiis nihil aspernatur ipsam magni, quod corrupti reiciendis aliquam similique fuga praesentium, beatae laudantium deserunt eveniet? Repellat doloremque veritatis enim. Esse, magni.</td>
+                        <td class="">Marketing</td>
+                        <td class="">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officiis nihil aspernatur ipsam magni, quod corrupti reiciendis aliquam similique fuga praesentium, beatae laudantium deserunt eveniet? Repellat doloremque veritatis enim. Esse, magni.</td>
                     </tr>
-                    <tr class="trbc-green">
-                        <td class="assignedTo">
+                    <tr class="">
+                        <td class="">
                             <img src="img/sebastian.jpg">
                             <div class="name">
                                 <span>Sebastian Zimmermann</span>
                             </div>
                         </td>
-                        <td class="categoryTD">Development</td>
-                        <td class="detailsTD">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officiis nihil aspernatur ipsam magni, quod corrupti reiciendis aliquam similique fuga praesentium, beatae laudantium deserunt eveniet? Repellat doloremque veritatis enim. Esse, magni.</td>
+                        <td class="">Development</td>
+                        <td class="">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officiis nihil aspernatur ipsam magni, quod corrupti reiciendis aliquam similique fuga praesentium, beatae laudantium deserunt eveniet? Repellat doloremque veritatis enim. Esse, magni.</td>
                     </tr>
-                    <tr class="trbc-purple">
-                        <td class="assignedTo">
+                    <tr class="">
+                        <td class="">
                             <img src="img/sebastian.jpg">
                             <div class="name">
                                 <span>Sebastian Zimmermann</span>
                             </div>
                         </td>
-                        <td class="categoryTD">Sales</td>
-                        <td class="detailsTD">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officiis nihil aspernatur ipsam magni, quod corrupti reiciendis aliquam similique fuga praesentium, beatae laudantium deserunt eveniet? Repellat doloremque veritatis enim. Esse, magni.</td>
+                        <td class="">Sales</td>
+                        <td class="">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officiis nihil aspernatur ipsam magni, quod corrupti reiciendis aliquam similique fuga praesentium, beatae laudantium deserunt eveniet? Repellat doloremque veritatis enim. Esse, magni.</td>
                     </tr>
                 </table>
             </div>
