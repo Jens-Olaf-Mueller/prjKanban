@@ -1,16 +1,20 @@
-function loadBacklog() {
+function loadBacklog(arrTasks) {
 
     $('backlogContent').innerHTML = '';
-    $('backlogContent').innerHTML = /*html*/ `
+    for (let i = arrTasks.length - 1; i >= 0; i--) {
+        const task = arrTasks[i];
+        $('backlogContent').innerHTML += /*html*/ `
                     <tr class="">
-                        <td class="">
-                            <img src="img/sebastian.jpg">
+                        <td class="${task.priority}">
+                            <img src="./img/${task.staff.image}" title="${task.staff.name}">
                             <div class="name">
-                                <span>Sebastian Zimmermann</span>
+                                <span>${task.staff.name}</span>
                             </div>
                         </td>
                         <td class="">Marketing</td>
-                        <td class="">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officiis nihil aspernatur ipsam magni, quod corrupti reiciendis aliquam similique fuga praesentium, beatae laudantium deserunt eveniet? Repellat doloremque veritatis enim. Esse, magni.</td>
+                        <td class="">${task.description}</td>
                     </tr>
     `;
+    }
+
 }

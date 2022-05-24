@@ -17,7 +17,7 @@ let editMode = false, // flag for edit-mode
         columns: ["to do", "scheduled", "in progress", "done"]
     };
 // global constants for easier access
-const DELETED = 'deleted'; 
+const DELETED = 'deleted';
 const MENUITEMS = $('.menu-items li');
 
 // setURL('https://gruppe-220.developerakademie.net/smallest_backend_ever');
@@ -95,7 +95,7 @@ function generatedTask(name, foto, deadlineDate) {
             image: foto
         },
         status: 'backlog'
-        // status: 'todo'
+            // status: 'todo'
     }
 }
 
@@ -157,7 +157,7 @@ function generateFilterTask(task, container, search) {
 }
 
 function generateTaskHTML(task) {
-    return `
+    return /*html*/ `
     <div id="task-${task.id}" class="task grab ${task.priority}" draggable="true" ondragstart="drag(event)" 
         ondblclick ="showInputForm(${task.id})" title="double-click for edit!">
         <img class="task-icons" src="./img/printer48.png" onclick="printTask(${task.id})" title ="print task">
@@ -174,7 +174,7 @@ function generateTaskHTML(task) {
 }
 
 // selects the given menu-item
-function activateMenuItem(index) {    
+function activateMenuItem(index) {
     if (editMode) return; // in edit mode we exit immediately
     getActiveMenuItem();
     // first remove all other selections and save the last menu-index!
@@ -269,7 +269,7 @@ function showBoard(visible) {
 
 function showBackLog(visible) {
     // if (visible) todo('Backlog ist noch nicht implementiert!');
-    loadBacklog();
+    loadBacklog(arrTasks);
     let backlog = $('divBacklog');
     if (visible) {
         backlog.classList.remove('hidden');
@@ -308,7 +308,7 @@ function showInputForm(id) {
     if (id != undefined) {
         editMode = true;
         getActiveMenuItem();
-        setHeaderControls(editMode,4);
+        setHeaderControls(editMode, 4);
         currID = id; // save the id for apply changes!
         form.classList.add('edit-mode');
         loadTaskData(id);

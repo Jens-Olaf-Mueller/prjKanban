@@ -2,6 +2,10 @@
     margin: 1rem;
 }
 
+.headline {
+    margin: 1rem;
+}
+
 .backlogContent {
     margin: 24px 30px 8px 30px;
 }
@@ -14,10 +18,16 @@
     width: 25%;
 }
 
+.tableDiv {
+    display: flex;
+    justify-content: center;
+}
+
 table {
     -webkit-border-horizontal-spacing: 0px;
     -webkit-border-vertical-spacing: 15px;
     margin: 3rem;
+    width: 90%;
 }
 
 table td {
@@ -67,7 +77,8 @@ table img {
 
 /* ------- TR BORDER COLOURS -------*/
 
-.trbc-blue {
+
+/* .trbc-blue {
     border-left: solid;
     border-width: 10px;
     border-color: #587DFC;
@@ -83,4 +94,4 @@ table img {
     border-left: solid;
     border-width: 10px;
     border-color: #E468FF;
-}
+} */
