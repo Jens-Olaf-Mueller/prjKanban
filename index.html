@@ -36,9 +36,9 @@
 
         <div class="menubar">
             <!-- <div class="menuHH"> &#x2630</div> -->
-             <div class="menuHH">
+            <div class="menuHH">
                 <img class="icon" src="./img/menu-wht.png">
-            </div> 
+            </div>
             <div class="menu-items">
                 <ul>
                     <li onclick="activateMenuItem(0)">Board</li>
@@ -96,7 +96,16 @@
             <h2>Backlog</h2>
             <span>The following tasks need to be planned into a sprint</span>
         </div>
-        <div class="backlogContent"></div>
+        <table>
+            <thead>
+                <tr id="table-header">
+                    <th class="assignedTo">ASSIGNED TO</th>
+                    <th class="category">CATEGORY</th>
+                    <th class="details">DETAILS</th>
+                </tr>
+            </thead>
+            <tbody class="backlogContent"></tbody>
+        </table>
     </div>
 
     <div id="divInput" class="input-form hidden">
@@ -194,7 +203,7 @@
 
                     <div class="form-buttons">
                         <button type="reset" onclick="showSettings(false)">CANCEL</button>
-                        <button id="btnSubmitSettings" type="button" onclick="saveSettings()">SAVE SETTINGS</button> 
+                        <button id="btnSubmitSettings" type="button" onclick="saveSettings()">SAVE SETTINGS</button>
 
                         <!-- ACHTUNG ! Button muss zu type"submit" geändert werden -->
                         <!-- <button id="btnSubmit" type="submit" onclick="addTask()">CREATE TASK</button> -->
@@ -258,22 +267,16 @@
             </p>
         </details>
         <details>
-            <summary>6. Search function</summary><p>
-            By help of the search function you can search in all available tasks on the board for any information required. <br>
-            Any task that matches the search critereon, will be displayed immediately, while all non matching tasks will be hidden. <br><br>
-            The search will cover:<br>
-            - the title<br>
-            - the description<br>
-            - the due date<br>
-            - the task's priority<br>
-            - the assigned user<br>
+            <summary>6. Search function</summary>
+            <p>
+                By help of the search function you can search in all available tasks on the board for any information required. <br> Any task that matches the search critereon, will be displayed immediately, while all non matching tasks will be hidden.
+                <br><br> The search will cover:<br> - the title<br> - the description<br> - the due date<br> - the task's priority<br> - the assigned user<br>
             </p>
         </details>
         <details>
-            <summary>7. Settings</summary><p>
-            <strong class="red">CAUTIION! This feature is not completely implemented yet!</strong> <br><br>
-            This opens a form to adjust the individual settings. <br>
-            You can change the following options:</p>
+            <summary>7. Settings</summary>
+            <p>
+                <strong class="red">CAUTIION! This feature is not completely implemented yet!</strong> <br><br> This opens a form to adjust the individual settings. <br> You can change the following options:</p>
             <ol>
                 <li>the color of the task priority</li>
                 <li>the category the task belongs to</li>
