@@ -99,6 +99,12 @@ function generatedTask(name, foto, deadlineDate) {
     }
 }
 
+function addToToDo(id) {
+    task = arrTasks[id];
+    task.status = 'todo';
+    serverUpdate();
+}
+
 // renders all existing tasks into the correct sections (todo, scheduled etc.)
 function renderTasks() {
     let boardSections = Array.from($('#divMainBoard .columns >div')); // first clear all Sections!
@@ -109,9 +115,9 @@ function renderTasks() {
             let container = boardSections[j];
             if (container.classList.contains(task.status)) {
                 container.innerHTML += generateTaskHTML(task);
+                setTaskIconState(task);
             }
         }
-        setTaskIconState(task);
     }
 }
 
