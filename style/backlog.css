@@ -32,6 +32,7 @@ table {
 
 table td {
     background-color: #F4F3FB;
+    cursor: pointer;
 }
 
 table td:first-child {
