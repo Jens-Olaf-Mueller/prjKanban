@@ -27,9 +27,15 @@
     z-index: 5;
 }
 
+
 /* #################################################### */
+
+
 /*          styling the menu and it's items             */
+
+
 /* #################################################### */
+
 .menuHH {
     display: none;
     color: white;
@@ -38,7 +44,10 @@
     cursor: pointer;
     opacity: 0.7;
 }
-.menuHH:hover {opacity: 1;}
+
+.menuHH:hover {
+    opacity: 1;
+}
 
 .menubar {
     display: flex;
@@ -69,15 +78,21 @@
     border-left: none;
 }
 
-.menu-items .active, 
+.menu-items .active,
 .menu-items li:hover {
     opacity: 1;
     border-bottom: 4px solid whitesmoke;
 }
 
+
 /* #################################################### */
+
+
 /*                   styling the searchbar              */
+
+
 /* #################################################### */
+
 .searchbar {
     display: flex;
     align-items: center;
@@ -257,42 +272,42 @@
 /* ############################################################################################# */
 
 @media (max-width: 1100px) {
-    .menuHH {
-        display: flex;
+    /* .menuHH {
+     display: flex;
         position: fixed;
         left: 4rem;
-        top: 1rem;
+        top: 1rem; 
+    } */
+    .menuHH {
+        display: unset;
     }
-    .menu-items { 
+    .menu-items {
         display: none;
     }
-
     .menu-items ul {
         position: absolute;
         padding-top: 1rem;
-        top: calc(var(--header-height) - 1rem); /* top is the height of the header less than padding-top */
-        left: 1rem;
+        top: calc(var(--header-height) - 1rem);
+        /* top is the height of the header less than padding-top */
+        left: 8rem;
         width: max-content;
         padding-bottom: 1rem;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5);
     }
-
     .menubar:hover,
     .menubar:hover .menu-items,
     .menubar:hover .menu-items ul {
         display: flex;
         flex-direction: column;
-    } 
-
+    }
     .menubar:hover li {
         margin: 0.5rem 0 0 1rem;
         padding: 0 1.25rem 0 0.33rem;
         border-bottom: none;
         border-left: 4px solid transparent;
     }
-
-    .menu-items li.active, 
-    .menubar li:hover {                
+    .menu-items li.active,
+    .menubar li:hover {
         border-left: 4px solid whitesmoke;
     }
 }
@@ -335,36 +350,32 @@
 }
 
 @media (max-width: 600px) {
-    header {
+    /* header {
         flex-direction: column-reverse;
         align-items: flex-end !important;
         gap: 1rem;
         height: auto !important;
         padding: 1rem 0;    
-    }
-
-    .logo-div {
+    } */
+    /* .logo-div {
         position: absolute;
         top: 0.25rem;
         left: 0;
-    }
-
-    .menuHH {
+    } */
+    /* .menuHH {
         top: 0;
-    }
-
+    } */
     .menu-items ul {
-        top: calc(var(--header-height) - 2rem); /* top is the height of the header less than padding-top */
+        top: calc(var(--header-height) - 0.8rem);
+        /* top is the height of the header less than padding-top */
+        left: 2rem;
     }
-
     .iconbar {
         min-width: 7rem;
     }
-
     .searchbar img {
         margin-right: 0;
     }
-
     .columns {
         margin: 0 2px;
     }
@@ -392,5 +403,8 @@
     }
     .logo {
         height: 50px;
+    }
+    .menuHH {
+        padding: 1rem 0 1rem 0;
     }
 }
