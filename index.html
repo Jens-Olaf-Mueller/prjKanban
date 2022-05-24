@@ -22,34 +22,34 @@
     <script src="./js/mini_backend.js"></script>
     <script src="./js/kanban_library.js"></script>
     <script defer src="./js/script.js"></script>
+    <script src="./js/settings_print.js"></script>
     <script src="./js/msgbox.js"></script>
     <script src="./js/backlog.js"></script>
 </head>
 
 <body onload="init()">
     <header class="header">
+
         <div class="logo-div">
             <img class="logo" src="./img/logo.png">
-            <img class="icon small-menu" onclick="openMenu()" src="./img/menu-wht.png">
-            <!-- <img class="icon small-menu" onclick="toggleMenu()" src="./img/menu-wht.png"> -->
-            <ul class="small-menu-list">
-                <li onclick="activateMenuItem(0)">Board</li>
-                <li onclick="activateMenuItem(1)">Backlog</li>
-                <li onclick="activateMenuItem(2)">Add Task</li>
-                <li onclick="activateMenuItem(3)">Help</li>
-            </ul>
         </div>
 
-        <!-- <div class="hamburger-menu">
-            <img id="menuHH" class="icon" src="./img/menu-wht.png">
-        </div> -->
+        <div class="menubar">
+            <!-- <div class="menuHH"> &#x2630</div> -->
+             <div class="menuHH">
+                <img class="icon" src="./img/menu-wht.png">
+            </div> 
+            <div class="menu-items">
+                <ul>
+                    <li onclick="activateMenuItem(0)">Board</li>
+                    <li onclick="activateMenuItem(1)">Backlog</li>
+                    <li onclick="activateMenuItem(2)">Add Task</li>
+                    <li onclick="activateMenuItem(3)">Help</li>
+                </ul>
+            </div>
+        </div>
+
         <h1>KANBAN</h1>
-        <ul id="mainmenu" class="menu-items">
-            <li onclick="activateMenuItem(0)">Board</li>
-            <li onclick="activateMenuItem(1)">Backlog</li>
-            <li onclick="activateMenuItem(2)">Add Task</li>
-            <li onclick="activateMenuItem(3)">Help</li>
-        </ul>
 
         <div class="searchbar">
             <img src="./img/magnifying-glass.png">
@@ -57,7 +57,7 @@
         </div>
 
         <div class="iconbar">
-            <img id="imgPlus" class="icon" src="./img/plus-wht100.png" onclick="activateMenuItem(2)" title="add new task">
+            <!-- <img id="imgPlus" class="icon" src="./img/plus-wht100.png" onclick="activateMenuItem(2)" title="add new task"> -->
             <img id="imgBin" class="icon" src="./img/trash-delete-bin.png" onclick="toggleTrash()" title="show / hide trash bin">
             <img style="margin-right: 1rem;" class="icon" src="./img/settings-wht.png" onclick="showSettings(true)" title="show settings">
         </div>
@@ -162,8 +162,8 @@
                 <div class="input-field settings">
                     <label for="selPriority">PRIORITY</label>
                     <div class="select">
-                        <select id="selPriority"></select>
-                    </div><input type="color">
+                        <select id="selPriority" onchange="showColorPicker()"></select>
+                    </div><input id="inpColorPicker" class="hidden" type="color">
                 </div>
 
                 <div class="input-field">
@@ -194,8 +194,7 @@
 
                     <div class="form-buttons">
                         <button type="reset" onclick="showSettings(false)">CANCEL</button>
-                        <button id="btnSubmitUser" type="button" onclick="showSettings(false)">SAVE SETTINGS</button>
-                        <!-- <button id="btnSubmit" type="button" onclick="saveSettings()">SAVE SETTINGS</button>  -->
+                        <button id="btnSubmitSettings" type="button" onclick="saveSettings()">SAVE SETTINGS</button> 
 
                         <!-- ACHTUNG ! Button muss zu type"submit" geändert werden -->
                         <!-- <button id="btnSubmit" type="submit" onclick="addTask()">CREATE TASK</button> -->
@@ -259,20 +258,28 @@
             </p>
         </details>
         <details>
-            <summary>6. Settings</summary>
-            <p>
-                <strong class="red">CAUTIION! This feature is not completely implemented yet!</strong> <br><br> This opens a form to adjust the individual settings. <br> You can change the following options:</p>
+            <summary>6. Search function</summary><p>
+            By help of the search function you can search in all available tasks on the board for any information required. <br>
+            Any task that matches the search critereon, will be displayed immediately, while all non matching tasks will be hidden. <br><br>
+            The search will cover:<br>
+            - the title<br>
+            - the description<br>
+            - the due date<br>
+            - the task's priority<br>
+            - the assigned user<br>
+            </p>
+        </details>
+        <details>
+            <summary>7. Settings</summary><p>
+            <strong class="red">CAUTIION! This feature is not completely implemented yet!</strong> <br><br>
+            This opens a form to adjust the individual settings. <br>
+            You can change the following options:</p>
             <ol>
                 <li>the color of the task priority</li>
                 <li>the category the task belongs to</li>
                 <li>the column headers</li>
                 <li>new users (with portrait if wanted)</li>
             </ol>
-        </details>
-        <details>
-            <summary>7. Help</summary>
-            <p>
-                This shows this help section.</p>
         </details>
     </div>
 </body>

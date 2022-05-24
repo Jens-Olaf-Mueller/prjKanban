@@ -17,8 +17,8 @@ let editMode = false, // flag for edit-mode
         columns: ["to do", "scheduled", "in progress", "done"]
     };
 // global constants for easier access
-const DELETED = 'deleted';
-const MENUITEMS = $('.menu-items >li');
+const DELETED = 'deleted'; 
+const MENUITEMS = $('.menu-items li');
 
 // setURL('https://gruppe-220.developerakademie.net/smallest_backend_ever');
 
@@ -94,7 +94,8 @@ function generatedTask(name, foto, deadlineDate) {
             name: name,
             image: foto
         },
-        status: 'todo'
+        status: 'backlog'
+        // status: 'todo'
     }
 }
 
@@ -141,14 +142,16 @@ function filterTasks() {
 }
 
 function generateFilterTask(task, container, search) {
-    let stateIsValid = container.classList.contains(task.status);
-    if (task.title.toLowerCase().includes(search) && stateIsValid) {
+    let stateMatch = container.classList.contains(task.status);
+    if (task.title.toLowerCase().includes(search) && stateMatch) {
         container.innerHTML += generateTaskHTML(task);
-    } else if (task.description.toLowerCase().includes(search) && stateIsValid) {
+    } else if (task.description.toLowerCase().includes(search) && stateMatch) {
         container.innerHTML += generateTaskHTML(task);
-    } else if (task.deadline.toLowerCase().includes(search) && stateIsValid) {
+    } else if (task.deadline.toLowerCase().includes(search) && stateMatch) {
         container.innerHTML += generateTaskHTML(task);
-    } else if (task.staff.name.toLowerCase().includes(search) && stateIsValid) {
+    } else if (task.staff.name.toLowerCase().includes(search) && stateMatch) {
+        container.innerHTML += generateTaskHTML(task);
+    } else if (task.priority.toLowerCase().includes(search) && stateMatch) {
         container.innerHTML += generateTaskHTML(task);
     }
 }
@@ -171,9 +174,8 @@ function generateTaskHTML(task) {
 }
 
 // selects the given menu-item
-function activateMenuItem(index) {
-    if (editMode) return; // in this cases we exit immediately
-    closeSmallMenu();
+function activateMenuItem(index) {    
+    if (editMode) return; // in edit mode we exit immediately
     getActiveMenuItem();
     // first remove all other selections and save the last menu-index!
     for (let i = 0; i < MENUITEMS.length; i++) {
@@ -198,7 +200,7 @@ function activateMenuItem(index) {
             return; // if no index is provided, we only unselect the links and exit
     }
     MENUITEMS[index].classList.add('active');
-    hideIcons(!boardIsVisible); // hide icons except from settings, when board is invisible!
+    setHeaderControls(!boardIsVisible, index); // hide icons except from settings, when board is invisible!
 }
 
 // saves the active menu item in the global variable 'lastMenu'
@@ -209,10 +211,11 @@ function getActiveMenuItem() {
     }
 }
 
-// enables or disables the icons 'plus' and 'trash' in statusbar
-function hideIcons(status) {
+// enables or disables the icon 'trash' and the searchbar in header
+function setHeaderControls(status, activeMenu) {
     $('imgBin').classList.toggle('hidden', status);
-    $('imgPlus').classList.toggle('hidden', status);
+    status = (activeMenu > 1) ? true : false;
+    $('.searchbar').classList.toggle('hidden', status);
 }
 
 // helper-function for fnc 'activateMenuItem': closes all open forms & div's
@@ -305,6 +308,7 @@ function showInputForm(id) {
     if (id != undefined) {
         editMode = true;
         getActiveMenuItem();
+        setHeaderControls(editMode,4);
         currID = id; // save the id for apply changes!
         form.classList.add('edit-mode');
         loadTaskData(id);
@@ -386,42 +390,6 @@ function toggleTrash(state) {
     }
 }
 
-// displays or hides the settings
-function showSettings(visible) {
-    if (visible) {
-        initSelectionFields('selPriority');
-        initSelectionFields('lstCategory');
-        initSelectionFields('lstColumns');
-        getActiveMenuItem();
-        closeSections();
-        $('divSettings').classList.remove('hidden');
-    } else {
-        $('divSettings').classList.add('hidden');
-        activateMenuItem(lastMenu);
-    }
-    hideIcons(true);
-}
-
-// short print-function
-function printTask(index) {
-    let printWindow = window.open('', '', 'height=720,width=1000');
-    printWindow.document.write('<html><head><title>Task drucken</title>');
-    printWindow.document.write(`<style> .print-window {
-                                    display: flex;
-                                    flex-direction: column;
-                                    align-items: center;}
-                                </style>`);
-    printWindow.document.write('</head><body class="print-window">');
-    printWindow.document.write($('task-' + index).innerHTML);
-    printWindow.document.getElementsByClassName('task-icons')[0].remove();
-    let foto = printWindow.document.getElementsByClassName('portrait')[0];
-    foto.style.height = '200px';
-    foto.style.width = '150px';
-    printWindow.document.write('</body></html>');
-    printWindow.document.close();
-    printWindow.print();
-}
-
 function uploadFile(event) {
     let userImage = $('imgUser');
     userImage.src = URL.createObjectURL(event.target.files[0]);
@@ -434,8 +402,6 @@ function uploadFile(event) {
 //  PURPOSE 	: several drag- and drop functions
 //  			  
 //  PARAMETERS 	: event	    = the fired event
-//  			:  			
-//  RETURNS 	: -void-
 //  #####################################################################################
 function allowDrop(event) {
     event.preventDefault();
@@ -469,41 +435,6 @@ function drop(event) {
         event.target.appendChild(task);
     }
     serverUpdate();
-}
-
-//  ###########################################
-//  ###             M  E  N  U              ###
-//  ###########################################
-function toggleMenu() {
-    let menu = $('mainmenu');
-    debugger
-    if (menu.style.display == 'display: flex;flex-direction: column;') {
-        console.log(menu.style);
-    }
-}
-
-
-
-function openMenu() {
-    smallMenu = $('small-menu-list');
-    if (smallMenu.style.display == 'none') {
-        smallMenu.style = 'display: unset;';
-    } else {
-        smallMenu.style = 'display: none;';
-    };
-    closeSmallMenuWithClickOutside();
-}
-
-function closeSmallMenuWithClickOutside() {
-    document.addEventListener('mouseup', function(e) {
-        if (!smallMenu.contains(e.target)) {
-            smallMenu.style = 'display: none;';
-        }
-    });
-}
-
-function closeSmallMenu() {
-    $('small-menu-list').style = 'display: none;';
 }
 
 function renderBoardColumns() {

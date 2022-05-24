@@ -1,3 +1,10 @@
+:root {
+    --low:#008000;
+    --medium:#ffff00;
+    --important:#ffa500;
+    --high:#ff0000;
+}
+
 .task {
     position: relative;
     width: 12rem;
@@ -140,19 +147,23 @@ h3::-webkit-scrollbar {
 }
 
 .low {
-    border-left: 5px solid green;
+    /* border-left: 5px solid green; */
+    border-left: 5px solid var(--low);
 }
 
 .medium {
-    border-left: 5px solid yellow;
+    /* border-left: 5px solid yellow; */
+    border-left: 5px solid var(--medium);
 }
 
 .important {
-    border-left: 5px solid orange;
+    /* border-left: 5px solid orange; */
+    border-left: 5px solid var(--important);
 }
 
 .high {
-    border-left: 5px solid red;
+    /* border-left: 5px solid red; */
+    border-left: 5px solid var(--high);
 }
 
 
