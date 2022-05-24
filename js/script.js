@@ -276,6 +276,7 @@ function showBackLog(visible) {
     } else {
         backlog.classList.add('hidden');
     }
+    serverUpdate();
 }
 
 function showHelp(visible) {
