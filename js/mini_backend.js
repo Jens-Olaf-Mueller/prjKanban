@@ -1,5 +1,5 @@
 let jsonFromServer = {};
-const BASE_SERVER_URL ='https://gruppe-220.developerakademie.net/smallest_backend_ever';
+const BASE_SERVER_URL = 'https://gruppe-220.developerakademie.net/smallest_backend_ever';
 
 const backend = {
     setItem: function(key, item) {
@@ -35,21 +35,21 @@ async function downloadFromServer() {
  * Loads a JSON or JSON Array to the Server
  * payload {JSON | Array} - The payload you want to store
  */
-
 async function loadJSONFromServer() {
     let response = await fetch(BASE_SERVER_URL + '/nocors.php?json=database&noache=' + (new Date().getTime()));
     return await response.text();
 
 }
 
+/**
+ * load the json from server with old stats
+ * @returns 
+ */
 function loadJSONFromServerOld() {
     return new Promise(function(resolve, reject) {
         let xhttp = new XMLHttpRequest();
         let proxy = determineProxySettings();
         let serverURL = proxy + BASE_SERVER_URL + '/nocors.php?json=database&noache=' + (new Date().getTime());
-
-
-
 
         xhttp.open('GET', serverURL);
 
@@ -99,7 +99,10 @@ function saveJSONToServer() {
     });
 }
 
-
+/**
+ * determine proxy settings
+ * @returns 
+ */
 function determineProxySettings() {
     return '';
 

@@ -1,4 +1,7 @@
-// short print-function
+/**
+ * short print-function
+ * @param {index} index 
+ */
 function printTask(index) {
     let printWindow = window.open('', '', 'height=720,width=1000');
     printWindow.document.write('<html><head><title>Task drucken</title>');
@@ -20,6 +23,9 @@ function printTask(index) {
     printWindow.print();
 }
 
+/**
+ * show the colorpicker
+ */
 function showColorPicker() {
     let colorPicker = $('inpColorPicker'),
         priority = $('selPriority').value,
@@ -28,9 +34,12 @@ function showColorPicker() {
     colorPicker.value = cssColor;
 }
 
-function saveSettings () {
-    let newColor =  $('inpColorPicker').value,
-    priority = $('selPriority').value;
+/**
+ * save the settings
+ */
+function saveSettings() {
+    let newColor = $('inpColorPicker').value,
+        priority = $('selPriority').value;
     // Set the value of the css variable -- ??? to another value  
     $(':root').style.setProperty(`--${priority}`, newColor);
 
@@ -42,7 +51,10 @@ function saveSettings () {
     showSettings(false);
 }
 
-// displays or hides the settings
+/**
+ * displays or hides the settings
+ * @param {visible} visible 
+ */
 function showSettings(visible) {
     if (visible) {
         initSelectionFields('selPriority');

@@ -25,7 +25,7 @@
 
 function msgBox(prompt, title, buttons, modal, gradient) {
     // parse defaults...
-    if (prompt === undefined || prompt == null ) prompt = '';
+    if (prompt === undefined || prompt == null) prompt = '';
     if (title === undefined || title == null || title.trim() == '') {
         title = document.getElementsByTagName("title")[0].innerHTML;
     }
@@ -36,7 +36,7 @@ function msgBox(prompt, title, buttons, modal, gradient) {
     let classNames = (modal) ? 'msg-overlay msg-dark' : 'msg-overlay';
 
     // place the messagebox-container in <body> 
-    createOverlay (classNames);
+    createOverlay(classNames);
 
     // render buttons first, otherwise the wrapping <div> is going to be closed automatically!
     let btnHTML = renderButtons(buttons);
@@ -48,37 +48,47 @@ function msgBox(prompt, title, buttons, modal, gradient) {
 
     // ... and create a promise with an event listener
     return new Promise(function(resolve, reject) {
-        document.body.addEventListener('click', function btnEL ( event ) {
+        document.body.addEventListener('click', function btnEL(event) {
             let clickedOn = event.target.id;
-            if (clickedOn.startsWith('btn-')) {                
+            if (clickedOn.startsWith('btn-')) {
                 resolve(document.getElementById(clickedOn).innerHTML);
-                removeBox (btnEL);
-            } else if (event.target.id == 'msgBoxBG' && !modal) {                
+                removeBox(btnEL);
+            } else if (event.target.id == 'msgBoxBG' && !modal) {
                 resolve('false');
-                removeBox (btnEL);
-            }            
-        } );        
+                removeBox(btnEL);
+            }
+        });
     });
 }
 
-// removes the event-listener and the whole messagebox itself
-function removeBox (evListener) {
+/**
+ * removes the event-listener and the whole messagebox itself
+ * @param {evListener} evListener 
+ */
+function removeBox(evListener) {
     document.body.removeEventListener('click', evListener);
     document.getElementById('msgBoxBG').remove();
 }
 
-// creates the dialog wrapper
-function createOverlay (classes) {
+/**
+ * creates the dialog wrapper
+ * @param {classes} classes 
+ */
+function createOverlay(classes) {
     let boxParent = document.createElement('div');
-    boxParent.setAttribute("id","msgBoxBG");
-    boxParent.setAttribute("class",classes);
+    boxParent.setAttribute("id", "msgBoxBG");
+    boxParent.setAttribute("class", classes);
     document.body.appendChild(boxParent);
 }
 
-// generates the buttons
+/**
+ * generates the buttons
+ * @param {buttons} buttons 
+ * @returns 
+ */
 function renderButtons(buttons) {
     let arrButtons = parseButtons(buttons);
-    let btnCode = '';            
+    let btnCode = '';
     for (let i = 0; i < arrButtons.length; i++) {
         const btn = arrButtons[i];
         btnCode += `<button id="btn-${i+1}" class="msg-button">${btn}</button>`;
@@ -86,17 +96,21 @@ function renderButtons(buttons) {
     return btnCode;
 }
 
-// parses the submitted buttons
-// could be a simple string, separetd by comma or an array or ''
-function parseButtons (buttons) {
-    if (buttons === undefined) { 
+/**
+ * parses the submitted buttons
+ * could be a simple string, separetd by comma or an array or '' 
+ * @param {buttons} buttons 
+ * @returns 
+ */
+function parseButtons(buttons) {
+    if (buttons === undefined) {
         buttons = [];
-        buttons[0]='Ok';
+        buttons[0] = 'Ok';
     } else if (!Array.isArray(buttons)) {
         // avoid white spaces!
         if (buttons.trim().length == 0) {
             buttons = [];
-            buttons[0]='Ok';
+            buttons[0] = 'Ok';
         } else {
             buttons = buttons.split(',');
             // trim the new created array!
@@ -108,7 +122,13 @@ function parseButtons (buttons) {
     return buttons;
 }
 
-// generates the actual box
+/**
+ * generates the actual box
+ * @param {prompt} prompt 
+ * @param {title} title 
+ * @param {btnHTML} btnHTML 
+ * @param {classes} classes 
+ */
 function renderBox(prompt, title, btnHTML, classes) {
     // set a white caption when gradient exists!
     let strGradient = classes.split(' ');

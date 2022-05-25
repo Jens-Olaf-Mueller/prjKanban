@@ -30,7 +30,9 @@ async function init() {
     activateMenuItem(0);
 }
 
-// Pushes all relevant arrays to the server after changes where made on the board (at the moment create & edit tasks)
+/**
+ * Pushes all relevant arrays to the server after changes where made on the board (at the moment create & edit tasks)
+ */
 function serverUpdate() {
     backend.setItem('arrTasks', JSON.stringify(arrTasks));
 }
@@ -39,7 +41,11 @@ function taskDownload() {
     arrTasks = JSON.parse(backend.getItem('arrTasks')) || [];
 }
 
-// deletes a task completely from array and server
+// 
+/**
+ * 
+ * @param {Id of Task} id deletes a task completely from array and server
+ */
 async function killTask(id) {
     playSound('notify.mp3');
     if (await msgBox(`Are you sure, you want to remove this task completely? <br>
@@ -49,17 +55,19 @@ async function killTask(id) {
         if (taskInd >= 0) {
             arrTasks.splice(taskInd, 1);
             serverUpdate();
-            renderTasks(); 
+            renderTasks();
         } else {
             playSound('wrong.mp3');
-            msgBox(`Task with id# ${id} not found!`,'Error!','OK',true,true);
-        }               
+            msgBox(`Task with id# ${id} not found!`, 'Error!', 'OK', true, true);
+        }
     }
 }
 
-// ANCHOR addTask
-// adds a new task or applies changes to an existing task,
-// if flag 'editMode' is set to 'true'
+/**
+ * ANCHOR addTask
+ * adds a new task or applies changes to an existing task,
+ * if flag 'editMode' is set to 'true'
+ */
 async function addTask() {
     await downloadFromServer();
     taskDownload();
@@ -79,6 +87,11 @@ async function addTask() {
     renderTasks();
 }
 
+/**
+ * changed the new value in the array
+ * @param {arrTasks} name 
+ * @param {arrTasks} foto 
+ */
 function editTask(name, foto) {
     arrTasks[currID].title = $('inpTaskTitle').value;
     arrTasks[currID].description = $('txtDescription').value;
@@ -89,6 +102,13 @@ function editTask(name, foto) {
     arrTasks[currID].staff.image = foto;
 }
 
+/**
+ * changed the value in the array
+ * @param {arrTasks} name 
+ * @param {arrTasks} foto 
+ * @param {arrTasks} deadlineDate 
+ * @returns 
+ */
 function generatedTask(name, foto, deadlineDate) {
     return {
         id: arrTasks.length,
@@ -106,7 +126,10 @@ function generatedTask(name, foto, deadlineDate) {
     }
 }
 
-// pushes the task from backlog to the board into the 'todo'-section
+/**
+ * pushes the task from backlog to the board into the 'todo'-section
+ * @param {arrTasks} id 
+ */
 function pushToBoard(id) {
     let task = arrTasks[id];
     if (task.status == 'backlog') {
@@ -116,7 +139,9 @@ function pushToBoard(id) {
     }
 }
 
-// renders all existing tasks into the correct sections (todo, scheduled etc.)
+/**
+ * renders all existing tasks into the correct sections (todo, scheduled etc.)
+ */
 function renderTasks() {
     let boardSections = Array.from($('#divMainBoard .columns >div')); // first clear all Sections!
     for (let i = 0; i < boardSections.length; i++) { boardSections[i].innerHTML = ''; } // now render all tasks into the correct section with a double loop
@@ -132,7 +157,10 @@ function renderTasks() {
     }
 }
 
-// deteremines if we show a printer or bin in the task headline, depending on state
+/**
+ * deteremines if we show a printer or bin in the task headline, depending on state
+ * @param {task} task 
+ */
 function setTaskIconState(task) {
     const icons = $('#task-' + task.id + ' .task-icons');
     if (task.status == DELETED) {
@@ -144,6 +172,9 @@ function setTaskIconState(task) {
     }
 }
 
+/**
+ * filtered the tasks
+ */
 function filterTasks() {
     let search = $('search').value;
     search = search.toLowerCase();
@@ -158,6 +189,12 @@ function filterTasks() {
     }
 }
 
+/**
+ * filtered task with 5 params
+ * @param {task} task 
+ * @param {container} container 
+ * @param {search} search 
+ */
 function generateFilterTask(task, container, search) {
     let stateMatch = container.classList.contains(task.status);
     if (task.title.toLowerCase().includes(search) && stateMatch) {
@@ -173,6 +210,11 @@ function generateFilterTask(task, container, search) {
     }
 }
 
+/**
+ * generated all task with all requirement
+ * @param {task} task 
+ * @returns 
+ */
 function generateTaskHTML(task) {
     return /*html*/ `
     <div id="task-${task.id}" class="task grab ${task.priority}" draggable="true" ondragstart="drag(event)" 
@@ -190,7 +232,11 @@ function generateTaskHTML(task) {
     </div>`;
 }
 
-// selects the given menu-item
+/**
+ * selects the given menu-item
+ * @param {index} index 
+ * @returns 
+ */
 function activateMenuItem(index) {
     if (editMode) return; // in edit mode we exit immediately
     getActiveMenuItem();
@@ -220,22 +266,30 @@ function activateMenuItem(index) {
     setHeaderControls(!boardIsVisible, index); // hide icons except from settings, when board is invisible!
 }
 
-// saves the active menu item in the global variable 'lastMenu'
-// in order to return to the previous menu when cancelled (used in add task and settings)
+/**
+ * saves the active menu item in the global variable 'lastMenu'
+ * in order to return to the previous menu when cancelled (used in add task and settings)
+ */
 function getActiveMenuItem() {
     for (let i = 0; i < MENUITEMS.length; i++) {
         if (MENUITEMS[i].classList.contains('active')) lastMenu = i;
     }
 }
 
-// enables or disables the icon 'trash' and the searchbar in header
+/**
+ * enables or disables the icon 'trash' and the searchbar in header
+ * @param {status} status 
+ * @param {activeMenu} activeMenu 
+ */
 function setHeaderControls(status, activeMenu) {
     $('imgBin').classList.toggle('hidden', status);
     status = (activeMenu > 1) ? true : false;
     $('.searchbar').classList.toggle('hidden', status);
 }
 
-// helper-function for fnc 'activateMenuItem': closes all open forms & div's
+/**
+ * helper-function for fnc 'activateMenuItem': closes all open forms & div's
+ */
 function closeSections() {
     $('divMainBoard').classList.add('hidden');
     $('divInput').classList.add('hidden');
@@ -246,7 +300,9 @@ function closeSections() {
     boardIsVisible = false; // reset flag!
 }
 
-// resets the input-form and the flag for edit-mode
+/**
+ * resets the input-form and the flag for edit-mode
+ */
 function resetForm() {
     let form = $('frmInput'),
         image = $('imgClerk');
@@ -260,7 +316,10 @@ function resetForm() {
     editMode = false;
 }
 
-// initializes the form's <SELECTION>-Elements 
+/**
+ * initializes the form's <SELECTION>-Elements
+ * @param {selction} selection 
+ */
 function initSelectionFields(selection) {
     let key = selection.substr(3).toLowerCase(),
         srcArray = objSettings[key],
@@ -272,7 +331,10 @@ function initSelectionFields(selection) {
     }
 }
 
-// display the board with all states
+/**
+ * display the board with all states
+ * @param {visible} visible 
+ */
 function showBoard(visible) {
     let board = $('divMainBoard');
     if (visible) {
@@ -284,6 +346,10 @@ function showBoard(visible) {
     boardIsVisible = visible;
 }
 
+/**
+ * display the backlog with all states
+ * @param {visible} visible 
+ */
 function showBackLog(visible) {
     renderBacklog();
     let backlog = $('divBacklog');
@@ -295,6 +361,10 @@ function showBackLog(visible) {
     serverUpdate();
 }
 
+/**
+ * display the helpsection with all states
+ * @param {visible} visible 
+ */
 function showHelp(visible) {
     let help = $('divHelp');
     if (visible) {
@@ -304,10 +374,14 @@ function showHelp(visible) {
     }
 }
 
-// ANCHOR display OR close the input-form:
-// if id is omitted         --> add a NEW task
-// if id = 'false'          --> close the form!
-// if id contains a task    --> edit the provided task
+/**
+ * ANCHOR display OR close the input-form:
+ * if id is omitted         --> add a NEW task
+ * if id = 'false'          --> close the form!
+ * if id contains a task    --> edit the provided task
+ * @param {id} id 
+ * @returns 
+ */
 function showInputForm(id) {
     // make sure that no nonsense happens when we are in edit mode!
     if (editMode && id !== false) return;
@@ -337,8 +411,10 @@ function showInputForm(id) {
     $('btnSubmit').innerHTML = editMode ? 'APPLY CHANGES' : 'CREATE TASK';
 }
 
-
-// loads all datas from the given task(id) into the form for edit mode ANCHOR loadTaskData
+/**
+ * loads all datas from the given task(id) into the form for edit mode ANCHOR loadTaskData 
+ * @param {id} id 
+ */
 function loadTaskData(id) {
     $('inpTaskTitle').value = arrTasks[id].title;
     $('optCategory').value = arrTasks[id].category;
@@ -351,12 +427,17 @@ function loadTaskData(id) {
     $('divClerks').dataset.tooltip = frmImage.alt; // this adds the css-based tooltip!
 }
 
+/**
+ * move the tasks to the backlog
+ */
 function moveTaskToBacklog() {
     arrTasks[currID].status = 'backlog';
     showInputForm(false);
 }
 
-// changes the picture and the name of the staff in the input-form
+/**
+ * changes the picture and the name of the staff in the input-form
+ */
 function changeStaff() {
     let image = $('imgClerk'),
         firstname = image.alt.split(' ')[0].toLowerCase(), // images contain only firstname: 'sebastian.jpg'
@@ -368,7 +449,11 @@ function changeStaff() {
     $('divClerks').dataset.tooltip = image.alt; // this adds the css-based tooltip!
 }
 
-// returns the index of a staff member according to the given name
+/**
+ * returns the index of a staff member according to the given name
+ * @param {name} name 
+ * @returns 
+ */
 function getStaffIndex(name) {
     // we can eiter search in names OR pictures (contains a dot => .jpg)!!!
     let arrSearch = name.includes('.') ? objSettings.staff.images : objSettings.staff.names;
@@ -379,12 +464,20 @@ function getStaffIndex(name) {
     return index;
 }
 
-// returns the id as number, provided by the HTML-id
+/**
+ * returns the id as number, provided by the HTML-id
+ * @param {task} task 
+ * @returns 
+ */
 function getIDNumber(task) {
     let tmp = (task.id).split('-');
     return parseInt(tmp[1]);
 }
 
+/**
+ * toggled the trash icon 
+ * @param {is the state of task} state 
+ */
 function toggleTrash(state) {
     let trashBin = $('divTrashBin'),
         delColumn = $('divTrash');
@@ -413,6 +506,10 @@ function toggleTrash(state) {
     }
 }
 
+/**
+ * uploaded the file
+ * @param {that what happend} event 
+ */
 function uploadFile(event) {
     let userImage = $('imgUser');
     userImage.src = URL.createObjectURL(event.target.files[0]);
@@ -421,19 +518,29 @@ function uploadFile(event) {
     }
 }
 
-//  #####################################################################################
-//  PURPOSE 	: several drag- and drop functions
-//  			  
-//  PARAMETERS 	: event	    = the fired event
-//  #####################################################################################
+/**
+ * PURPOSE 	: several drag- and drop functions
+ * 
+ * PARAMETERS 	: event	    = the fired event
+ * @param {when what happend} event 
+ */
 function allowDrop(event) {
     event.preventDefault();
 }
 
+/**
+ * grabbing a task
+ * @param {grabbing} event 
+ */
 function drag(event) {
     event.dataTransfer.setData('text', event.target.id);
 }
 
+/**
+ * dropped a task
+ * @param {drop} event 
+ * @returns 
+ */
 function drop(event) {
     event.preventDefault();
     let data = event.dataTransfer.getData('text'),
@@ -460,6 +567,9 @@ function drop(event) {
     serverUpdate();
 }
 
+/**
+ * rendered all columns
+ */
 function renderBoardColumns() {
     let board = $('divMainBoard');
     board.innerHTML = '';
