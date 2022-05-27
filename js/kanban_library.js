@@ -97,6 +97,21 @@ function isNumeric(expression, strAllowed) {
     
 }
 
+async function includeHTML () {
+    // let includeElements = $('[w3-include-html]'); // = document.querySelectorAll('[w3-include-html]')
+    let includeElements = document.querySelectorAll('[w3-include-html]')
+    for (let i = 0; i < includeElements.length; i++) {
+        const element = includeElements[i];
+        let file = element.getAttribute('w3-include-html'),
+            resp = await fetch(file);
+        if (resp.ok) {
+            element.innerHTML = await resp.text();
+        } else {
+            element.innerHTML = 'Page not found.';
+        }        
+    }
+}
+    
 // returns the current date
 function today (format = 'dd.mm.yyyy') {
     return format$(new Date(Date.now()),format);

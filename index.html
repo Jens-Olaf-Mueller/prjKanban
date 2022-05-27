@@ -28,12 +28,12 @@
 </head>
 
 <body onload="init()">
+    <!-- <header class="header" w3-include-html="./templates/header.html"> -->
     <header class="header">
-
         <div class="logo-div">
             <img class="logo" src="./img/logo.png">
         </div>
-
+        
         <div class="menubar">
             <!-- <div class="menuHH"> &#x2630</div> -->
             <div class="menuHH">
@@ -48,250 +48,48 @@
                 </ul>
             </div>
         </div>
-
+        
         <h1>KANBAN</h1>
-
+        
         <div class="searchbar">
             <img src="./img/magnifying-glass.png">
             <input id="search" onkeyup="filterTasks()" type="text" placeholder="search">
         </div>
-
+        
         <div class="iconbar">
-            <!-- <img id="imgPlus" class="icon" src="./img/plus-wht100.png" onclick="activateMenuItem(2)" title="add new task"> -->
+            <img id="imgColumnAdd" class="icon hidden" src="./img/column-wht64.png" onclick="showColumns()" title ="show columns">
             <img id="imgBin" class="icon" src="./img/trash-delete-bin.png" onclick="toggleTrash()" title="show / hide trash bin">
             <img style="margin-right: 1rem;" class="icon" src="./img/settings-wht.png" onclick="showSettings(true)" title="show settings">
         </div>
     </header>
 
-    <div>
-        <div id="divMainBoard" class="main-content main-board ">
-            <div class="columns">
-                <h3>TO DO</h3>
-                <div class="todo flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)" data-candrop="true"></div>
-            </div>
+    <!-- ------------------------------- -->
+    <!--            B O A R D            -->
+    <!-- ------------------------------- -->
+    <div id="divMainBoard" class="main-content main-board"></div>
 
-            <div class="columns">
-                <h3>SCHEDULED</h3>
-                <div class="schedule flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)" data-candrop="true"></div>
-            </div>
-
-            <div class="columns">
-                <h3>IN PROGRESS</h3>
-                <div class="progress flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)" data-candrop="true"></div>
-            </div>
-
-            <div class="columns">
-                <h3>DONE</h3>
-                <div class="done flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)" data-candrop="true"></div>
-            </div>
-
-            <div id="divTrash" class="trash columns hidden">
-                <h3>DELETED</h3>
-                <div class="deleted flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)" data-candrop="true"></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="divBacklog">
-        <div class="headline">
-            <h2>Backlog</h2>
-            <span class="backlog-info">The following tasks need to be planned into a sprint</span>
-        </div>
-        <div class="tableDiv">
-            <table>
-                <thead>
-                    <tr id="table-header">
-                        <th class="assignedTo">ASSIGNED TO</th>
-                        <th class="category">CATEGORY</th>
-                        <th class="details">DETAILS</th>
-                    </tr>
-                </thead>
-                <tbody class="backlogContent"></tbody>
-            </table>
-        </div>
-    </div>
+    <!-- ------------------------------- -->
+    <!--          B A C K L O G          -->
+    <!-- ------------------------------- -->
+    <div id="divBacklog" w3-include-html="./templates/backlog.html"></div>
 
     <!-- ------------------------------- -->
     <!--        F O R M  I N P U T       -->
     <!-- ------------------------------- -->
-    <div id="divInput" class="input-form hidden">
-        <form id="frmInput" action="" autocomplete="off">
-            <img class="imgCloseX" src="./img/close-48.png" onclick="showInputForm(false)" title="close form">
-            <img class="imgBacklog" src="./img/backlog64.png" onclick="moveTaskToBacklog()" title="move task to backlog">
-            <div class="form-column">
-                <h2 id="frmTitle" class="form-title">Add task...</h2>
-                <div class="input-field">
-                    <label for="inpTaskTitle" required>TITLE</label>
-                    <input id="inpTaskTitle" type="text" required>
-                </div>
-
-                <div class="input-field">
-                    <label for="optCategory">CATEGORY</label>
-                    <div class="select"> <select id="optCategory"></select> </div>
-                </div>
-
-                <div class="input-field">
-                    <label for="txtDescription" required>DESCRIPTION</label>
-                    <textarea id="txtDescription" cols="20" rows="8" required></textarea>
-                </div>
-            </div>
-
-            <div class="form-column">
-                <div class="input-field">
-                    <label for="inpDeadline">DUE DATE</label>
-                    <input id="inpDeadline" type="date">
-                </div>
-
-                <div class="input-field">
-                    <label for="optPriority" required>PRIORITY</label>
-                    <div class="select"> <select id="optPriority" required></select> </div>
-                </div>
-
-                <div class="input-field">
-                    <label for="divClerks">ASSIGNED TO</label>
-                    <div id="divClerks" class="clerk" data-tooltip="select user">
-                        <img id="imgClerk" src="./img/profile-dummy.png" alt="">
-                        <div id="btnPlus" class="plus" type="button" onclick="changeStaff()"></div>
-                    </div>
-
-                    <div class="form-buttons">
-                        <button type="reset" onclick="showInputForm(false)">CANCEL</button>
-                        <button id="btnSubmit" type="button" onclick="addTask()">CREATE TASK</button>
-                        <!-- ACHTUNG ! Button muss zu type"submit" geändert werden -->
-                        <!-- <button id="btnSubmit" type="submit" onclick="addTask()">CREATE TASK</button> -->
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
+    <div id="divInput" class="input-form hidden" w3-include-html="./templates/addtask.html"></div>
 
     <!-- ------------------------------- -->
-    <!-- N E W  F O R M  S E T T I N G S -->
+    <!--     F O R M  S E T T I N G S    -->
     <!-- ------------------------------- -->
-    <div id="divSettings" class="input-form hidden">
-        <form id="frmSettings" action="" autocomplete="off">
-            <img class="imgCloseX" src="./img/close-48.png" onclick="showSettings(false)" title="close">
+    <div id="divSettings" class="input-form hidden" w3-include-html="./templates/settings.html"></div>
 
-            <div class="form-column">
-                <h2 class="form-title">Settings</h2>
-
-                <div class="input-field settings">
-                    <label for="selPriority">PRIORITY</label>
-                    <div class="select">
-                        <select id="selPriority" onchange="showColorPicker()"></select>
-                    </div><input id="inpColorPicker" class="hidden" type="color">
-                </div>
-
-                <div class="input-field">
-                    <label for="selCategory">CATEGORY</label>
-                    <input list="lstCategory" id="selCategory">
-                    <datalist id="lstCategory"></datalist>
-                </div>
-
-                <div class="input-field">
-                    <label for="optColumns">COLUMNS</label>
-                    <input list="lstColumns" id="optColumns">
-                    <datalist id="lstColumns"></datalist>
-                </div>
-
-            </div>
-
-            <div class="form-column">
-                <div class="input-field">
-                    <label for="inpNewUser">ADD NEW USER</label>
-                    <input id="inpNewUser" type="text">
-
-                    <div id="divUsers" class="clerk grab" data-tooltip="click to upload foto">
-                        <label for="inpUserImage">
-                            <input id="inpUserImage" type="file" style="display:none;" accept="image/jpg, image/jpeg, image/png" onchange="uploadFile(event)">
-                            <img id="imgUser" src="./img/profile-dummy.png" alt="">
-                        </label>
-                    </div>
-
-                    <div class="form-buttons">
-                        <button type="reset" onclick="showSettings(false)">CANCEL</button>
-                        <button id="btnSubmitSettings" type="button" onclick="saveSettings()">SAVE SETTINGS</button>
-
-                        <!-- ACHTUNG ! Button muss zu type"submit" geändert werden -->
-                        <!-- <button id="btnSubmit" type="submit" onclick="addTask()">CREATE TASK</button> -->
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-
+    <!-- ------------------------------- -->
+    <!--        T R A S H  B I N         -->
+    <!-- ------------------------------- -->
     <div id="divTrashBin" class="trash-bin hidden" ondrop="drop(event)" ondragover="allowDrop(event)">
         <img class="deleted" src="./img/trash-blk-large.png" alt="bin" title="double click to open trash" ondblclick="toggleTrash(2)" data-candrop="true">
     </div>
 
-    <div id="divHelp" class="help-section hidden">
-        <h2>Help</h2><br>
-        <hr>
-        <details>
-            <summary>1. Workflow</summary>
-            <p>
-                In order to make your workflow easier and to improve the processing speed of your tasks, we have created this KANBAN board for you.<br> So let's take a closer look how it works: <br><br> You can create a new task by clicking on
-                <strong class="code"> Add Task </strong>in the navigation bar. <br><br> A new added task has got the status <strong>backlog</strong> at the beginning and will be displayed in the backlog section only. From there you can move it to the
-                board, where it will occure in the column <strong> TO DO </strong> at first. <br><br> On the board section you change the status of a task by dragging & dropping it, depending on it's progress. <br><br>
-
-            </p>
-        </details>
-        <details>
-            <summary>2. Board</summary>
-            <p>
-                The board is the core feature of this tool. There is no easier way to organise and schedule the tasks that needs to be done. You got four columns on the board plus a trash column which is hidden by default. <br> The four standard columns
-                are:
-            </p>
-            <ol>
-                <li>TO DO</li>
-                <li>SCHEDULED</li>
-                <li>IN PROGRESS</li>
-                <li>DONE</li>
-            </ol>
-            <p>In order to display the fifth column (the trash) there are two options to achieve this: <br> - by double click on the bin icon in the lower right corner on the screen <br> - by toggeling the bin icon in the icon bar on top of the screen <br><br>                Once the column <strong>DELETED</strong> is displayed, you can use it just like the other columns. Drag and drop tasks into or from the trash.
-
-            </p>
-        </details>
-        <details>
-            <summary>3. Backlog</summary>
-            <p>
-                Once a new task is created, it will appear in the backlog first. The backlog is meant to give you an overview about all tasks that are in the queue. In order to move a created task to the board, press the button <strong class="code">TO BOARD</strong>                <br><br> On the board the task will be displayed in the <strong>TO DO</strong> column at the beginning. From there you can drag it into any desired column, depending on the state it is. <br> To refuse the task, simply press the bin icon
-                in the upper right corner and the task will be moved to the trash.
-            </p>
-        </details>
-        <details>
-            <summary>4. Add task</summary>
-            <p>
-                Adding a new task is very easy.<br> A form will occure that you simply fill out with all necessary informations. <br> Please mind that fields with a red asterisk<strong class="red">*</strong> are required fields! <br><br> If the <strong> due date </strong>                is omitted, the current date will be assigned.
-            </p>
-        </details>
-        <details>
-            <summary>5. Edit, print or delete tasts</summary>
-            <p>
-                To<strong> edit a task </strong>you can simply<strong> double click </strong>it. The edit form will be opened. Once your changes are done confirm them by click on the button <strong class="code">APPLY CHANGES</strong> <br><br> To <strong> print a task </strong>                please click on the <strong> printer icon </strong> in the task's top right corner. A new window will be opened that allows you to print out your task. <br><br> For <strong> deleting a task </strong> simply <strong> drag it over the trash bin </strong>                in the lower right corner. (Must be enabled by toggeling the bin in the icon bar.) <br> You can also simply drag it into the <strong> DELETED </strong>column, if it is visible. <br><br> If you want to remove a deleted task completely from
-                the records, you can do that by clicking the bin icon in the top right corner of the task. <br> Please note that this icon is visible only, if the task has been moved to the trash already! Before the task is going to be removed completely,
-                you will have to confirm this process.
-            </p>
-        </details>
-        <details>
-            <summary>6. Search function</summary>
-            <p>
-                By help of the search function you can search in all available tasks on the board for any information required. <br> Any task that matches the search critereon, will be displayed immediately, while all non matching tasks will be hidden.
-                <br><br> The search will cover:<br> - the title<br> - the description<br> - the due date<br> - the task's priority<br> - the assigned user<br>
-            </p>
-        </details>
-        <details>
-            <summary>7. Settings</summary>
-            <p>
-                <strong class="red">CAUTIION! This feature is not completely implemented yet!</strong> <br><br> This opens a form to adjust the individual settings. <br> You can change the following options:</p>
-            <ol>
-                <li>the color of the task priority</li>
-                <li>the category the task belongs to</li>
-                <li>the column headers</li>
-                <li>new users (with portrait if wanted)</li>
-            </ol>
-        </details>
-    </div>
+    <div id="divHelp" class="help-section hidden" w3-include-html="./templates/help.html"></div>
 </body>
-
 </html>

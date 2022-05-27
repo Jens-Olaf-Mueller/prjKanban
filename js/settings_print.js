@@ -1,3 +1,10 @@
+const HTML_TRASH_COLUMN = `
+    <div id="divTrash" class="trash columns hidden">
+        <h3>DELETED</h3>
+        <img class="imgCloseX-small" src="./img/close-48.png" onclick="toggleTrash(false)" title="hide trash">
+        <div class="deleted flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)" data-candrop="true"></div>
+    </div>`;
+
 // short print-function
 function printTask(index) {
     let printWindow = window.open('', '', 'height=720,width=1000');
@@ -23,9 +30,17 @@ function printTask(index) {
 function showColorPicker() {
     let colorPicker = $('inpColorPicker'),
         priority = $('selPriority').value,
-        cssColor = getComputedStyle(document.querySelector(':root')).getPropertyValue(`--${priority}`)
+        cssColor = getComputedStyle(document.querySelector(':root')).getPropertyValue(`--${priority}`);
+    if (priority == '') {
+        colorPicker.classList.add('hidden');
+        return;
+    }
     colorPicker.classList.remove('hidden');
     colorPicker.value = cssColor;
+}
+
+function loadSettings () {
+    objSettings = JSON.parse(backend.getItem('settings')) || objSettings;
 }
 
 function saveSettings () {
@@ -36,8 +51,9 @@ function saveSettings () {
 
     // ACHTUNG! 
     // Werte in objSettings speichern und danach
-    // objSettings noch zum Server!
 
+    // objSettings noch zum Server!
+    backend.setItem('settings',JSON.stringify(objSettings));
     //resetSettingForm();
     showSettings(false);
 }
@@ -50,6 +66,7 @@ function showSettings(visible) {
         initSelectionFields('lstColumns');
         getActiveMenuItem();
         closeSections();
+        $('inpColorPicker').classList.add('hidden');
         $('divSettings').classList.remove('hidden');
     } else {
         $('divSettings').classList.add('hidden');

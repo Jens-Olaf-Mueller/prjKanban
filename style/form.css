@@ -33,6 +33,7 @@
 }
 
 .imgCloseX, 
+.imgCloseX-small,
 .imgBacklog {
     position: absolute;
     top: -1rem;
@@ -40,6 +41,12 @@
     width: 2rem;
     opacity: 0.7;
     cursor: pointer;
+}
+
+.imgCloseX-small {
+    width: 1rem;
+    top: 0;
+    right: 0;
 }
 
 .imgBacklog {right: 2rem;} /* overwrite previous definition! */
@@ -96,7 +103,6 @@ select:focus {
     resize: vertical;
 }
 
-
 /* deactivates the calendar symbol in chrome-input-field */
 
 
@@ -140,26 +146,36 @@ select:focus {
     border: 1px dotted navy;
 }
 
-.input-field {
+.form-control {
     display: flex;
     flex-direction: column;
     margin-top: 1.5rem;
 }
 
-.input-field.settings {
+.form-control.settings {
+    position: relative;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
 }
 
-.input-field.settings .select {
+.form-control.settings .select {
     flex: 1;
 }
 
-.input-field [type=color] {
+.form-control.settings label {
+    min-width: 5rem;
+}
+
+.form-control.settings input {
+    max-width: 12rem;
+}
+
+.form-control [type=color] {
     height: 3rem;
     width: 3rem;
+    padding: 0;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -168,16 +184,55 @@ select:focus {
     cursor: pointer;
 }
 
-.input-field [type=color]::-webkit-color-swatch,
-.input-field [type=color]::-moz-color-swatch {
+.form-control [type=color]::-webkit-color-swatch,
+.form-control [type=color]::-moz-color-swatch {
     border: none;
     border-radius: 5px;
 }
 
+/* removes the calendar picker */
+/* .form-control input::-webkit-calendar-picker-indicator {
+    display: none;
+} */
+
+.form-control .btnPlus {
+    border: none;
+    border-radius: 4px;
+    padding: 8px 10px;
+    margin-top: 4px;   
+    background-color: navy;
+    color: whitesmoke;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.form-control .btnPlus:hover {
+    opacity: 1;
+}
+
+/* .form-control label[data-list]::after {
+    content: '\002795';
+    padding: 10px 12px;
+    position: absolute;
+    top: 5px;
+    right: 0;    
+    background-color: navy;
+    color: whitesmoke;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    /* pointer-events: none;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.form-control label[data-list]:hover::after {
+    opacity: 1;
+} */
+
 
 /* <select>-element itself !! */
 
-.input-field select {
+.form-control select {
     appearance: none;
     box-shadow: none;
     width: 100%;
@@ -187,7 +242,7 @@ select:focus {
 
 /* class for the wrapping div! */
 
-.input-field .select {
+.form-control .select {
     position: relative;
     display: flex;
     cursor: pointer;
@@ -197,7 +252,7 @@ select:focus {
 
 /* styling the down-arrow */
 
-.input-field .select::after {
+.form-control .select::after {
     content: '\25bc';
     /* \25bc oder \2228 */
     position: absolute;
@@ -214,7 +269,7 @@ select:focus {
     /* filter: brightness(0.7); */
 }
 
-.input-field .select:hover::after {
+.form-control .select:hover::after {
     opacity: 1;
 }
 

@@ -16,21 +16,22 @@ let editMode = false, // flag for edit-mode
         },
         columns: ["to do", "scheduled", "in progress", "done"]
     };
+
 // global constants for easier access
 const DELETED = 'deleted';
 const MENUITEMS = $('.menu-items li');
 
-// setURL('https://gruppe-220.developerakademie.net/smallest_backend_ever');
-
 async function init() {
-    // renderBoardColumns();
+    await includeHTML();
     await downloadFromServer();
+    loadSettings();
+    renderBoardColumns();
     taskDownload();
     renderTasks();
     activateMenuItem(0);
 }
 
-// Pushes all relevant arrays to the server after changes where made on the board (at the moment create & edit tasks)
+// Pushes all relevant arrays to the server after changes where made on tkillrehe board (at the moment create & edit tasks)
 function serverUpdate() {
     backend.setItem('arrTasks', JSON.stringify(arrTasks));
 }
@@ -48,8 +49,8 @@ async function killTask(id) {
         let taskInd = arrTasks.findIndex(findID);
         if (taskInd >= 0) {
             arrTasks.splice(taskInd, 1);
-            serverUpdate();
-            renderTasks(); 
+            renderTasks();
+            serverUpdate();             
         } else {
             playSound('wrong.mp3');
             msgBox(`Task with id# ${id} not found!`,'Error!','OK',true,true);
@@ -116,10 +117,19 @@ function pushToBoard(id) {
     }
 }
 
+// updates all ID's after deleting a task
+function updateTaskIDs () {
+    for (let i = 0; i < arrTasks.length; i++) {
+        arrTasks[i].id = i;
+    }
+}
+
 // renders all existing tasks into the correct sections (todo, scheduled etc.)
 function renderTasks() {
     let boardSections = Array.from($('#divMainBoard .columns >div')); // first clear all Sections!
-    for (let i = 0; i < boardSections.length; i++) { boardSections[i].innerHTML = ''; } // now render all tasks into the correct section with a double loop
+    for (let i = 0; i < boardSections.length; i++) { boardSections[i].innerHTML = ''; } 
+    updateTaskIDs();
+    // now render all tasks into the correct section with a double loop
     for (let i = 0; i < arrTasks.length; i++) {
         const task = arrTasks[i];
         for (let j = 0; j < boardSections.length; j++) {
@@ -193,7 +203,7 @@ function generateTaskHTML(task) {
 // selects the given menu-item
 function activateMenuItem(index) {
     if (editMode) return; // in edit mode we exit immediately
-    getActiveMenuItem();
+    lastMenu = getActiveMenuItem();
     // first remove all other selections and save the last menu-index!
     for (let i = 0; i < MENUITEMS.length; i++) {
         MENUITEMS[i].classList.remove('active');
@@ -217,22 +227,29 @@ function activateMenuItem(index) {
             return; // if no index is provided, we only unselect the links and exit
     }
     MENUITEMS[index].classList.add('active');
-    setHeaderControls(!boardIsVisible, index); // hide icons except from settings, when board is invisible!
+    setHeaderIcons(); // hide icons except from settings, when board is invisible!
 }
 
 // saves the active menu item in the global variable 'lastMenu'
 // in order to return to the previous menu when cancelled (used in add task and settings)
 function getActiveMenuItem() {
     for (let i = 0; i < MENUITEMS.length; i++) {
-        if (MENUITEMS[i].classList.contains('active')) lastMenu = i;
+        if (MENUITEMS[i].classList.contains('active')) return i;
     }
 }
 
-// enables or disables the icon 'trash' and the searchbar in header
-function setHeaderControls(status, activeMenu) {
-    $('imgBin').classList.toggle('hidden', status);
-    status = (activeMenu > 1) ? true : false;
-    $('.searchbar').classList.toggle('hidden', status);
+// enables or disables the icons 'trash' and the searchbar in header
+function setHeaderIcons(status) {
+    let activeMenu = getActiveMenuItem();
+    $('imgBin').classList.toggle('hidden', !boardIsVisible);
+    $('.searchbar').classList.toggle('hidden', (activeMenu > 1));
+    let arrNodes = $('#divMainBoard .columns.hidden'), columnsHidden;
+    if (NodeList.prototype.isPrototypeOf(arrNodes)) {
+        columnsHidden = arrNodes.length;
+    } else {
+        columnsHidden = arrNodes.classList.contains('trash') ? 0 : 1;
+    } 
+    $('imgColumnAdd').classList.toggle('hidden', !(activeMenu == 0 && columnsHidden > 0));
 }
 
 // helper-function for fnc 'activateMenuItem': closes all open forms & div's
@@ -324,8 +341,8 @@ function showInputForm(id) {
     // if id is 'undefined' we are supposed to create a new task!
     if (id != undefined) {
         editMode = true;
-        getActiveMenuItem();
-        setHeaderControls(editMode, 4);
+        lastMenu = getActiveMenuItem();
+        setHeaderIcons(editMode);
         currID = id; // save the id for apply changes!
         form.classList.add('edit-mode');
         loadTaskData(id);
@@ -413,6 +430,45 @@ function toggleTrash(state) {
     }
 }
 
+function changeList(control) {
+    const PLUS = '&#x2795',
+          MINUS = '&#x2796';
+    let listID = control.list.id,
+        listName = listID.substring(3),
+        arrDest = listName.includes('Category') ? objSettings.category : objSettings.columns,
+        value = control.value,
+        button = $('btn' + listName);
+    
+    button.classList.add('hidden');
+    if (value.length < 4) {
+        return false;
+    } else if (arrDest.includes(value)) {
+        button.innerHTML = MINUS;
+    } else {
+        button.innerHTML = PLUS;
+    }
+    button.classList.remove('hidden');
+    button.title = button.innerHTML == '\u2795' ? `add ${value} to ${listName}` : `remove ${value} from ${listName}`;
+}
+
+function updateList (control, button) {
+    let value = $(control).value,
+        listName = 'lst' + control.substring(3),
+        arrDest = listName.includes('Category') ? objSettings.category : objSettings.columns;
+
+    // if the new value ain't in the list and the button shows plus, we add it
+    if (!arrDest.includes(value) && button.innerHTML ==  '\u2795') {
+        arrDest.push(value);
+    // if the button shows a minus, we delete the item from list
+    } else if (arrDest.includes(value) && button.innerHTML ==  '\u2796') {
+        arrDest.splice(arrDest.indexOf(value),1);
+        $(control).value = '';
+    }
+
+    initSelectionFields(listName);
+    $(button.id).classList.add('hidden');
+}
+
 function uploadFile(event) {
     let userImage = $('imgUser');
     userImage.src = URL.createObjectURL(event.target.files[0]);
@@ -464,11 +520,32 @@ function renderBoardColumns() {
     let board = $('divMainBoard');
     board.innerHTML = '';
     for (let i = 0; i < objSettings.columns.length; i++) {
-        const title = objSettings.columns[i].toUpperCase();
+        const title = objSettings.columns[i].toUpperCase(),
+              state =  title.toLowerCase().replaceAll(' ', '');
         board.innerHTML += `
             <div class="columns">
                 <h3>${title}</h3>
-                <div class="todo flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)" data-candrop="true"></div>
+                <img class="imgCloseX-small" src="./img/close-48.png" onclick="hideColumn(${i})" title="hide column">
+                <div class="${state} flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)" data-candrop="true"></div>
             </div>`;
     }
+    board.innerHTML += HTML_TRASH_COLUMN;
+}
+
+// hides a column from board
+function hideColumn (index) {
+    let columns = $('.columns');
+    columns[index].classList.add('hidden');
+    setHeaderIcons();
+}
+
+// displays all hidden columns again
+function showColumns () {
+    let hiddenColumns = Array.from($('.columns.hidden')),
+        trash = $('divTrash');
+    hiddenColumns.forEach(col => {
+        col.classList.remove('hidden');
+    });
+    trash.classList.toggle('hidden',trashState != 2);
+    setHeaderIcons();
 }
