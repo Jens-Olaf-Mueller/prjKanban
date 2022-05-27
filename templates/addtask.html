@@ -1,4 +1,4 @@
-<form id="frmInput" action="" autocomplete="off">
+<form id="frmInput" onsubmit="event.preventDefault(), addTask()" autocomplete="off">
     <img class="imgCloseX" src="./img/close-48.png" onclick="showInputForm(false)" title="close form">
     <img class="imgBacklog" src="./img/backlog64.png" onclick="moveTaskToBacklog()" title="move task to backlog">
     <div class="form-column">
@@ -39,9 +39,8 @@
 
             <div class="form-buttons">
                 <button type="reset" onclick="showInputForm(false)">CANCEL</button>
-                <button id="btnSubmit" type="button" onclick="addTask()">CREATE TASK</button>
-                <!-- ACHTUNG ! Button muss zu type"submit" geändert werden -->
-                <!-- <button id="btnSubmit" type="submit" onclick="addTask()">CREATE TASK</button> -->
+                <!-- <button id="btnSubmit" type="button" onclick="addTask()">CREATE TASK</button> -->
+                <button id="btnSubmit" type="submit">CREATE TASK</button>
             </div>
         </div>
     </div>

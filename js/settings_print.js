@@ -54,25 +54,17 @@ function saveSettings () {
     priority = $('selPriority').value;
     // Set the value of the css variable -- ??? to another value  
     $(':root').style.setProperty(`--${priority}`, newColor);
-
-    // ACHTUNG! 
-    // Werte in objSettings speichern und danach
-
-    // objSettings noch zum Server!
     backend.setItem('settings',JSON.stringify(objSettings));
-    //resetSettingForm();
     showSettings(false);
 }
 
 /**
  * displays or hides the settings
- * @param {visible} visible 
+ * @param {boolean} visible determines if the content is to be displayed or not (true | false)
  */
 function showSettings(visible) {
     if (visible) {
-        initSelectionFields('selPriority');
-        initSelectionFields('lstCategory');
-        initSelectionFields('lstColumns');
+        resetFormSettings();
         getActiveMenuItem();
         closeSections();
         $('inpColorPicker').classList.add('hidden');
@@ -81,5 +73,64 @@ function showSettings(visible) {
         $('divSettings').classList.add('hidden');
         activateMenuItem(lastMenu);
     }
-    setHeaderControls(true, 4); // 4 forces the searchbar to be hidden!
+    setHeaderIcons();  
+}
+
+function resetFormSettings () {
+    initSelectionFields('selPriority');
+    initSelectionFields('lstCategory');
+    initSelectionFields('lstColumns');
+    $('btnCategory').classList.add('hidden');
+    $('btnColumns').classList.add('hidden');
+}
+
+function changeList(control) {
+    const PLUS = '&#x2795',
+          MINUS = '&#x2796';
+    let listID = control.list.id,
+        listName = listID.substring(3),
+        arrDest = listName.includes('Category') ? objSettings.category : objSettings.columns,
+        value = control.value,
+        button = $('btn' + listName);
+    
+    button.classList.add('hidden');
+    if (value.length < 4) {
+        return false;
+    } else if (arrDest.includes(value)) {
+        button.innerHTML = MINUS;
+    } else {
+        button.innerHTML = PLUS;
+    }
+    button.classList.remove('hidden');
+    button.title = button.innerHTML == '\u2795' ? `add ${value} to ${listName}` : `remove ${value} from ${listName}`;
+}
+
+function updateList (control, button) {
+    let value = $(control).value,
+        listName = 'lst' + control.substring(3),
+        arrDest = listName.includes('Category') ? objSettings.category : objSettings.columns;
+
+    // if the new value ain't in the list and the button shows plus, we add it
+    if (!arrDest.includes(value) && button.innerHTML ==  '\u2795') {
+        arrDest.push(value);
+    // if the button shows a minus, we delete the item from list
+    } else if (arrDest.includes(value) && button.innerHTML ==  '\u2796') {
+        arrDest.splice(arrDest.indexOf(value),1);
+        $(control).value = '';
+    }
+
+    initSelectionFields(listName);
+    $(button.id).classList.add('hidden');
+}
+
+/**
+ * 
+ * @param {event} event file-event
+ */
+function uploadFile(event) {
+    let userImage = $('imgUser');
+    userImage.src = URL.createObjectURL(event.target.files[0]);
+    userImage.onload = function() {
+        URL.revokeObjectURL(userImage.src); // free memory
+    }
 }

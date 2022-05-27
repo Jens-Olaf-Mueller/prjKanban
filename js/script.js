@@ -7,6 +7,7 @@ let editMode = false, // flag for edit-mode
     currID = 0, // current id in edit mode (to apply changes)
     lastMenu = 0, // saving the last menu we have been
     arrTasks = [], // array, holding the tasks
+    MENUITEMS, // collection of all menu items - to be loaded after header is loaded from fnc 'includeHTML' !!
     objSettings = {
         category: ["Marketing", "Product", "Sale", "Management"],
         priority: ["low", "medium", "important", "high"],
@@ -17,14 +18,14 @@ let editMode = false, // flag for edit-mode
         columns: ["to do", "scheduled", "in progress", "done"]
     };
 
-// global constants for easier access
+// global constant for easier access
 const DELETED = 'deleted';
-const MENUITEMS = $('.menu-items li');
 
 async function init() {
     await includeHTML();
     await downloadFromServer();
     loadSettings();
+    MENUITEMS = $('.menu-items li'); // must be initialized in this function, not before!!!
     renderBoardColumns();
     taskDownload();
     renderTasks();
@@ -480,8 +481,8 @@ function getStaffIndex(name) {
 
 /**
  * returns the id as number, provided by the HTML-id
- * @param {task} task 
- * @returns 
+ * @param {string} task format: "task-xx"
+ * @returns {integer} number
  */
 function getIDNumber(task) {
     let tmp = (task.id).split('-');
@@ -490,7 +491,7 @@ function getIDNumber(task) {
 
 /**
  * toggled the trash icon 
- * @param {is the state of task} state 
+ * @param {boolean | integer} state false or 0 = hide trash bin, integer: 1 = display icon | 2 = show column
  */
 function toggleTrash(state) {
     let trashBin = $('divTrashBin'),
@@ -517,53 +518,6 @@ function toggleTrash(state) {
             trashBin.classList.add('hidden');
             delColumn.classList.add('hidden');
             break;
-    }
-}
-
-function changeList(control) {
-    const PLUS = '&#x2795',
-          MINUS = '&#x2796';
-    let listID = control.list.id,
-        listName = listID.substring(3),
-        arrDest = listName.includes('Category') ? objSettings.category : objSettings.columns,
-        value = control.value,
-        button = $('btn' + listName);
-    
-    button.classList.add('hidden');
-    if (value.length < 4) {
-        return false;
-    } else if (arrDest.includes(value)) {
-        button.innerHTML = MINUS;
-    } else {
-        button.innerHTML = PLUS;
-    }
-    button.classList.remove('hidden');
-    button.title = button.innerHTML == '\u2795' ? `add ${value} to ${listName}` : `remove ${value} from ${listName}`;
-}
-
-function updateList (control, button) {
-    let value = $(control).value,
-        listName = 'lst' + control.substring(3),
-        arrDest = listName.includes('Category') ? objSettings.category : objSettings.columns;
-
-    // if the new value ain't in the list and the button shows plus, we add it
-    if (!arrDest.includes(value) && button.innerHTML ==  '\u2795') {
-        arrDest.push(value);
-    // if the button shows a minus, we delete the item from list
-    } else if (arrDest.includes(value) && button.innerHTML ==  '\u2796') {
-        arrDest.splice(arrDest.indexOf(value),1);
-        $(control).value = '';
-    }
-
-    initSelectionFields(listName);
-    $(button.id).classList.add('hidden');
-}
-
-function uploadFile(event) {
-    let userImage = $('imgUser');
-    userImage.src = URL.createObjectURL(event.target.files[0]);
-    userImage.onload = function() {
-        URL.revokeObjectURL(userImage.src); // free memory
     }
 }
 
