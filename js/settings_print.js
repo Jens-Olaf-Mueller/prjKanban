@@ -5,7 +5,10 @@ const HTML_TRASH_COLUMN = `
         <div class="deleted flx-ctr" ondrop="drop(event)" ondragover="allowDrop(event)" data-candrop="true"></div>
     </div>`;
 
-// short print-function
+/**
+ * short print-function
+ * @param {index} index 
+ */
 function printTask(index) {
     let printWindow = window.open('', '', 'height=720,width=1000');
     printWindow.document.write('<html><head><title>Task drucken</title>');
@@ -27,6 +30,9 @@ function printTask(index) {
     printWindow.print();
 }
 
+/**
+ * show the colorpicker
+ */
 function showColorPicker() {
     let colorPicker = $('inpColorPicker'),
         priority = $('selPriority').value,
@@ -58,7 +64,10 @@ function saveSettings () {
     showSettings(false);
 }
 
-// displays or hides the settings
+/**
+ * displays or hides the settings
+ * @param {visible} visible 
+ */
 function showSettings(visible) {
     if (visible) {
         initSelectionFields('selPriority');

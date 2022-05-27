@@ -37,12 +37,12 @@ function $(selector, child) {
     // is last-child wanted?
     let getLastChild = (child == '~' || child == ':last-child') ? true : false;
     // check, if 'child' is numeric!
-    if (!isNumeric(child,true) || child < 0 ) {child = false}
+    if (!isNumeric(child, true) || child < 0) { child = false }
 
     // query-selector provided?
-    if (selector.includes('[') || selector.includes('.') || selector.includes('#')  || selector.includes(':') || selector.includes('>')) {
+    if (selector.includes('[') || selector.includes('.') || selector.includes('#') || selector.includes(':') || selector.includes('>')) {
         let elements = document.querySelectorAll(selector);
-        if (elements.length == 1) {return elements[0]}
+        if (elements.length == 1) { return elements[0] }
         child = getLastChild ? elements.length - 1 : child;
         return (child === false) ? elements : elements[child];
     }
@@ -50,34 +50,34 @@ function $(selector, child) {
     // now search for ID...
     let element = document.getElementById(selector);
     if (element) { // ID was found!
-        return element;     
+        return element;
     } else { // no ID found: continue in HTML-tags...
         let htmlTags = document.getElementsByTagName(selector);
         if (htmlTags.length > 0) {
             // don't return a collection or list, if only 1 child is contained, 
             // return this single element instead
-            if (htmlTags.length == 1) {return htmlTags[0]} 
+            if (htmlTags.length == 1) { return htmlTags[0] }
             child = getLastChild ? htmlTags.length - 1 : child;
             return (child === false) ? htmlTags : htmlTags[child];
         } else { // is the selector a class...?            
             clsNames = document.getElementsByClassName(selector);
-            if (clsNames.length > 0) { 
-                if (clsNames.length == 1) {return clsNames[0]}
-                child = getLastChild ? clsNames.length - 1 : child;          
-                return (child === false) ?  clsNames : clsNames[child];
+            if (clsNames.length > 0) {
+                if (clsNames.length == 1) { return clsNames[0] }
+                child = getLastChild ? clsNames.length - 1 : child;
+                return (child === false) ? clsNames : clsNames[child];
             } else {
                 // ...or is it a name finally?
                 let elNames = document.getElementsByName(selector);
                 if (elNames.length > 0) {
-                    if (elNames.length == 1) {return elNames[0]}
+                    if (elNames.length == 1) { return elNames[0] }
                     child = getLastChild ? elNames.length - 1 : child;
-                    return (child === false) ?  elNames : elNames[child];
-                }                
+                    return (child === false) ? elNames : elNames[child];
+                }
             }
         }
     }
 }
-    
+
 //  #####################################################################################
 //  PURPOSE 	: Checks properly(!!!), if 'expression' is numeric
 //   			  recognizes: undefined, NaN, Null, infinity etc.
@@ -90,11 +90,11 @@ function $(selector, child) {
 // export function isNumeric(expression, strAllowed) { 
 function isNumeric(expression, strAllowed) {
     if (!strAllowed) {
-        return Number.isFinite(expression); 
+        return Number.isFinite(expression);
     } else {
-        return Number.isFinite(parseFloat(expression)); 
+        return Number.isFinite(parseFloat(expression));
     }
-    
+
 }
 
 async function includeHTML () {
@@ -117,8 +117,13 @@ function today (format = 'dd.mm.yyyy') {
     return format$(new Date(Date.now()),format);
 }
 
-// format$ (datum, "hh:nn:ss") yyyy-mm-dd
-function format$ (expression, format = 'dd.mm.yyyy') {    
+/**
+ * format$ (datum, "hh:nn:ss") yyyy-mm-dd
+ * @param {expression} expression 
+ * @param {format} format 
+ * @returns 
+ */
+function format$(expression, format = 'dd.mm.yyyy') {
     let d = (expression instanceof Date) ? expression : expression.isDate();
     if (!d) return 'Invalid Date';
 
@@ -128,51 +133,59 @@ function format$ (expression, format = 'dd.mm.yyyy') {
         year = d.getFullYear(),
         hours = ('0' + d.getHours()).slice(-2),
         min = ('0' + d.getMinutes()).slice(-2),
-        sec = ('0' + d.getSeconds()).slice(-2); 
+        sec = ('0' + d.getSeconds()).slice(-2);
 
     // is time wanted?
     if (format.includes(':')) {
-        return format.replace('hh',hours).replace('nn', min).replace('ss', sec);
+        return format.replace('hh', hours).replace('nn', min).replace('ss', sec);
     }
-    return format.replace('mm',month).replace('yyyy', year).replace('dd', day);
+    return format.replace('mm', month).replace('yyyy', year).replace('dd', day);
 }
 
-// extends String-object by this function:
-// checks if a given date-string can be interpreted as date!
-// valid separators are: '.' | '-' | '/'
-// call: '17-01-2000'.isDate()              = true, returns the date as object!
-//       let date = '2000/01/17'.isDate()   = true, assigns the date to the variable!
-String.prototype.isDate = function (expression) {  
+/**
+ * extends String-object by this function:
+ * checks if a given date-string can be interpreted as date!
+ * valid separators are: '.' | '-' | '/'
+ * call: '17-01-2000'.isDate()              = true, returns the date as object!
+ *       let date = '2000/01/17'.isDate()   = true, assigns the date to the variable!
+ * @param {expression} expression 
+ * @returns 
+ */
+String.prototype.isDate = function(expression) {
     // assign this to the expression, if function is attended on a string!
-    if (!expression) expression = this; 
+    if (!expression) expression = this;
 
     const dateReg = /^\d{1,2}|\d{4}([-\/\.])\d{1,2}\1\d{2,4}$/
     if (!expression.match(dateReg)) return false;
-    
+
     let dtParts = expression.split(/[\.\-\/]/),
         yyyy = parseInt(dtParts[2]),
-        mm   = parseInt(dtParts[1]),
-        dd   = parseInt(dtParts[0]),
+        mm = parseInt(dtParts[1]),
+        dd = parseInt(dtParts[0]),
         separator = getDateSeparator(expression);
-    
+
     // swap the year and day if format is like: yyyy-mm-dd
     if (expression.indexOf(separator) == 4) {
-        [dd,yyyy] = [yyyy,dd];
+        [dd, yyyy] = [yyyy, dd];
     }
 
     let tmpDate = new Date(yyyy, mm - 1, dd, 0, 0, 0, 0);
-    
+
     // if we found a valid date, return it, otherwise return 'false'!
-    if(mm === (tmpDate.getMonth() + 1) && dd === tmpDate.getDate() && yyyy === tmpDate.getFullYear()) return tmpDate;
+    if (mm === (tmpDate.getMonth() + 1) && dd === tmpDate.getDate() && yyyy === tmpDate.getFullYear()) return tmpDate;
     // this would return just 'true':
     // return mm === (tmpDate.getMonth() + 1) && dd === tmpDate.getDate() && yyyy === tmpDate.getFullYear();
     return false;
 }
 
-// helper function for fnc 'String.prototype.isDate'
-// determines which seperator is used for the given date: '/' or '-' or '.' ?
-function getDateSeparator (date) {
-    const separators = ['/','-','.']; // define all possible date separators
+/**
+ * helper function for fnc 'String.prototype.isDate'
+ * determines which seperator is used for the given date: '/' or '-' or '.' ?
+ * @param {date} date 
+ * @returns 
+ */
+function getDateSeparator(date) {
+    const separators = ['/', '-', '.']; // define all possible date separators
     for (let i = 0; i < separators.length; i++) {
         const sep = separators[i];
         if (date.split(sep).length > 1) return sep;
@@ -180,14 +193,24 @@ function getDateSeparator (date) {
     return undefined;
 }
 
+/**
+ * get random
+ * @param {min} min 
+ * @param {max} max 
+ * @returns 
+ */
 function getRandom(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// functions for sound and music output
-function playSound (file, forced = true) {
+/**
+ * functions for sound and music output
+ * @param {file} file 
+ * @param {forced} forced 
+ */
+function playSound(file, forced = true) {
     // if (soundEnabled || musicEnabled || forced) { // when available in settings
     if (forced) {
         file = './sound/' + file;
@@ -196,7 +219,11 @@ function playSound (file, forced = true) {
     }
 }
 
-function todo (message) {
-    playSound ('notify.mp3');
-    msgBox(message, 'Info @ authors','Ok', false, true);
+/**
+ * display a messagebox 
+ * @param {message for the user} message 
+ */
+function todo(message) {
+    playSound('notify.mp3');
+    msgBox(message, 'Info @ authors', 'Ok', false, true);
 }
