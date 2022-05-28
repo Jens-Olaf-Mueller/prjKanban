@@ -24,12 +24,7 @@ window.onload = async function() {
 async function downloadFromServer() {
     let result = await loadJSONFromServer();
     jsonFromServer = JSON.parse(result);
-    //console.log('Loaded', result);
 }
-
-// function setURL(url) {
-//     BASE_SERVER_URL = url;
-// }
 
 /**
  * Loads a JSON or JSON Array to the Server

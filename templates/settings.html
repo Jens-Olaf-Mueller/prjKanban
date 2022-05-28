@@ -13,24 +13,27 @@
 
         <div class="form-control settings">
             <label for="selCategory" data-list>CATEGORY</label>
-            <input list="lstCategory" id="selCategory" placeholder="add / edit category" onchange="changeList(this)" onkeyup="changeList(this)">
+            <input  id="selCategory" list="lstCategory" placeholder="add / edit category" onchange="changeList(this)" onkeyup="changeList(this)">
             <datalist id="lstCategory"></datalist>
             <button id="btnCategory" class="btnPlus hidden" type="button" onclick="updateList('selCategory', this)">&#x2795</button>
         </div>
 
         <div class="form-control settings">
-            <label for="optColumns" data-list>COLUMNS</label>
-            <input list="lstColumns" id="optColumns" placeholder="add / edit colums" onchange="changeList(this)" onkeyup="changeList(this)">
+            <label for="selColumns" data-list>COLUMNS</label>
+            <input  id="selColumns" list="lstColumns" placeholder="add / edit colums" onchange="changeList(this)" onkeyup="changeList(this)">
             <datalist id="lstColumns"></datalist>
-            <button id="btnColumns" class="btnPlus hidden" type="button" onclick="updateList('optColumns', this)">&#x2795</button>
+            <button id="btnColumns" class="btnPlus hidden" type="button" onclick="updateList('selColumns', this)">&#x2795</button>
         </div>
 
     </div>
 
     <div class="form-column">
-        <div class="form-control">
-            <label for="inpNewUser" data-list>ADD NEW USER</label>
-            <input id="inpNewUser" type="text">
+        <div class="form-control settings">
+            <label for="selStaff" data-list>USER</label>
+            <input id="selStaff" list="lstStaff" style="max-width: 14rem;" placeholder="add / edit user" onchange="changeList(this)" onkeyup="changeList(this)">
+            <datalist id="lstStaff"></datalist>
+            <button id="btnStaff" class="btnPlus hidden" type="button" onclick="updateList('selStaff', this)">&#x2795</button>
+         </div>   
 
             <div id="divUsers" class="clerk grab" data-tooltip="click to upload foto">
                 <label for="inpUserImage">
@@ -45,7 +48,6 @@
 
                 <!-- ACHTUNG ! Button muss zu type"submit" geändert werden -->
                 <!-- <button id="btnSubmit" type="submit" onclick="addTask()">CREATE TASK</button> -->
-            </div>
-        </div>
+            </div>        
     </div>
 </form>

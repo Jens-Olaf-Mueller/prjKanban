@@ -157,11 +157,12 @@ select:focus {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
+    gap: 0.25rem;
 }
 
 .form-control.settings .select {
-    flex: 1;
+    /* flex: 1; */
+    min-width: 12rem;
 }
 
 .form-control.settings label {

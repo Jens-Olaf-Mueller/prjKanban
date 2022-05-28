@@ -179,6 +179,16 @@ String.prototype.isDate = function(expression) {
 }
 
 /**
+ * 
+ * @param {string} path including the required filename
+ * @returns {string} the filename  
+ */
+String.prototype.getFileName = function (path) {
+    if (!path) path = this;
+    return path.replace(/^.*[\\\/]/, '');
+}
+
+/**
  * helper function for fnc 'String.prototype.isDate'
  * determines which seperator is used for the given date: '/' or '-' or '.' ?
  * @param {date} date 

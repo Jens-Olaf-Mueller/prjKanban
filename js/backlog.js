@@ -2,7 +2,6 @@ const BACKLOG_INFO = ['The following tasks need to be planned into a sprint.',
     'There are currently no tasks in the backlog.'
 ]
 
-
 /**
  * rendered all backlog tasks
  */
@@ -28,28 +27,27 @@ function renderBacklog() {
 }
 
 /**
- * generate the backlog tasks
- * @param {task} task 
- * @returns 
+ * renders the tasks for the backlog
+ * @param {item} task item from arrTasks
+ * @returns the html-code for the given task
  */
 function generateBacklogHTML(task) {
-    return `
- <tr ondblclick ="showInputForm(${task.id})" title ="double-click for edit">
-     <td class="${task.priority}">
-         <img src="./img/${task.staff.image}" title="${task.staff.name}">
-         <div class="name">
-             <span>${task.staff.name}</span>
-         </div>
-     </td>
-     <td class="">${task.category}</td>
-     <td class="">${task.description}</td>
-     <td class="table-buttons" onclick="pushToBoard(${task.id})" title ="">TO BOARD</td>
- </tr>`;
+    return `<tr ondblclick ="showInputForm(${task.id})" title ="double-click for edit">
+                <td class="${task.priority}">
+                    <img src="./img/${task.staff.image}" title="${task.staff.name}">
+                    <div class="name">
+                        <span>${task.staff.name}</span>
+                    </div>
+                </td>
+                <td class="">${task.category}</td>
+                <td class="">${task.description}</td>
+                <td class="table-buttons" onclick="pushToBoard(${task.id})" title ="">TO BOARD</td>
+            </tr>`;
 }
 
 /**
- * determines how many tasks in backlog are to be displayed
- * @returns 
+ * helper function for 'renderBacklog'
+ * @returns how many tasks in backlog are to be displayed
  */
 function backlogCount() {
     let count = 0;

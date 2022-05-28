@@ -1,5 +1,6 @@
 .clerk {
     position: relative;
+    width: max-content;
   }
   
   .clerk::before,

@@ -337,8 +337,9 @@ function resetForm() {
  */
 function initSelectionFields(selection) {
     let key = selection.substr(3).toLowerCase(),
-        srcArray = objSettings[key],
-        select = $(selection);
+        select = $(selection),
+        srcArray = (key != 'staff') ? objSettings[key] : objSettings[key].names;
+        
     select.innerHTML = '<option value="">- please select -</option>';
     for (let i = 0; i < srcArray.length; i++) {
         const cat = srcArray[i];
@@ -457,6 +458,7 @@ function changeStaff() {
     let image = $('imgClerk'),
         firstname = image.alt.split(' ')[0].toLowerCase(), // images contain only firstname: 'sebastian.jpg'
         index = getStaffIndex(firstname); // search index of the staff-image in settings
+    if (index == undefined) index = -1;
     index++;
     if (index >= objSettings.staff.images.length) index = 0; // make sure we stay in correct range of the array!
     image.src = './img/' + objSettings.staff.images[index];
@@ -473,7 +475,7 @@ function getStaffIndex(name) {
     // we can eiter search in names OR pictures (contains a dot => .jpg)!!!
     let arrSearch = name.includes('.') ? objSettings.staff.images : objSettings.staff.names;
     let index = arrSearch.findIndex(i => {
-        if (i.toLowerCase().includes(name.toLowerCase())) return true;
+        if (i.toLowerCase().includes(name.toLowerCase()) && name != '') return true;
     });
     if (index == -1) index = undefined;
     return index;
