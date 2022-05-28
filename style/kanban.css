@@ -148,10 +148,12 @@
     width: calc(100% / 4);
     background: rgb(238, 238, 238);
     /* min-height: 50rem; */
-    min-height: calc(100vh - var(--header-height) - 1rem);
+    min-height: calc(99vh - var(--header-height) - 1rem);
     margin: 0 8px;
     padding-bottom: 1rem;
 }
+
+
 
 .columns h3 {
     text-align: center;
@@ -311,6 +313,32 @@
     .menubar li:hover {
         border-left: 4px solid whitesmoke;
     }
+
+    .header {
+        margin-bottom: 0;
+    }
+
+    .main-board {
+        padding-bottom: 10px;
+        transform:rotateX(180deg);
+    }
+    
+    .columns {
+        min-width: 200px;
+        transform:rotateX(180deg);
+    }
+    
+
+    .main-board {
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .task {
+        width: 125px;
+    }
+    
+    
 }
 
 @media (max-width: 840px) {
@@ -318,8 +346,8 @@
         display: none;
     }
     .task {
-        height: 8rem !important;
-        width: 6rem !important;
+        /*height: 8rem !important;*/
+        /*width: 6rem !important;*/
         word-break: break-all;
     }
     .task h3 {
@@ -378,7 +406,7 @@
         margin-right: 0;
     }
     .columns {
-        margin: 0 2px;
+        margin: 0 8px;
     }
     .columns h3 {
         font-size: 12px;
@@ -387,8 +415,8 @@
 
 @media (max-width: 410px) {
     .task {
-        height: 9rem !important;
-        width: 4rem !important;
+        /*height: 9rem !important;*/
+        /*width: 4rem !important;*/
     }
     .task img.task-icons {
         display: none;
