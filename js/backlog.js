@@ -39,7 +39,7 @@ function generateBacklogHTML(task) {
                         <span>${task.staff.name}</span>
                     </div>
                 </td>
-                <td class="">${task.category}</td>
+                <td class=""><h5>${task.category}</h5></td>
                 <td class="">${task.description}</td>
                 <td class="table-buttons" onclick="pushToBoard(${task.id})" title ="">TO BOARD</td>
             </tr>`;
